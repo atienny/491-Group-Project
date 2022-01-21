@@ -3,8 +3,8 @@ const PARAMS = {
     DEBUG : false,
     DEBUG_WIDTH : 1,
     DEBUG_COLOR: "Red",
-    CANVAS_WIDTH : 900,
-    CANVAS_HEIGHT : 900,
+    CANVAS_WIDTH : 700,
+    CANVAS_HEIGHT : 700,
     SCALE : 5
 };
 
