@@ -11,6 +11,8 @@ class GameEngine {
         this.up = false;
         this.down = false;
 
+        this.gamepad = null;
+
     };
 
     init(ctx) { // called after the page has loaded
@@ -85,12 +87,12 @@ class GameEngine {
             }
         }, false);
 
-        let getXandY = function (e) {
-            let x = e.clientX - that.ctx.canvas.getBoundingClientRect().left;
-            let y = e.clientY - that.ctx.canvas.getBoundingClientRect().top;
+        // let getXandY = function (e) {
+        //     let x = e.clientX - that.ctx.canvas.getBoundingClientRect().left;
+        //     let y = e.clientY - that.ctx.canvas.getBoundingClientRect().top;
 
-            return { x: x, y: y };
-        }
+        //     return { x: x, y: y };
+        // }
 
     };
 

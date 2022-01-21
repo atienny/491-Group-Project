@@ -29,7 +29,7 @@ class Lyra {
 
         };
     
-    update() {
+    update() { 
 
         let velocity_x = 0;
         let velocity_y = 0;
@@ -62,17 +62,29 @@ class Lyra {
     
         this.velocity.x = velocity_x;
         this.velocity.y = velocity_y;
+
         this.x += this.velocity.x;
         this.y += this.velocity.y;
-            
+      
+        this.updateBB();
+
     };
 
     updateBB() {
-        this.BB = new BoundingBox(this.x, this.y, 32 * PARAMS.SCALE, 32 * PARAMS.SCALE);
+        this.lastBB = this.BB;
+        this.BB = new BoundingBox(this.x, this.y, 14 * PARAMS.SCALE, 19 * PARAMS.SCALE);
     };
     
     draw(ctx) {
-        this.animations[this.state][this.facing[0]]
+        this.animations[this.state][this.facing]
             .drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE);
+    
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        
+        }
+    
     };
+
 };
