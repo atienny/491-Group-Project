@@ -5,6 +5,7 @@ class SceneManager {
         this.x = 0;
         this.y = 0;
         this.lyra = {x: 0, y:0};
+        this.witch = {x: 0, y: 0};
         this.loadLevel();
     };
 
@@ -13,6 +14,8 @@ class SceneManager {
         this.lyra = new Lyra(this.game, 0, 0, ASSET_MANAGER.getAsset("./sprites/character.png"));
         this.game.addEntity(this.lyra);
 
+        this.witch = new Witch(this.game, 0, 0, ASSET_MANAGER.getAsset("./sprites/witch.png"));
+        this.game.addEntity(this.witch);
     };
 
     update() {

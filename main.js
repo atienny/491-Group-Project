@@ -4,6 +4,7 @@ let ASSET_MANAGER = new AssetManager();
 
 // sprites
 ASSET_MANAGER.queueDownload("./sprites/character.png");
+ASSET_MANAGER.queueDownload("./sprites/witch.png");
 
 ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');

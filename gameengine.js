@@ -10,6 +10,7 @@ class GameEngine {
         this.right = false;
         this.up = false;
         this.down = false;
+        this.action = false;
 
         this.gamepad = null;
 
