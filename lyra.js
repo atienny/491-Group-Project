@@ -19,22 +19,22 @@ class Lyra {
         }
 
         // idle animation w/o torch
-        this.animations[0][0] = new Animator(this.spritesheet, 9, 12, 32, 32, 1, 0.25, false, true);
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 0, 32, 32, 1, 0.25, false, true);
 
         // idle animation w/ torch
-        this.animations[2][0] = new Animator(this.spritesheet, 9, 140, 32, 32, 1, 0.25, false, true);
+        this.animations[2][0] = new Animator(this.spritesheet, 0, 124, 32, 32, 1, 0.25, false, true);
 
         // walking animation w/o torch
-        this.animations[1][0] = new Animator(this.spritesheet, 9, 12, 32, 32, 4, 0.25, false, true);
-        this.animations[1][1] = new Animator(this.spritesheet, 9, 76, 32, 32, 4, 0.25, false, true);
-        this.animations[1][2] = new Animator(this.spritesheet, 9, 44, 32, 32, 4, 0.25, false, true);
-        this.animations[1][3] = new Animator(this.spritesheet, 9, 108, 32, 32, 4, 0.25, false, true);
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 0, 32, 32, 4, 0.25, false, true);
+        this.animations[1][1] = new Animator(this.spritesheet, 0, 62, 32, 32, 4, 0.25, false, true);
+        this.animations[1][2] = new Animator(this.spritesheet, 0, 31, 32, 32, 4, 0.25, false, true);
+        this.animations[1][3] = new Animator(this.spritesheet, 0, 93, 32, 32, 4, 0.25, false, true);
 
         // walking animation w/ torch
-        this.animations[3][0] = new Animator(this.spritesheet, 9, 140, 32, 32, 4, 0.25, false, true);
-        this.animations[3][1] = new Animator(this.spritesheet, 9, 204, 32, 32, 4, 0.25, false, true);
-        this.animations[3][2] = new Animator(this.spritesheet, 9, 236, 32, 32, 4, 0.25, false, true);
-        this.animations[3][3] = new Animator(this.spritesheet, 9, 172, 32, 32, 4, 0.25, false, true);
+        this.animations[3][0] = new Animator(this.spritesheet, 0, 124, 32, 32, 4, 0.25, false, true);
+        this.animations[3][1] = new Animator(this.spritesheet, 0, 186, 32, 32, 4, 0.25, false, true);
+        this.animations[3][2] = new Animator(this.spritesheet, 0, 217, 32, 32, 4, 0.25, false, true);
+        this.animations[3][3] = new Animator(this.spritesheet, 0, 155, 32, 32, 4, 0.25, false, true);
 
         };
     
@@ -112,12 +112,12 @@ class Lyra {
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x + 10, this.y, 14 * PARAMS.SCALE, 19 * PARAMS.SCALE);
+        this.BB = new BoundingBox(this.x + 10, this.y, 42 * PARAMS.SCALE, 57 * PARAMS.SCALE);
     };
     
     draw(ctx) {
         this.animations[this.state][this.facing]
-            .drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE);
+            .drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, 3);
     
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
