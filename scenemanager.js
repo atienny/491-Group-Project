@@ -4,16 +4,17 @@ class SceneManager {
         this.game.camera = this;
         this.x = 0;
         this.y = 0;
-        this.lyra = {x: 1295, y: 900};
+        this.lyra = {x: 0, y:0};
         this.loadLevel();
     };
 
     loadLevel() {
         
         this.loadLayer(level.floor);
-        this.loadLayer(level.wall);
-        this.lyra = new Lyra(this.game, 1295, 900, ASSET_MANAGER.getAsset("./sprites/character.png"));
+        this.loadLayer(level.wall_btm);
+        this.lyra = new Lyra(this.game, 1045, 700, ASSET_MANAGER.getAsset("./sprites/character.png"));
         this.game.addEntity(this.lyra);
+        this.loadLayer(level.wall_top);
 
     };
 
@@ -25,7 +26,7 @@ class SceneManager {
     };
 
     draw(ctx) {
-
+        
     };
 
     loadLayer(property) {
