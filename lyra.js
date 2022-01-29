@@ -3,7 +3,7 @@ class Lyra {
         Object.assign(this, { game, x, y, spritesheet });
         this.facing = [0]; // down = 0, up = 1, right = 2, left = 3
         this.state = [0]; // idle = 0, walking = 1
-        this.speed = 5;
+        this.speed = 1.5;
         this.velocity = { x : 0, y : 0 };
         this.animations = [];
         this.updateBB();
