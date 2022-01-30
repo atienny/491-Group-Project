@@ -4,31 +4,17 @@ class SceneManager {
         this.game.camera = this;
         this.x = 0;
         this.y = 0;
-        this.lyra = {x: 1295, y: 900};
-<<<<<<< HEAD
-=======
-
-        this.zombie = {x: 1500, y: 950};
-
->>>>>>> parent of 696320e (Merge branch 'main' of https://github.com/atienny/491-Group-Project into DrewBranch)
+        this.lyra = {x: 0, y:0};
         this.loadLevel();
     };
 
     loadLevel() {
         
         this.loadLayer(level.floor);
-        this.loadLayer(level.wall);
-        this.lyra = new Lyra(this.game, 1295, 900, ASSET_MANAGER.getAsset("./sprites/character.png"));
-<<<<<<< HEAD
+        this.loadLayer(level.wall_btm);
+        this.lyra = new Lyra(this.game, 1045, 700, ASSET_MANAGER.getAsset("./sprites/character.png"));
         this.game.addEntity(this.lyra);
-=======
-
-        this.zombie = new zombie(this.game, 1500, 950, ASSET_MANAGER.getAsset("./sprites/zombie.png"));
-
-        this.game.addEntity(this.lyra);
-
-        this.game.addEntity(this.zombie);
->>>>>>> parent of 696320e (Merge branch 'main' of https://github.com/atienny/491-Group-Project into DrewBranch)
+        this.loadLayer(level.wall_top);
 
     };
 
@@ -40,7 +26,7 @@ class SceneManager {
     };
 
     draw(ctx) {
-
+        
     };
 
     loadLayer(property) {
