@@ -1,12 +1,11 @@
 const PARAMS = {
-    BLOCKWIDTH : 32,
-    BLOCKHEIGHT : 32,
+    BLOCKWIDTH : 8,
     DEBUG : false,
     DEBUG_WIDTH : 1,
     DEBUG_COLOR: "Red",
     CANVAS_WIDTH : 700,
     CANVAS_HEIGHT : 700,
-    SCALE : 1
+    SCALE : 5
 };
 
 
