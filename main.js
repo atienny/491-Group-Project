@@ -4,8 +4,10 @@ let ASSET_MANAGER = new AssetManager();
 
 // sprites
 ASSET_MANAGER.queueDownload("./sprites/character.png");
-ASSET_MANAGER.queueDownload("./sprites/ground.png");
-ASSET_MANAGER.queueDownload("./sprites/wall.png");
+ASSET_MANAGER.queueDownload("./sprites/floor.png");
+ASSET_MANAGER.queueDownload("./sprites/wall_btm.png");
+ASSET_MANAGER.queueDownload("./sprites/wall_top.png");
+
 
 ASSET_MANAGER.downloadAll(function () {
 	var canvas = document.getElementById('gameWorld');
