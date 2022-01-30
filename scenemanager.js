@@ -5,6 +5,12 @@ class SceneManager {
         this.x = 0;
         this.y = 0;
         this.lyra = {x: 1295, y: 900};
+<<<<<<< HEAD
+=======
+
+        this.zombie = {x: 1500, y: 950};
+
+>>>>>>> parent of 696320e (Merge branch 'main' of https://github.com/atienny/491-Group-Project into DrewBranch)
         this.loadLevel();
     };
 
@@ -13,7 +19,16 @@ class SceneManager {
         this.loadLayer(level.floor);
         this.loadLayer(level.wall);
         this.lyra = new Lyra(this.game, 1295, 900, ASSET_MANAGER.getAsset("./sprites/character.png"));
+<<<<<<< HEAD
         this.game.addEntity(this.lyra);
+=======
+
+        this.zombie = new zombie(this.game, 1500, 950, ASSET_MANAGER.getAsset("./sprites/zombie.png"));
+
+        this.game.addEntity(this.lyra);
+
+        this.game.addEntity(this.zombie);
+>>>>>>> parent of 696320e (Merge branch 'main' of https://github.com/atienny/491-Group-Project into DrewBranch)
 
     };
 
