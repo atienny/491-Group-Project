@@ -4,6 +4,7 @@ let ASSET_MANAGER = new AssetManager();
 
 // sprites
 ASSET_MANAGER.queueDownload("./sprites/character.png");
+ASSET_MANAGER.queueDownload("./sprites/zombie.png");
 ASSET_MANAGER.queueDownload("./sprites/ground.png");
 ASSET_MANAGER.queueDownload("./sprites/wall.png");
 
