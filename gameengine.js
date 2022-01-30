@@ -58,9 +58,6 @@ class GameEngine {
                     direction = "down";
                     that.down = true;
                     break;
-                case "KeyQ":
-                    that.Q = !that.Q;
-                    break;
             }
         }, false);
 

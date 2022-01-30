@@ -10,6 +10,7 @@ class BoundingBox {
     };
 
     collide(other) {
-        return this.right > other.left && this.left < other.right && this.top < other.bottom && this.bottom > other.top;
+        if (this.right > other.left && this.left < other.right && this.top < other.bottom && this.bottom > other.top) return true;
+        return false;
     }
 };
