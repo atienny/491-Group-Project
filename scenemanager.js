@@ -4,11 +4,7 @@ class SceneManager {
         this.game.camera = this;
         this.x = 0;
         this.y = 0;
-
         this.lyra = {x: 1295, y: 900};
-
-        this.zombie = {x: 1500, y: 950};
-
         this.loadLevel();
     };
 
@@ -16,14 +12,8 @@ class SceneManager {
         
         this.loadLayer(level.floor);
         this.loadLayer(level.wall);
-
         this.lyra = new Lyra(this.game, 1295, 900, ASSET_MANAGER.getAsset("./sprites/character.png"));
-
-        this.zombie = new zombie(this.game, 1500, 950, ASSET_MANAGER.getAsset("./sprites/zombie.png"));
-
         this.game.addEntity(this.lyra);
-
-        this.game.addEntity(this.zombie);
 
     };
 
@@ -32,9 +22,6 @@ class SceneManager {
         let midpoint = { x : PARAMS.CANVAS_WIDTH / 2 - PARAMS.BLOCKWIDTH / 2, y : PARAMS.CANVAS_HEIGHT / 2 - PARAMS.BLOCKWIDTH / 2 };
         this.x = this.lyra.x - midpoint.x;
         this.y = this.lyra.y - midpoint.y;
-
-        //this.x = this.zombie.x - midpoint.x;
-        //this.y = this.zombie.y - midpoint.y;
     };
 
     draw(ctx) {
