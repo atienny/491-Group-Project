@@ -20,19 +20,22 @@ class Witch {
         }
 
         // idle animation
-        this.animations[0][0] = new Animator(this.spritesheet, 16, 640, 32, 59, 1, 0.25, false, true);
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 644, 64, 59, 1, 0.1, false, true);
+        this.animations[0][1] = new Animator(this.spritesheet, 0, 517, 64, 59, 1, 0.1, false, true);
+        this.animations[0][2] = new Animator(this.spritesheet, 0, 709, 64, 59, 1, 0.1, false, true);
+        this.animations[0][3] = new Animator(this.spritesheet, 0, 581, 64, 59, 1, 0.1, false, true);
 
         // walking animation
-        this.animations[1][0] = new Animator(this.spritesheet, 16, 640, 32, 59, 9, 0.1, false, true);
-        this.animations[1][1] = new Animator(this.spritesheet, 16, 768, 32, 59, 9, 0.1, false, true);
-        this.animations[1][2] = new Animator(this.spritesheet, 16, 703, 32, 59, 9, 0.1, false, true);
-        this.animations[1][3] = new Animator(this.spritesheet, 16, 576, 32, 59, 9, 0.1, false, true);
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 644, 64, 59, 9, 0.1, false, true);
+        this.animations[1][1] = new Animator(this.spritesheet, 0, 517, 64, 59, 9, 0.1, false, true);
+        this.animations[1][2] = new Animator(this.spritesheet, 0, 709, 64, 59, 9, 0.1, false, true);
+        this.animations[1][3] = new Animator(this.spritesheet, 0, 581, 64, 59, 9, 0.1, false, true);
 
         // attacking animation
-        this.animations[2][0] = new Animator(this.spritesheet, 16, 191, 32, 59, 7, 0.25, false, true);
-        this.animations[2][1] = new Animator(this.spritesheet, 16, 64, 32, 59, 7, 0.25, false, true);
-        this.animations[2][2] = new Animator(this.spritesheet, 16, 256, 32, 59, 7, 0.25, false, true);
-        this.animations[2][3] = new Animator(this.spritesheet, 16, 128, 32, 59, 7, 0.25, false, true);
+        this.animations[2][0] = new Animator(this.spritesheet, 0, 133, 64, 59, 7, 0.25, false, true);
+        this.animations[2][1] = new Animator(this.spritesheet, 0, 4, 64, 60, 7, 0.25, false, true);
+        this.animations[2][2] = new Animator(this.spritesheet, 0, 256, 64, 60, 7, 0.25, false, true);
+        this.animations[2][3] = new Animator(this.spritesheet, 0, 128, 64, 59, 7, 0.25, false, true);
 
     };
 
