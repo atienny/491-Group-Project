@@ -5,6 +5,7 @@ class SceneManager {
         this.x = 0;
         this.y = 0;
         this.lyra = {x: 0, y:0};
+        this.zombie = {x: 0, y: 0};
         this.loadLevel();
     };
 
@@ -12,8 +13,10 @@ class SceneManager {
         
         this.loadLayer(level.floor);
         this.loadLayer(level.wall_btm);
-        this.lyra = new Lyra(this.game, 1045, 700, ASSET_MANAGER.getAsset("./sprites/character.png"));
+        this.lyra = new Lyra(this.game, 0, 0, ASSET_MANAGER.getAsset("./sprites/character.png"));
         this.game.addEntity(this.lyra);
+        this.zombie = new Zombie(this.game, 0, 0, ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
+        this.game.addEntity(this.zombie);
         this.loadLayer(level.wall_top);
 
     };
