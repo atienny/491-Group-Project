@@ -38,7 +38,7 @@ class Lyra {
 
         };
     
-    update() { 
+    update() {
 
         let velocity_x = 0;
         let velocity_y = 0;
@@ -79,6 +79,20 @@ class Lyra {
             this.state[0] = 1;
             this.facing[0] = 3;
         }
+
+        // if (this.x == 670 && this.facing[0] == 2) { 
+        //     this.speed = 0;
+        //     velocity_x = this.speed;
+        // } else if (this.x == 670 && this.facing[0] != 2) {
+        //     this.speed = 1;
+        //     velocity_x -= this.speed;
+        // } else if (this.x == -170 && this.facing[0] == 3) {
+        //     this.speed = 0;
+        //     velocity_x = this.speed;
+        // } else if (this.x == -170 && this.facing[0] != 3) {
+        //     this.speed = 1;
+        //     velocity_x += this.speed;
+        // }
     
         if (this.game.down & this.game.Q == true) {
             this.state[0] = 3;
@@ -102,12 +116,10 @@ class Lyra {
 
         this.velocity.x = velocity_x;
         this.velocity.y = velocity_y;
-
         this.x += this.velocity.x;
         this.y += this.velocity.y;
-      
+         
         this.updateBB();
-
     };
 
     updateBB() {

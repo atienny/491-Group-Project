@@ -6,6 +6,7 @@ class SceneManager {
         this.y = 0;
         this.lyra = {x: 0, y:0};
         this.zombie = {x: 0, y: 0};
+        this.witch = {x: 0, y: 0};
         this.loadLevel();
     };
 
@@ -19,6 +20,8 @@ class SceneManager {
         this.game.addEntity(this.zombie);
         this.loadLayer(level.wall_top);
 
+        this.witch = new Witch(this.game, 0, 0, ASSET_MANAGER.getAsset("./sprites/witch.png"));
+        this.game.addEntity(this.witch);
     };
 
     update() {
