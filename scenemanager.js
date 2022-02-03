@@ -4,7 +4,9 @@ class SceneManager {
         this.game.camera = this;
         this.x = 0;
         this.y = 0;
-        this.lyra = {x: 1295, y: 900};
+        this.lyra = {x: 0, y:0};
+        this.zombie = {x: 0, y: 0};
+        this.witch = {x: 0, y: 0};
         this.loadLevel();
     };
 
@@ -25,6 +27,15 @@ class SceneManager {
         this.game.addEntity(this.mainRoomCandlesWest);
         this.game.addEntity(this.mainRoomCandlesEast);
         this.game.addEntity(this.westHallwayCandle);
+        this.loadLayer(level.wall_btm);
+        this.lyra = new Lyra(this.game, 0, 0, ASSET_MANAGER.getAsset("./sprites/character.png"));
+        this.game.addEntity(this.lyra);
+        this.zombie = new Zombie(this.game, 0, 0, ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
+        this.game.addEntity(this.zombie);
+        this.loadLayer(level.wall_top);
+
+        this.witch = new Witch(this.game, 0, 0, ASSET_MANAGER.getAsset("./sprites/witch.png"));
+        this.game.addEntity(this.witch);
     };
 
     update() {
@@ -35,7 +46,7 @@ class SceneManager {
     };
 
     draw(ctx) {
-
+        
     };
 
     loadLayer(property) {

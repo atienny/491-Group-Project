@@ -18,6 +18,7 @@ class Fire {
         // inner flames are 25 x 17 wide with 15 pixels in between
         // inner fire animation
         this.animations[0][0] = new Animator(this.spritesheet, 28, 63, 32, 25, 6, 1, false, true);
+        this.animations[0][0] = new Animator(this.spritesheet, 28, 107, 32, 25, 6, 1, false, true);
                               //  x, y, width, height, frame count, frame duration, reverse, loop
         };
     
