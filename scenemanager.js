@@ -7,6 +7,9 @@ class SceneManager {
         this.lyra = {x: 0, y:0};
         this.zombie = {x: 0, y: 0};
         this.witch = {x: 0, y: 0};
+
+        this.batteryLifeAnimation = new Animator(ASSET_MANAGER.getAsset("/.sprites/flashlightBattery.png"), 14, 7, 43, 22, 16, 1, false, true);
+
         this.loadLevel();
     };
 
