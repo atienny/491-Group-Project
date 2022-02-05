@@ -8,7 +8,7 @@ class SceneManager {
         this.zombie = {x: 0, y: 0};
         this.witch = {x: 0, y: 0};
 
-        this.batteryLifeAnimation = new Animator(ASSET_MANAGER.getAsset("/.sprites/flashlightBattery.png"), 14, 7, 43, 22, 16, 1, false, true);
+        this.batteryLifeAnimation = new Animator(ASSET_MANAGER.getAsset("/.sprites/battery_life.png"), 54, 39, 98, 240, 5, 1, false, true);
 
         this.loadLevel();
     };
@@ -16,10 +16,10 @@ class SceneManager {
     loadLevel() {
         
         this.loadLayer(level.floor);
-        this.loadLayer(level.wall);
+
         this.lyra = new Lyra(this.game, 1295, 900, ASSET_MANAGER.getAsset("./sprites/character.png"));
         // fire is offset by 80, 10 to fit in fire place
-        this.centerNorthFirePlace = new FirePlace(this.game, 1215, 0, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
+        this.centerNorthFirePlace = new FirePlace(this.game, 1215, 900, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
         this.centerNorthFire = new Fire(this.game, 1295, 10, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
         this.mainRoomCandlesWest = new Candles(this.game, 1100, 630, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
         this.mainRoomCandlesEast = new Candles(this.game, 1500, 630, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
@@ -31,8 +31,6 @@ class SceneManager {
         this.game.addEntity(this.mainRoomCandlesEast);
         this.game.addEntity(this.westHallwayCandle);
         this.loadLayer(level.wall_btm);
-        this.lyra = new Lyra(this.game, 0, 0, ASSET_MANAGER.getAsset("./sprites/character.png"));
-        this.game.addEntity(this.lyra);
         this.zombie = new Zombie(this.game, 0, 0, ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
         this.game.addEntity(this.zombie);
         this.loadLayer(level.wall_top);
@@ -49,7 +47,7 @@ class SceneManager {
     };
 
     draw(ctx) {
-        
+        this.batteryLifeAnimation.drawFrame(this.game.clockTick, ctx, 1 * PARAMS.BLOCKWIDTH, 1 * PARAMS.BLOCKWIDTH, 1);
     };
 
     loadLayer(property) {

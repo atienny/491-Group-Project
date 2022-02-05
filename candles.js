@@ -19,7 +19,6 @@ class Candles {
 
         //torches are 16 x 24 with 15 spaces in between
         this.animations[0][0] = new Animator(this.spritesheet, 342, 20, 30, 16, 3, 1, false, true);
-        this.animations[0][0] = new Animator(this.spritesheet, 343, 63, 30, 16, 3, 1, false, true);
 
         };
     

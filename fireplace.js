@@ -19,8 +19,6 @@ class FirePlace {
 
         // first fireplace animation
         this.animations[0][0] = new Animator(this.spritesheet, 28, 14, 81, 35, 3, 2, false, true);
-        this.animations[0][0] = new Animator(this.spritesheet, 28, 58, 81, 35, 3, 2, false, true);
-
         };
     
     update() { 
