@@ -15,9 +15,7 @@ class FirePlace {
                 this.animations[i].push([]);
             }  
         }
-        // fire place is 32 x 49 wide with 32 pixels in between
-
-        // first fireplace animation
+        // fireplace animation
         this.animations[0][0] = new Animator(this.spritesheet, 28, 14, 81, 35, 3, 2, false, true);
         };
     
@@ -34,7 +32,7 @@ class FirePlace {
     
     draw(ctx) {
         this.animations[this.facing][this.state]
-        .drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE);
+        .drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, 2 * PARAMS.SCALE);
     
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';

@@ -15,11 +15,8 @@ class Fire {
                 this.animations[i].push([]);
             }  
         }
-        // inner flames are 25 x 17 wide with 15 pixels in between
         // inner fire animation
         this.animations[0][0] = new Animator(this.spritesheet, 28, 63, 32, 25, 6, 1, false, true);
-        this.animations[0][0] = new Animator(this.spritesheet, 28, 107, 32, 25, 6, 1, false, true);
-                              //  x, y, width, height, frame count, frame duration, reverse, loop
         };
     
     update() { 
@@ -35,7 +32,7 @@ class Fire {
     
     draw(ctx) {
         this.animations[this.facing][this.state]
-        .drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE);
+        .drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, 2 * PARAMS.SCALE);
     
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
