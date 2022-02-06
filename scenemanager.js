@@ -8,8 +8,9 @@ class SceneManager {
         this.zombie = {x: 0, y: 0};
         this.witch = {x: 0, y: 0};
 
-        this.batteryLifeAnimation = new Animator(ASSET_MANAGER.getAsset("/.sprites/battery_life.png"), 54, 39, 98, 240, 5, 1, false, true);
+        this.batteryLifeHUD = new BatteryLife(this.game, 1015, 1000, ASSET_MANAGER.getAsset("./sprites/battery_life.png"));
 
+        this.game.addEntity(this.batteryLifeHUD);
         this.loadLevel();
     };
 
