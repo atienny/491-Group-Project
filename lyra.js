@@ -5,6 +5,12 @@ class Lyra {
         this.state = [0]; // idle = 0, walking = 1
         this.speed = 5;
         this.velocity = { x : 0, y : 0 };
+
+
+        this.flashlightTimer = 5;
+        this.flashlightTimerMax = 5;
+
+
         this.animations = [];
         this.updateBB();
         this.loadAnimations();
@@ -45,16 +51,20 @@ class Lyra {
 
         this.state[0] = 0;
         this.facing[0] = 0;
-
+        
         if (this.game.Q == false) {
+
+            // this.flashlightTimer = Math.max(0, this.flashlightTimer + this.game.clockTick);
+            // console.log(this.flashlightTimer);
+
+            if (this.flashlightTimer <= this.flashlightTimerMax) {
+                this.flashlightTimer = Math.max(0, this.flashlightTimer + (this.game.clockTick/2));
+                console.log(this.flashlightTimer);
+            }
+
             this.state[0] = 0;
             this.facing[0] = 0;
         }
-
-        if (this.game.Q == true) {
-            this.state[0] = 2;
-            this.facing[0] = 0;
-        } 
 
         if (this.game.down) {
             velocity_y += this.speed;
@@ -80,20 +90,23 @@ class Lyra {
             this.facing[0] = 3;
         }
 
-        // if (this.x == 670 && this.facing[0] == 2) { 
-        //     this.speed = 0;
-        //     velocity_x = this.speed;
-        // } else if (this.x == 670 && this.facing[0] != 2) {
-        //     this.speed = 1;
-        //     velocity_x -= this.speed;
-        // } else if (this.x == -170 && this.facing[0] == 3) {
-        //     this.speed = 0;
-        //     velocity_x = this.speed;
-        // } else if (this.x == -170 && this.facing[0] != 3) {
-        //     this.speed = 1;
-        //     velocity_x += this.speed;
+// 
+
+        if (this.game.Q == true) {
+
+            this.flashlightTimer = Math.max(0, this.flashlightTimer - this.game.clockTick);
+            console.log(this.flashlightTimer);
+            
+            this.state[0] = 2;
+            this.facing[0] = 0;
+
+            if (this.flashlightTimer == 0) {
+                this.game.Q = false;
+                console.log("timer at 0");
+            }
+
         // }
-    
+
         if (this.game.down & this.game.Q == true) {
             this.state[0] = 3;
             this.facing[0] = 0;
@@ -114,17 +127,44 @@ class Lyra {
             this.facing[0] = 3;
         }
 
+    }
+
         this.velocity.x = velocity_x;
         this.velocity.y = velocity_y;
         this.x += this.velocity.x;
         this.y += this.velocity.y;
          
+        // this.updateBB();
+
+        this.originalCollisionBB = this.collisionBB;
         this.updateBB();
+        let collisionList = [];
+
+        let that = this;
+        this.game.entities.forEach(function(entity) {
+            if (entity.collideable && that.collisionBB.collide(entity.BB)) { 
+                collisionList.push(entity);
+            }
+        });
+
+        if (collisionList.length > 0) {
+            collisionList.sort((boundary1, boundary2) => distance(this.collisionBB.center, boundary1.BB.center) -
+                                                         distance(this.collisionBB.center, boundary2.BB.center));
+            for (let i = 0; i < collisionList.length; i++) {
+                if (this.collisionBB.collide(collisionList[i].BB)) {
+                    Collision.resolveCollision(this, collisionList[i]);
+                    this.updateBB();
+                }
+            }
+        }
+
     };
 
     updateBB() {
-        this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x + 10, this.y, 42 * PARAMS.SCALE, 57 * PARAMS.SCALE);
+        // this.lastBB = this.BB;
+        this.BB = new BoundingBox(this.x + 27, this.y + 23, 42 * PARAMS.SCALE, 52 * PARAMS.SCALE);
+        this.wallBB = new BoundingBox(this.x + 35, this.y + 49, 26 * PARAMS.SCALE, 26 * PARAMS.SCALE);
+        this.collisionBB = new BoundingBox(this.wallBB.x + 27 * PARAMS.SCALE, this.wallBB.y + 23 * PARAMS.SCALE, 10 * PARAMS.SCALE, 10 * PARAMS.SCALE);
     };
     
     draw(ctx) {
@@ -134,7 +174,8 @@ class Lyra {
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
-        
+            ctx.strokeRect(this.wallBB.x - this.game.camera.x, this.wallBB.y - this.game.camera.y, this.wallBB.width, this.wallBB.height);
+            ctx.strokeRect(this.collisionBB.x - this.game.camera.x, this.collisionBB.y - this.game.camera.y, this.collisionBB.width, this.collisionBB.height);
         }
     
     };
