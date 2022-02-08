@@ -7,32 +7,47 @@ class SceneManager {
         this.lyra = {x: 0, y:0};
         this.zombie = {x: 0, y: 0};
         this.witch = {x: 0, y: 0};
+
+        this.batteryLifeHUD = new BatteryLife(this.game, 1015, 1000, ASSET_MANAGER.getAsset("./sprites/battery_life.png"));
+
+        this.game.addEntity(this.batteryLifeHUD);
         this.loadLevel();
     };
 
     loadLevel() {
         
         this.loadLayer(level.floor);
-//         this.loadLayer(level.wall);
+
+
         this.lyra = new Lyra(this.game, 1295, 900, ASSET_MANAGER.getAsset("./sprites/character.png"));
+        // fire is offset by 32, 4 to fit in fire place at a scaling value of
+        this.centerNorthFirePlace = new FirePlace(this.game, 1015, 0, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
+        this.centerNorthFire = new Fire(this.game, 1047, 4, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
+        this.mainRoomCandlesWest = new Candles(this.game, 900, 550, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
+        this.mainRoomCandlesEast = new Candles(this.game, 1200, 550, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
+        this.westHallwayCandle = new Candles(this.game, 350, 575, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
+        this.game.addEntity(this.lyra);
+
+        this.loadLayer(level.wall_btm);
+        this.zombie = new Zombie(this.game, 0, 0, ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
+        this.game.addEntity(this.zombie);
+        this.loadLayer(level.wall_top);
+
+//         this.loadLayer(level.wall);
+//         this.lyra = new Lyra(this.game, 1295, 900, ASSET_MANAGER.getAsset("./sprites/character.png"));
         // fire is offset by 80, 10 to fit in fire place
-        this.centerNorthFirePlace = new FirePlace(this.game, 1215, 0, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
-        this.centerNorthFire = new Fire(this.game, 1295, 10, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
-        this.mainRoomCandlesWest = new Candles(this.game, 1100, 630, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
-        this.mainRoomCandlesEast = new Candles(this.game, 1500, 630, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
-        this.westHallwayCandle = new Candles(this.game, 300, 675, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
+//         this.centerNorthFirePlace = new FirePlace(this.game, 1215, 0, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
+//         this.centerNorthFire = new Fire(this.game, 1295, 10, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
+//         this.mainRoomCandlesWest = new Candles(this.game, 1100, 630, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
+//         this.mainRoomCandlesEast = new Candles(this.game, 1500, 630, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
+//         this.westHallwayCandle = new Candles(this.game, 300, 675, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
 //         this.game.addEntity(this.lyra);
+
         this.game.addEntity(this.centerNorthFirePlace);
         this.game.addEntity(this.centerNorthFire);
         this.game.addEntity(this.mainRoomCandlesWest);
         this.game.addEntity(this.mainRoomCandlesEast);
         this.game.addEntity(this.westHallwayCandle);
-        this.loadLayer(level.wall_btm);
-        this.lyra = new Lyra(this.game, 0, 0, ASSET_MANAGER.getAsset("./sprites/character.png"));
-        this.game.addEntity(this.lyra);
-        this.zombie = new Zombie(this.game, 0, 0, ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
-        this.game.addEntity(this.zombie);
-        this.loadLayer(level.wall_top);
 
         this.witch = new Witch(this.game, 0, 0, ASSET_MANAGER.getAsset("./sprites/witch.png"));
         this.game.addEntity(this.witch);
@@ -46,7 +61,7 @@ class SceneManager {
     };
 
     draw(ctx) {
-        
+        //this.batteryLifeAnimation.drawFrame(this.game.clockTick, this.ctx, 1 * PARAMS.BLOCKWIDTH, 1 * PARAMS.BLOCKWIDTH, PARAMS.SCALE);
     };
 
     loadLayer(property) {

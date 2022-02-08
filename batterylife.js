@@ -1,4 +1,4 @@
-class Candles {
+class BatteryLife {
     constructor(game, x, y, spritesheet) {
         Object.assign(this, { game, x, y, spritesheet });
         this.facing = [0]; // idle
@@ -15,10 +15,8 @@ class Candles {
                 this.animations[i].push([]);
             }  
         }
-
-        // candles animation
-        this.animations[0][0] = new Animator(this.spritesheet, 342, 20, 30, 16, 3, 1, false, true);
-
+        // fireplace animation
+        this.animations[0][0] = new Animator(this.spritesheet, 58, 41, 238, 94, 6, 1, false, true);
         };
     
     update() { 
@@ -34,7 +32,7 @@ class Candles {
     
     draw(ctx) {
         this.animations[this.facing][this.state]
-        .drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, 1.5 * PARAMS.SCALE);
+        .drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, 0.5 * PARAMS.SCALE);
     
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
