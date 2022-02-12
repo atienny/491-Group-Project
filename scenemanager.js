@@ -49,7 +49,8 @@ class SceneManager {
     };
 
     draw(ctx) {
-        //this.batteryLifeAnimation.drawFrame(this.game.clockTick, this.ctx, 1 * PARAMS.BLOCKWIDTH, 1 * PARAMS.BLOCKWIDTH, PARAMS.SCALE);
+        ctx.fillStyle = "White";
+        ctx.fillText = ("Battery Life", PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
     };
 
     loadLayer(property) {
