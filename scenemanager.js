@@ -9,8 +9,11 @@ class SceneManager {
         this.witch = {x: 0, y: 0};
 
         this.batteryLifeHUD = new BatteryLife(this.game, 1015, 1000, ASSET_MANAGER.getAsset("./sprites/battery_life.png"));
+        this.healthBarHUD = new HealthBar(this.game, 1015, 1200, ASSET_MANAGER.getAsset("./sprites/health_bar.png"));
 
         this.game.addEntity(this.batteryLifeHUD);
+        this.game.addEntity(this.healthBarHUD);
+
         this.loadLevel();
     };
 
@@ -20,7 +23,7 @@ class SceneManager {
 
 
         this.lyra = new Lyra(this.game, 1295, 900, ASSET_MANAGER.getAsset("./sprites/character.png"));
-        // fire is offset by 32, 4 to fit in fire place at a scaling value of
+        // fire is offset by 32, 4 to fit in fire place at a scaling value of 2
         this.centerNorthFirePlace = new FirePlace(this.game, 1015, 0, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
         this.centerNorthFire = new Fire(this.game, 1047, 4, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
         this.mainRoomCandlesWest = new Candles(this.game, 900, 550, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));

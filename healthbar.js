@@ -1,8 +1,8 @@
-class BatteryLife {
+class HealthBar {
     constructor(game, x, y, spritesheet) {
         Object.assign(this, { game, x, y, spritesheet });
         this.facing = [0]; // idle
-        this.state = [0]; // 6 different states
+        this.state = [0]; // 3 different states
         this.animations = [];
         this.updateBB();
         this.loadAnimations();
@@ -15,23 +15,14 @@ class BatteryLife {
                 this.animations[i].push([]);
             }  
         }
-        // 5 green bars
-        this.animations[0][0] = new Animator(this.spritesheet, 58, 41, 238, 94, 1, 1, false, true);
+        // full health 3/3
+        this.animations[0][0] = new Animator(this.spritesheet, 31, 23, 330, 89, 1, 1, false, true);
 
-        // 4 green bars
-        this.animations[0][1] = new Animator(this.spritesheet, 296, 41, 238, 94, 1, 1, false, true);
+        // 2/3 health
+        this.animations[0][1] = new Animator(this.spritesheet, 296, 133, 330, 89, 1, 1, false, true);
 
-        // 3 green bars
-        this.animations[0][2] = new Animator(this.spritesheet, 534, 41, 238, 94, 1, 1, false, true);
-
-        // 2 green bars
-        this.animations[0][3] = new Animator(this.spritesheet, 770, 41, 238, 94, 1, 1, false, true);
-
-        // 1 red bar
-        this.animations[0][4] = new Animator(this.spritesheet, 1008, 41, 238, 94, 1, 1, false, true);
-
-        // no battery remaining
-        this.animations[0][5] = new Animator(this.spritesheet, 1246, 41, 238, 94, 1, 1, false, true);
+        // 1/3 health
+        this.animations[0][2] = new Animator(this.spritesheet, 244, 41, 330, 89, 1, 1, false, true);
         };
     
     update() { 
@@ -45,15 +36,6 @@ class BatteryLife {
         }
         else if (this.flashlightTimer < this.flashlightTimerMax && (this.flashlighTimer > (this.flashlightTimerMax / 5) * 3)) {
             this.state[0] = 2;
-        }
-        else if (this.flashlightTimer < this.flashlightTimerMax && (this.flashlighTimer > (this.flashlightTimerMax / 5) * 2)) {
-            this.state[0] = 3;
-        }
-        else if (this.flashlightTimer < this.flashlightTimerMax && (this.flashlighTimer > (this.flashlightTimerMax / 5))) {
-            this.state[0] = 4;
-        }
-        else if (this.flashlightTimer < this.flashlightTimerMax && (this.flashlighTimer < (this.flashlightTimerMax / 5))) {
-            this.state[0] = 5;
         }
         this.updateBB();
     };
