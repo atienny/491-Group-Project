@@ -8,12 +8,6 @@ class SceneManager {
         this.zombie = {x: 0, y: 0};
         this.witch = {x: 0, y: 0};
 
-        this.batteryLifeHUD = new BatteryLife(this.game, 1015, 1000, ASSET_MANAGER.getAsset("./sprites/battery_life.png"));
-        this.healthBarHUD = new HealthBar(this.game, 1015, 1200, ASSET_MANAGER.getAsset("./sprites/health_bar.png"));
-
-        this.game.addEntity(this.batteryLifeHUD);
-        this.game.addEntity(this.healthBarHUD);
-
         this.loadLevel();
     };
 

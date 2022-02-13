@@ -5,12 +5,8 @@ class Lyra {
         this.state = [0]; // idle = 0, walking = 1
         this.speed = 5;
         this.velocity = { x : 0, y : 0 };
-
-
         this.flashlightTimer = 5;
         this.flashlightTimerMax = 5;
-
-
         this.animations = [];
         this.updateBB();
         this.loadAnimations();
@@ -166,11 +162,59 @@ class Lyra {
         this.wallBB = new BoundingBox(this.x + 35, this.y + 49, 26 * PARAMS.SCALE, 26 * PARAMS.SCALE);
         this.collisionBB = new BoundingBox(this.wallBB.x + 27 * PARAMS.SCALE, this.wallBB.y + 23 * PARAMS.SCALE, 10 * PARAMS.SCALE, 10 * PARAMS.SCALE);
     };
-    
+ 
     draw(ctx) {
         this.animations[this.state][this.facing]
             .drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, 3);
-    
+    this.healthBarSpritesheet = ASSET_MANAGER.getAsset("./sprites/health_bar.png");
+    ctx.drawImage(this.healthBarSpritesheet, 31, 23, 330, 89, 0, 80, 100, 40);
+    //296, 626
+    this.batterySpritesheet = ASSET_MANAGER.getAsset("./sprites/battery_life.png");
+
+    if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 3)) {
+        // 4/5 battery
+        ctx.drawImage(this.batterySpritesheet, 296, 41, 238, 94, 0, 0, 100, 50);
+    }
+    if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 2)) {
+        // 3/5 battery
+        ctx.drawImage(this.batterySpritesheet, 534, 41, 238, 94, 0, 0, 100, 50);
+    }
+    if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5))) {
+        // 2/5 battery
+        ctx.drawImage(this.batterySpritesheet, 772, 41, 238, 94, 0, 0, 100, 50);
+    }
+    if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer < (this.flashlightTimerMax / 5))) {
+        // 1/5 battery 
+        ctx.drawImage(this.batterySpritesheet, 1010, 41, 238, 94, 0, 0, 100, 50);
+    }
+    if (this.game.Q == true && this.flashlightTimer < 0.5) {
+        // empty battery
+        ctx.drawImage(this.batterySpritesheet, 1248, 41, 238, 94, 0, 0, 100, 50);
+    }
+
+    //battery going back up 
+
+    if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer < (this.flashlightTimerMax / 5))) {
+        // 1/5 battery 
+        ctx.drawImage(this.batterySpritesheet, 1010, 41, 238, 94, 0, 0, 100, 50);
+    }
+    if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5))) {
+        // 2/5 battery
+        ctx.drawImage(this.batterySpritesheet, 772, 41, 238, 94, 0, 0, 100, 50);
+    }
+    if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 2)) {
+        // 3/5 battery
+        ctx.drawImage(this.batterySpritesheet, 534, 41, 238, 94, 0, 0, 100, 50);
+    }
+    if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 3)) {
+        // 4/5 battery
+        ctx.drawImage(this.batterySpritesheet, 296, 41, 238, 94, 0, 0, 100, 50);
+    }
+    if (this.flashlightTimer >= this.flashlightTimerMax) {
+        // full battery
+        ctx.drawImage(this.batterySpritesheet, 58, 41, 238, 94, 0, 0, 100, 50);
+    }
+
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
