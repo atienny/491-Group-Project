@@ -3,6 +3,9 @@ let gameEngine = new GameEngine();
 let ASSET_MANAGER = new AssetManager();
 
 // sprites
+ASSET_MANAGER.queueDownload("./sprites/battery_life.png");
+ASSET_MANAGER.queueDownload("./sprites/health_bar.png");
+ASSET_MANAGER.queueDownload("./sprites/fireplace.png");
 ASSET_MANAGER.queueDownload("./sprites/character.png");
 ASSET_MANAGER.queueDownload("./sprites/zombie1.png");
 ASSET_MANAGER.queueDownload("./sprites/witch.png");
