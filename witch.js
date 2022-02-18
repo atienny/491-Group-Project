@@ -106,6 +106,45 @@ class Witch {
         
         this.getFacing();
         this.updateBB();
+        let collisionList = [];
+
+        let that = this;
+        this.game.entities.forEach(function(entity) {
+            if (entity.collideable && that.collisionBB.collide(entity.BB)) { 
+                collisionList.push(entity);
+            }
+        });
+
+        if (collisionList.length > 0) {
+            collisionList.sort((boundary1, boundary2) => distance(this.collisionBB.center, boundary1.BB.center) -
+                                                         distance(this.collisionBB.center, boundary2.BB.center));
+            for (let i = 0; i < collisionList.length; i++) {
+                if (this.collisionBB.collide(collisionList[i].BB)) {
+                    Collision.resolveCollision(this, collisionList[i]);
+                    this.updateBB();
+                }
+            }
+        }
+
+    };
+
+    collide(ent) {
+        return (distance(this, ent) < (this.visualRadius / 2));
+    };
+
+    getFacing() {
+        if (this.velocity.x === 0 && this.velocity.y === 0) this.facing[0] = 0;
+        let angle = Math.atan2(this.velocity.y, this.velocity.x) * 180 / Math.PI;
+        
+        if (-135 <= angle && angle < -45) {
+            this.facing[0] = 1;
+        } else if (45 <= angle && angle <= 135) {
+            this.facing[0] = 0;
+        } else if (45 > angle && angle > -45) {
+            this.facing[0] = 2;
+        } else if (135 < angle || angle < -135) {
+            this.facing[0] = 3;
+        }
     };
 
     collide(ent) {
