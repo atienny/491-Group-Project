@@ -19,6 +19,8 @@ class Lyra {
 
 
         this.animations = [];
+        this.width = this.x + 128;
+        this.hitpoints = 0;
         this.updateBB();
         this.loadAnimations();
     };

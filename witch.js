@@ -19,7 +19,7 @@ class Witch {
     };
 
     loadAnimations() {
-        for (let i = 0; i < 3; i++) { // 3 states
+        for (let i = 0; i < 4; i++) { // 4 states
             this.animations.push([]);
             for (let j = 0; j < 4; j++) { // 4 facings
                 this.animations[i].push([]);
@@ -43,6 +43,9 @@ class Witch {
         this.animations[2][1] = new Animator(this.spritesheet, 0, 4, 64, 59, 7, 0.20, false, true);
         this.animations[2][2] = new Animator(this.spritesheet, 0, 197, 64, 60, 7, 0.20, false, true);
         this.animations[2][3] = new Animator(this.spritesheet, 0, 64, 64, 64, 7, 0.20, false, true);
+
+        // death animation
+        this.animations[3][0] = new Animator(this.spritesheet, 0, 1286, 64, 59, 6, 0.1, false, false);
 
     };
 
@@ -79,7 +82,8 @@ class Witch {
                 if (this.state !== 2) {
                     this.state = 2;
                     this.elapsedTime = 0;
-                } else if (this.elapsedTime> .8) {
+                } else if (this.elapsedTime > .8) {
+        
                     //ent.hitpoints -= 8;   
                     //this.elapsedTime = 0;
                 }
@@ -96,6 +100,7 @@ class Witch {
             }
         }
 
+        
         if (this.state !== 2) {
             dist = distance(this, this.target);
             this.getFacing();
@@ -105,6 +110,9 @@ class Witch {
         }
         
         this.getFacing();
+        //this.updateBB();
+
+        this.originalCollisionBB = this.collisionBB;
         this.updateBB();
         let collisionList = [];
 
@@ -125,27 +133,12 @@ class Witch {
                 }
             }
         }
-
-    };
-
-    collide(ent) {
-        return (distance(this, ent) < (this.visualRadius / 2));
-    };
-
-    getFacing() {
-        if (this.velocity.x === 0 && this.velocity.y === 0) this.facing[0] = 0;
-        let angle = Math.atan2(this.velocity.y, this.velocity.x) * 180 / Math.PI;
         
-        if (-135 <= angle && angle < -45) {
-            this.facing[0] = 1;
-        } else if (45 <= angle && angle <= 135) {
-            this.facing[0] = 0;
-        } else if (45 > angle && angle > -45) {
-            this.facing[0] = 2;
-        } else if (135 < angle || angle < -135) {
-            this.facing[0] = 3;
-        }
+        this.getFacing();
+        this.updateBB();
     };
+
+
 
     collide(ent) {
         return (distance(this, ent) < (this.visualRadius / 2));
@@ -168,7 +161,9 @@ class Witch {
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x + 15, this.y, 34 * 1, 59 * 1);
+        this.BB = new BoundingBox(this.x, this.y, 68, 59)
+        this.hitBB = new BoundingBox(this.x + 17, this.y, 34, 59);
+        this.collisionBB = new BoundingBox(this.hitBB.x, this.hitBB.y + 34, 34, 25);
 
         this.lastBC = this.BC;
         this.BC = new BoundingCircle(this.x, this.y, this.visualRadius);
@@ -180,7 +175,9 @@ class Witch {
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
-        
+            ctx.strokeRect(this.hitBB.x - this.game.camera.x, this.hitBB.y - this.game.camera.y, this.hitBB.width, this.hitBB.height);
+            ctx.strokeRect(this.collisionBB.x - this.game.camera.x, this.collisionBB.y - this.game.camera.y, this.collisionBB.width, this.collisionBB.height);
+
             ctx.beginPath();
             ctx.arc(this.BC.x - this.game.camera.x + 33, this.BC.y - this.game.camera.y + 30, this.visualRadius, 0, 2 * Math.PI);
             ctx.stroke();

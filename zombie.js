@@ -8,13 +8,6 @@ class Zombie {
         this.targetID = 0;
         if (this.path && this.path[this.targetID]) this.target = this.path[this.targetID];
 
-        // Object.assign(this, {game, x, y, spritesheet});
-        // this.facing = [0]; // down = 0, up = 1, right = 2, left = 3
-        // this.state = [0]; // idle = 0, walking = 1, attacking = 2
-    
-        // this.velocity = { x : 0, y : 0 };
-        // this.animations = [];
-
         var dist = distance(this, this.target);
         this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
         this.elapsedTime = 0;
@@ -51,10 +44,6 @@ this.animations[2][0] = new Animator(this.spritesheet, 0, 133, 64, 59, 7, 0.20, 
 this.animations[2][1] = new Animator(this.spritesheet, 0, 4, 64, 60, 7, 0.20, false, true);
 this.animations[2][2] = new Animator(this.spritesheet, 0, 197, 64, 60, 7, 0.20, false, true);
 this.animations[2][3] = new Animator(this.spritesheet, 0, 64, 64, 64, 7, 0.20, false, true);
-
-//this.animations[2][2] = new Animator(this.spritesheet, 0, 256, 64, 60, 7, 0.25, false, true);
-//this.animations[2][3] = new Animator(this.spritesheet, 0, 128, 64, 59, 7, 0.25, false, true);
-
 
     };
 
@@ -117,7 +106,29 @@ this.animations[2][3] = new Animator(this.spritesheet, 0, 64, 64, 64, 7, 0.20, f
         }
         
         this.getFacing();
+        // this.updateBB();
+
+        this.originalCollisionBB = this.collisionBB;
         this.updateBB();
+        let collisionList = [];
+
+        let that = this;
+        this.game.entities.forEach(function(entity) {
+            if (entity.collideable && that.collisionBB.collide(entity.BB)) { 
+                collisionList.push(entity);
+            }
+        });
+
+        if (collisionList.length > 0) {
+            collisionList.sort((boundary1, boundary2) => distance(this.collisionBB.center, boundary1.BB.center) -
+                                                         distance(this.collisionBB.center, boundary2.BB.center));
+            for (let i = 0; i < collisionList.length; i++) {
+                if (this.collisionBB.collide(collisionList[i].BB)) {
+                    Collision.resolveCollision(this, collisionList[i]);
+                    this.updateBB();
+                }
+            }
+        }
     };
 
     collide(ent) {
@@ -141,7 +152,11 @@ this.animations[2][3] = new Animator(this.spritesheet, 0, 64, 64, 64, 7, 0.20, f
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x + 15, this.y + 9, 34 * 1, 49 * 1);
+        // this.BB = new BoundingBox(this.x + 15, this.y + 9, 34 * 1, 49 * 1);
+
+        this.BB = new BoundingBox(this.x, this.y, 68, 59)
+        this.hitBB = new BoundingBox(this.x + 17, this.y, 34, 59);
+        this.collisionBB = new BoundingBox(this.hitBB.x, this.hitBB.y + 34, 34, 25);
 
         this.lastBC = this.BC;
         this.BC = new BoundingCircle(this.x, this.y, this.visualRadius);
@@ -153,7 +168,9 @@ this.animations[2][3] = new Animator(this.spritesheet, 0, 64, 64, 64, 7, 0.20, f
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
             ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
-        
+            ctx.strokeRect(this.hitBB.x - this.game.camera.x, this.hitBB.y - this.game.camera.y, this.hitBB.width, this.hitBB.height);
+            ctx.strokeRect(this.collisionBB.x - this.game.camera.x, this.collisionBB.y - this.game.camera.y, this.collisionBB.width, this.collisionBB.height);
+
             ctx.beginPath();
             ctx.arc(this.BC.x - this.game.camera.x + 33, this.BC.y - this.game.camera.y + 30, this.visualRadius, 0, 2 * Math.PI);
             ctx.stroke();
