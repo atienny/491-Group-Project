@@ -33,6 +33,14 @@ function magnitude(vector) {
     return Math.sqrt(Math.pow(vector.x, 2) + Math.pow(vector.y, 2));
 };
 
+function canSee(A, B) { // if A can see B
+    return (distance(A, B) < A.visualRadius);
+};
+
+function collide(A, B) {
+    return (distance(A, B) < A.radius + B.radius);
+};
+
 function unitVector(vector) {
     return {x: vector.x / magnitude(vector), y: vector.y / magnitude(vector)};
 };
