@@ -7,7 +7,6 @@ class Lyra {
         this.velocity = { x : 0, y : 0 };
 
         this.health = 300;
-        this.gameOver = false;
         this.smallKey = 0;
         this.bigKey = 0;
 
@@ -243,9 +242,7 @@ this.healthBarSpritesheet = ASSET_MANAGER.getAsset("./sprites/health_bar.png");
 
     //no hp, loss message
     if (this.health == 0) {
-        this.gameOver = true;
-        new SceneManager(this.game, this.gameOver);
-        this.gameOver = false;
+        console.log("You died.");
     }
 
     this.batterySpritesheet = ASSET_MANAGER.getAsset("./sprites/battery_life.png");

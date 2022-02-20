@@ -1,5 +1,5 @@
 class SceneManager {
-    constructor(game, gameOver) {
+    constructor(game) {
         this.game = game;
         this.game.camera = this;
         this.x = 0;
@@ -7,13 +7,7 @@ class SceneManager {
         this.lyra = {x: 0, y:0};
         this.zombie = {x: 0, y: 0};
         this.witch = {x: 0, y: 0};
-        this.gameOver = gameOver;
-        if (this.gameOver == false) {
-            this.loadLevel(this.ctx);
-        }
-        else {
-            this.draw();
-        }
+        this.loadLevel();
     };
 
     loadLevel() {
@@ -57,7 +51,6 @@ class SceneManager {
     };
 
     draw(ctx) {
-        ctx.fillText("You died.", 10 * PARAMS.BLOCKWIDTH, 10 * PARAMS.BLOCKWIDTH);
     };
 
     loadLayer(property) {
