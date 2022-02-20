@@ -6,7 +6,8 @@ class Lyra {
         this.speed = 1;
         this.velocity = { x : 0, y : 0 };
 
-
+        this.health = 300;
+        this.gameOver = false;
         this.smallKey = 0;
         this.bigKey = 0;
 
@@ -168,12 +169,20 @@ class Lyra {
                     entity.knockback = true;
                     console.log("Collide with witch");
                 }
+                if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
+                    this.health--;
+                    console.log("Lost hp");
+                }
             }
 
             if (entity instanceof Zombie) {
                 if (this.flashlightBB && this.flashlightBB.collide(entity.BB)) {
                     entity.knockback = true;
                     console.log("Collide with zombie");
+                }
+                if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
+                    this.health--;
+                    console.log("Lost hp");
                 }
             }
 
@@ -216,10 +225,29 @@ class Lyra {
         this.animations[this.state][this.facing]
             .drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, 3);
     
-//
 this.healthBarSpritesheet = ASSET_MANAGER.getAsset("./sprites/health_bar.png");
-    ctx.drawImage(this.healthBarSpritesheet, 31, 23, 330, 89, 10, 80, 100, 40);
-    //296, 626
+    //full hp 3/3
+    if(this.health > 200  && this.health <= 300) {
+        ctx.drawImage(this.healthBarSpritesheet, 31, 23, 330, 89, 10, 80, 100, 40);
+    }
+
+    // 2/3 hp
+    if (this.health > 100 && this.health < 300) {
+        ctx.drawImage(this.healthBarSpritesheet, 31, 133, 330, 89, 10, 80, 100, 40);
+    }
+
+    // 1/3 hp
+    if (this.health <= 100) {
+        ctx.drawImage(this.healthBarSpritesheet, 31, 244, 330, 89, 10, 80, 100, 40);
+    }
+
+    //no hp, loss message
+    if (this.health == 0) {
+        this.gameOver = true;
+        new SceneManager(this.game, this.gameOver);
+        this.gameOver = false;
+    }
+
     this.batterySpritesheet = ASSET_MANAGER.getAsset("./sprites/battery_life.png");
 
     if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 3)) {
@@ -265,7 +293,7 @@ this.healthBarSpritesheet = ASSET_MANAGER.getAsset("./sprites/health_bar.png");
         // full battery
         ctx.drawImage(this.batterySpritesheet, 58, 41, 238, 94, 10, 10, 100, 50);
     }
-//
+
 
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';

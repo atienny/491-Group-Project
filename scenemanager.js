@@ -1,5 +1,5 @@
 class SceneManager {
-    constructor(game) {
+    constructor(game, gameOver) {
         this.game = game;
         this.game.camera = this;
         this.x = 0;
@@ -7,7 +7,13 @@ class SceneManager {
         this.lyra = {x: 0, y:0};
         this.zombie = {x: 0, y: 0};
         this.witch = {x: 0, y: 0};
-        this.loadLevel();
+        this.gameOver = gameOver;
+        if (this.gameOver == false) {
+            this.loadLevel(this.ctx);
+        }
+        else {
+            this.draw();
+        }
     };
 
     loadLevel() {
@@ -23,7 +29,6 @@ class SceneManager {
         this.game.addEntity(this.witch);
 
         this.lyra = new Lyra(this.game, 1025, 700, ASSET_MANAGER.getAsset("./sprites/character.png"));
-        this.game.addEntity(this.lyra);
 
 
 
@@ -40,6 +45,8 @@ class SceneManager {
         this.game.addEntity(this.mainRoomCandlesWest);
         this.game.addEntity(this.mainRoomCandlesEast);
         this.game.addEntity(this.westHallwayCandle);
+
+        this.game.addEntity(this.lyra);
     };
 
     update() {
@@ -50,6 +57,7 @@ class SceneManager {
     };
 
     draw(ctx) {
+        ctx.fillText("You died.", 10 * PARAMS.BLOCKWIDTH, 10 * PARAMS.BLOCKWIDTH);
     };
 
     loadLayer(property) {
