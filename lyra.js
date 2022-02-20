@@ -7,8 +7,9 @@ class Lyra {
         this.velocity = { x : 0, y : 0 };
 
 
-        this.smallKey = 0;
-        this.bigKey = 0;
+        this.firstKey = 0;
+        this.secondKey = 0;
+        this.thirdKey = 0;
 
         this.flashlightTimer = 5;
         this.flashlightTimerMax = 5;
@@ -179,11 +180,17 @@ class Lyra {
                 }
             }
 
-        //     if (entity instanceof Key) {
-        //         if (this.BB && this.BB.collide(entity.BB)) {
-        //             console.log("Collide");
-        //         }
-        //     }
+            if (entity instanceof Key) {
+                if (this.BB && this.BB.collide(entity.BB)) {
+                    
+                    //if first key = 0, then first key = 1
+                    //else if first key = 1, then second key = 1
+                    //else third key = 1
+
+
+                    console.log("Collide");
+                }
+            }
 
 
         });

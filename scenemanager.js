@@ -35,11 +35,29 @@ class SceneManager {
         this.mainRoomCandlesEast = new Candles(this.game, 1200, 550, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
         this.westHallwayCandle = new Candles(this.game, 350, 575, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
 
+        this.centerDoorLeft = new LeftDoor(this.game, 1024, 544, ASSET_MANAGER.getAsset("./sprites/door1.png"));
+        this.centerDoorRight = new RightDoor(this.game, 1067, 544, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"));
+
+        this.frontDoorLeft = new LeftDoor(this.game, 1024, 896, ASSET_MANAGER.getAsset("./sprites/door1.png"));
+        this.frontDoorRight = new RightDoor(this.game, 1067, 896, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"));
+
+        this.kitchenDoorLeft = new LeftDoor(this.game, 96, 576, ASSET_MANAGER.getAsset("./sprites/door1.png"));
+        this.kitchenDoorRight = new RightDoor(this.game, 139, 576, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"));
+
+        this.firstkey = new Key(this.game, 1580, 440, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+
         this.game.addEntity(this.centerNorthFirePlace);
         this.game.addEntity(this.centerNorthFire);
         this.game.addEntity(this.mainRoomCandlesWest);
         this.game.addEntity(this.mainRoomCandlesEast);
         this.game.addEntity(this.westHallwayCandle);
+        this.game.addEntity(this.centerDoorLeft);
+        this.game.addEntity(this.centerDoorRight);
+        this.game.addEntity(this.frontDoorLeft);
+        this.game.addEntity(this.frontDoorRight);
+        this.game.addEntity(this.kitchenDoorLeft);
+        this.game.addEntity(this.kitchenDoorRight);
+        this.game.addEntity(this.firstkey);
     };
 
     update() {
