@@ -11,20 +11,41 @@ class Witch {
         var dist = distance(this, this.target);
         this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
         this.elapsedTime = 0;
+        this.respawnTimer = 0;
+        this.respawnTime = 15;
+        this.waitingToRespawn = false;
         this.visualRadius = 200;
+        this.hP = 500;
         this.animations = [];
         this.state = 1;
-
-        this.times = 0;
-        this.timer = 5;
-        
         this.updateBB();
         this.loadAnimations();
-
     };
 
+    reset() {
+        this.facing = [0]; // down = 0, up = 1, right = 2, left = 3
+        this.state = [0]; // idle = 0, walking = 1, attacking = 2
+        this.speed = 25;
+        this.targetID = 0;
+        if (this.path && this.path[this.targetID]) this.target = this.path[this.targetID];
+
+        var dist = distance(this, this.target);
+        this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
+        this.elapsedTime = 0;
+        this.respawnTimer = 0;
+        this.respawnTime = 15;
+        this.waitingToRespawn = false;
+        this.visualRadius = 200;
+        this.hP = 500;
+        this.animations = [];
+        this.state = 1;
+        this.updateBB();
+        this.loadAnimations();
+        this.update();
+    }
+
     loadAnimations() {
-        for (let i = 0; i < 3; i++) { // 3 states
+        for (let i = 0; i < 4; i++) { // 4 states
             this.animations.push([]);
             for (let j = 0; j < 4; j++) { // 4 facings
                 this.animations[i].push([]);
@@ -49,26 +70,20 @@ class Witch {
         this.animations[2][2] = new Animator(this.spritesheet, 0, 197, 64, 60, 7, 0.20, false, true);
         this.animations[2][3] = new Animator(this.spritesheet, 0, 64, 64, 64, 7, 0.20, false, true);
 
+        // death animation
+        this.animations[3][0] = new Animator(this.spritesheet, 0, 1286, 64, 59, 13, 0.2, false, false);
+
     };
 
     update() {
         this.elapsedTime += this.game.clockTick;
-        //
-        // this.game.entities.forEach((entity) => {
-        //     if (Witch instanceof Lyra) {
-        //         this.times += this.game.clockTick;
-        //         if(this.times >= this.timer){
-        //             console.log("Witch stun");
-        //             this.state = 0;
-        //             this.velocity = 0;
-        //         }
-        //     }
-        // });
-        //
-
-        // if (this.state == 0) {
-        //     this.target = this.path[0];
-        // }
+        if (this.waitingToRespawn) {
+            this.respawnTimer += this.game.clockTick;
+            if (this.respawnTimer >= this.respawnTime) {
+                console.log("Respawn Witch");
+                this.reset();
+            }
+        }
 
         var dist = distance(this, this.target);
         this.getFacing();
@@ -101,11 +116,12 @@ class Witch {
                 if (this.state !== 2) {
                     this.state = 2;
                     this.elapsedTime = 0;
-                } else if (this.elapsedTime> .8) {
-                    //ent.hitpoints -= 8;   
-                    //this.elapsedTime = 0;
+                } else if (this.elapsedTime > .8) {
+        
+                    ent.hitpoints -= 1;   
+                    this.elapsedTime = 0;
                 }
-                this.target = ent;
+                //this.target = ent;
                 this.getFacing();
                 
             }
@@ -118,16 +134,22 @@ class Witch {
             }
         }
 
-        if (this.state !== 2) {
+        
+        if (this.state !== 2 && this.state !== 3) {
             dist = distance(this, this.target);
             this.getFacing();
             this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
             this.x += this.velocity.x * this.game.clockTick;
             this.y += this.velocity.y * this.game.clockTick;
         }
+
+        if (this.hP <= 0) {
+            this.state = 3;
+            this.waitingToRespawn = true;
+        }
         
         this.getFacing();
-        //this.updateBB();
+
 
         this.originalCollisionBB = this.collisionBB;
         this.updateBB();
@@ -151,25 +173,33 @@ class Witch {
             }
         }
 
+        this.getFacing();
+        this.updateBB();
     };
+
+
 
     collide(ent) {
         return (distance(this, ent) < (this.visualRadius / 2));
     };
 
     getFacing() {
-        if (this.velocity.x === 0 && this.velocity.y === 0) this.facing[0] = 0;
-        let angle = Math.atan2(this.velocity.y, this.velocity.x) * 180 / Math.PI;
-        
-        if (-135 <= angle && angle < -45) {
-            this.facing[0] = 1;
-        } else if (45 <= angle && angle <= 135) {
+        if (this.state == 3) {
             this.facing[0] = 0;
-        } else if (45 > angle && angle > -45) {
-            this.facing[0] = 2;
-        } else if (135 < angle || angle < -135) {
-            this.facing[0] = 3;
-        }
+        } else {
+            if (this.velocity.x === 0 && this.velocity.y === 0) this.facing[0] = 0;
+            let angle = Math.atan2(this.velocity.y, this.velocity.x) * 180 / Math.PI;
+        
+            if (-135 <= angle && angle < -45) {
+                this.facing[0] = 1;
+            } else if (45 <= angle && angle <= 135) {
+                this.facing[0] = 0;
+            } else if (45 > angle && angle > -45) {
+                this.facing[0] = 2;
+            } else if (135 < angle || angle < -135) {
+                this.facing[0] = 3;
+            }
+        }   
     };
 
     updateBB() {

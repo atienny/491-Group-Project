@@ -17,6 +17,8 @@ class Lyra {
         this.isStunned = false;
 
         this.animations = [];
+        this.width = this.x + 128;
+        this.hitpoints = 0;
         this.updateBB();
         this.loadAnimations();
     };
@@ -165,6 +167,8 @@ class Lyra {
                 if (this.flashlightBB && this.flashlightBB.collide(entity.BB)) {
                     this.isStunned = true;
                     // entity.state = 0;
+                    entity.hP -= 1;
+                    console.log(entity.hp);
                     if (this.isStunned == true) {
                             entity.state = 0;
                             console.log("Stunned witch");
@@ -177,6 +181,7 @@ class Lyra {
             if (entity instanceof Zombie) {
                 if (this.flashlightBB && this.flashlightBB.collide(entity.BB)) {
                     this.isStunned = true;
+                    entity.hP -= 1;
                     if (this.isStunned == true) {
                         entity.state = 0;
                         console.log("Stunned zombie");
