@@ -2,6 +2,8 @@ let gameEngine = new GameEngine();
 
 let ASSET_MANAGER = new AssetManager();
 
+let gameOver = false;
+
 // sprites
 ASSET_MANAGER.queueDownload("./sprites/battery_life.png");
 ASSET_MANAGER.queueDownload("./sprites/health_bar.png");
@@ -22,7 +24,7 @@ ASSET_MANAGER.downloadAll(function () {
 	
     gameEngine.init(ctx);
 
-	new SceneManager(gameEngine);
+	new SceneManager(gameEngine, gameOver);
 
 	gameEngine.start();
 });

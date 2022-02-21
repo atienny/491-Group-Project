@@ -1,5 +1,5 @@
 class SceneManager {
-    constructor(game) {
+    constructor(game, gameOver) {
         this.game = game;
         this.game.camera = this;
         this.x = 0;
@@ -7,11 +7,21 @@ class SceneManager {
         this.lyra = {x: 0, y: 0};
         this.zombie = {x: 0, y: 0};
         this.witch = {x: 0, y: 0};
-        this.loadLevel();
+
+        this.gameOver = gameOver;
+        this.title = false;
+        this.transition = false;
+        this.loadLevel(this.transition, this.title);
     };
 
-    loadLevel() {
-        
+    loadLevel(transition, title) {
+        this.title = title;
+
+
+        if (transition) {
+            this.game.addEntity(new transitionscreen(this.game, this.gameOver));
+        }
+
         this.loadLayer(level.floor);
         this.loadLayer(level.wall_btm);
         
@@ -88,7 +98,80 @@ class SceneManager {
     };
 
     draw(ctx) {
+    //hud
+    if (this.gameOver == false) {
+    this.healthBarSpritesheet = ASSET_MANAGER.getAsset("./sprites/health_bar.png");
+        
+    //full hp 3/3
+    if(this.lyra.health > 200) {
+        ctx.drawImage(this.healthBarSpritesheet, 31, 23, 330, 89, 10, 80, 100, 40);
+    }
 
+    // 2/3 hp
+    if (this.lyra.health > 100 && this.lyra.health <= 200) {
+        ctx.drawImage(this.healthBarSpritesheet, 31, 133, 330, 89, 10, 80, 100, 40);
+    }
+
+    // 1/3 hp
+    if (this.lyra.health <= 100) {
+        ctx.drawImage(this.healthBarSpritesheet, 31, 244, 330, 89, 10, 80, 100, 40);
+    }
+
+    //no hp, loss message
+    if (this.lyra.health == 0) {
+        this.gameOver = true;
+        this.transition = true;
+    
+        this.game.addEntity(new TransitionScreen(this.game, this.gameOver));
+        console.log("You died.");
+    }        
+
+    this.batterySpritesheet = ASSET_MANAGER.getAsset("./sprites/battery_life.png");
+
+    if ((this.game.Q == true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5) * 3)) {
+        // 4/5 battery
+        ctx.drawImage(this.batterySpritesheet, 296, 41, 238, 94, 10, 10, 100, 50);
+    }
+    if ((this.game.Q == true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5) * 2)) {
+        // 3/5 battery
+        ctx.drawImage(this.batterySpritesheet, 534, 41, 238, 94, 10, 10, 100, 50);
+    }
+    if ((this.game.Q == true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5))) {
+        // 2/5 battery
+        ctx.drawImage(this.batterySpritesheet, 772, 41, 238, 94, 10, 10, 100, 50);
+    }
+    if ((this.game.Q == true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer < (this.lyra.flashlightTimerMax / 5))) {
+        // 1/5 battery 
+        ctx.drawImage(this.batterySpritesheet, 1010, 41, 238, 94, 10, 10, 100, 50);
+    }
+    if (this.game.Q == true && this.lyra.flashlightTimer < 0.5) {
+        // empty battery
+        ctx.drawImage(this.batterySpritesheet, 1248, 41, 238, 94, 10, 10, 100, 50);
+    }
+
+    //battery going back up 
+
+    if ((this.game.Q != true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer < (this.lyra.flashlightTimerMax / 5))) {
+        // 1/5 battery 
+        ctx.drawImage(this.batterySpritesheet, 1010, 41, 238, 94, 10, 10, 100, 50);
+    }
+    if ((this.game.Q != true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5))) {
+        // 2/5 battery
+        ctx.drawImage(this.batterySpritesheet, 772, 41, 238, 94, 10, 10, 100, 50);
+    }
+    if ((this.game.Q != true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5) * 2)) {
+        // 3/5 battery
+        ctx.drawImage(this.batterySpritesheet, 534, 41, 238, 94, 10, 10, 100, 50);
+    }
+    if ((this.game.Q != true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5) * 3)) {
+        // 4/5 battery
+        ctx.drawImage(this.batterySpritesheet, 296, 41, 238, 94, 10, 10, 100, 50);
+    }
+    if (this.lyra.flashlightTimer >= this.lyra.flashlightTimerMax) {
+        // full battery
+        ctx.drawImage(this.batterySpritesheet, 58, 41, 238, 94, 10, 10, 100, 50);
+    }
+    }
     };
 
     loadLayer(property) {
