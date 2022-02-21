@@ -14,8 +14,13 @@ class Witch {
         this.visualRadius = 200;
         this.animations = [];
         this.state = 1;
+
+        this.times = 0;
+        this.timer = 5;
+        
         this.updateBB();
         this.loadAnimations();
+
     };
 
     loadAnimations() {
@@ -48,6 +53,23 @@ class Witch {
 
     update() {
         this.elapsedTime += this.game.clockTick;
+        //
+        // this.game.entities.forEach((entity) => {
+        //     if (Witch instanceof Lyra) {
+        //         this.times += this.game.clockTick;
+        //         if(this.times >= this.timer){
+        //             console.log("Witch stun");
+        //             this.state = 0;
+        //             this.velocity = 0;
+        //         }
+        //     }
+        // });
+        //
+
+        // if (this.state == 0) {
+        //     this.target = this.path[0];
+        // }
+
         var dist = distance(this, this.target);
         this.getFacing();
         if (dist < 5) {
