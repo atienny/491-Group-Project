@@ -23,7 +23,7 @@ class SceneManager {
         this.game.addEntity(this.witch);
 
         this.lyra = new Lyra(this.game, 1025, 700, ASSET_MANAGER.getAsset("./sprites/character.png"));
-
+        this.game.addEntity(this.lyra);
 
 
         this.loadLayer(level.wall_top);
@@ -39,8 +39,6 @@ class SceneManager {
         this.game.addEntity(this.mainRoomCandlesWest);
         this.game.addEntity(this.mainRoomCandlesEast);
         this.game.addEntity(this.westHallwayCandle);
-
-        this.game.addEntity(this.lyra);
     };
 
     update() {
