@@ -11,7 +11,7 @@ class Zombie {
         var dist = distance(this, this.target);
         this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
         this.elapsedTime = 0;
-        this.visualRadius = 200;
+        this.visualRadius = 75;
         this.animations = [];
         this.state = 1;
         this.hP = 250;
