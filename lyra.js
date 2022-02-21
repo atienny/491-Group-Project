@@ -6,6 +6,8 @@ class Lyra {
         this.speed = 1;
         this.velocity = { x : 0, y : 0 };
 
+        this.health = 300;
+
         this.smallKey = 0;
         this.bigKey = 0;
 
@@ -174,8 +176,13 @@ class Lyra {
                             console.log("Stunned witch");
                         
                     }
-                    console.log("Collide with witch");
                 }
+
+                if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
+                    this.health--;
+                    console.log("Lost hp");
+                }
+
             }
 
             if (entity instanceof Zombie) {
@@ -187,10 +194,12 @@ class Lyra {
                         console.log("Stunned zombie");
                     }
 
-                    console.log("Collide with zombie");
-
                 }
-                
+
+                if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
+                    this.health--;
+                    console.log("Lost hp");
+                }
                 
             }
 
@@ -235,8 +244,27 @@ class Lyra {
     
 //
         this.healthBarSpritesheet = ASSET_MANAGER.getAsset("./sprites/health_bar.png");
-        ctx.drawImage(this.healthBarSpritesheet, 31, 23, 330, 89, 10, 80, 100, 40);
-        //296, 626
+        
+        //full hp 3/3
+        if(this.health > 200  && this.health <= 300) {
+            ctx.drawImage(this.healthBarSpritesheet, 31, 23, 330, 89, 10, 80, 100, 40);
+        }
+
+        // 2/3 hp
+        if (this.health > 100 && this.health < 300) {
+            ctx.drawImage(this.healthBarSpritesheet, 31, 133, 330, 89, 10, 80, 100, 40);
+        }
+
+        // 1/3 hp
+        if (this.health <= 100) {
+            ctx.drawImage(this.healthBarSpritesheet, 31, 244, 330, 89, 10, 80, 100, 40);
+        }
+
+        //no hp, loss message
+        if (this.health == 0) {
+            console.log("You died.");
+        }        
+
         this.batterySpritesheet = ASSET_MANAGER.getAsset("./sprites/battery_life.png");
 
         if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 3)) {
