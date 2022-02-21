@@ -15,6 +15,7 @@ class Ground {
         this.animator.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE);
         if (this.BB && PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
+            // ctx.strokeWidth = PARAMS.DEBUG_WIDTH;
             ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
         }
     };

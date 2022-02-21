@@ -13,12 +13,13 @@ class Lyra {
         this.flashlightTimer = 5;
         this.flashlightTimerMax = 5;
 
-        this.knockback = false;
-        this.MAX_KNOCKBACK = 100;
-        this.knockbackCounter = this.MAX_KNOCKBACK;
-
+        this.stunTimer = 0;
+        this.stunTime = 5;
+        this.isStunned = false;
 
         this.animations = [];
+        this.width = this.x + 128;
+        this.hitpoints = 0;
         this.updateBB();
         this.loadAnimations();
     };
@@ -32,22 +33,22 @@ class Lyra {
         }
 
         // idle animation w/o torch
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 0, 32, 32, 1, 0.25, false, true);
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 0, 32, 32, 4, 0.75, false, true);
 
         // idle animation w/ torch
-        this.animations[2][0] = new Animator(this.spritesheet, 0, 124, 32, 32, 1, 0.25, false, true);
+        this.animations[2][0] = new Animator(this.spritesheet, 0, 156, 32, 32, 4, 0.75, false, true);
 
         // walking animation w/o torch
-        this.animations[1][0] = new Animator(this.spritesheet, 0, 0, 32, 32, 4, 0.25, false, true);
-        this.animations[1][1] = new Animator(this.spritesheet, 0, 62, 32, 32, 4, 0.25, false, true);
-        this.animations[1][2] = new Animator(this.spritesheet, 0, 31, 32, 32, 4, 0.25, false, true);
-        this.animations[1][3] = new Animator(this.spritesheet, 0, 93, 32, 32, 4, 0.25, false, true);
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 32, 32, 32, 4, 0.25, false, true);
+        this.animations[1][1] = new Animator(this.spritesheet, 0, 94, 32, 32, 4, 0.25, false, true);
+        this.animations[1][2] = new Animator(this.spritesheet, 0, 63, 32, 32, 4, 0.25, false, true);
+        this.animations[1][3] = new Animator(this.spritesheet, 0, 125, 32, 32, 4, 0.25, false, true);
 
         // walking animation w/ torch
-        this.animations[3][0] = new Animator(this.spritesheet, 0, 124, 32, 32, 4, 0.25, false, true);
-        this.animations[3][1] = new Animator(this.spritesheet, 0, 186, 32, 32, 4, 0.25, false, true);
-        this.animations[3][2] = new Animator(this.spritesheet, 0, 217, 32, 32, 4, 0.25, false, true);
-        this.animations[3][3] = new Animator(this.spritesheet, 0, 155, 32, 32, 4, 0.25, false, true);
+        this.animations[3][0] = new Animator(this.spritesheet, 0, 187, 32, 32, 4, 0.25, false, true);
+        this.animations[3][1] = new Animator(this.spritesheet, 0, 249, 32, 32, 4, 0.25, false, true);
+        this.animations[3][2] = new Animator(this.spritesheet, 0, 280, 32, 32, 4, 0.25, false, true);
+        this.animations[3][3] = new Animator(this.spritesheet, 0, 218, 32, 32, 4, 0.25, false, true);
 
         };
     
@@ -165,9 +166,17 @@ class Lyra {
         this.game.entities.forEach((entity) => {
             if (entity instanceof Witch) {
                 if (this.flashlightBB && this.flashlightBB.collide(entity.BB)) {
-                    entity.knockback = true;
-                    console.log("Collide with witch");
+                    this.isStunned = true;
+                    // entity.state = 0;
+                    entity.hP -= 1;
+                    console.log(entity.hp);
+                    if (this.isStunned == true) {
+                            entity.state = 0;
+                            console.log("Stunned witch");
+                        
+                    }
                 }
+
                 if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
                     this.health--;
                     console.log("Lost hp");
@@ -176,13 +185,19 @@ class Lyra {
 
             if (entity instanceof Zombie) {
                 if (this.flashlightBB && this.flashlightBB.collide(entity.BB)) {
-                    entity.knockback = true;
-                    console.log("Collide with zombie");
+                    this.isStunned = true;
+                    entity.hP -= 1;
+                    if (this.isStunned == true) {
+                        entity.state = 0;
+                        console.log("Stunned zombie");
+                    }
+
                 }
                 if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
                     this.health--;
                     console.log("Lost hp");
                 }
+                
             }
 
         //     if (entity instanceof Key) {
@@ -224,73 +239,75 @@ class Lyra {
         this.animations[this.state][this.facing]
             .drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, 3);
     
-this.healthBarSpritesheet = ASSET_MANAGER.getAsset("./sprites/health_bar.png");
-    //full hp 3/3
-    if(this.health > 200  && this.health <= 300) {
-        ctx.drawImage(this.healthBarSpritesheet, 31, 23, 330, 89, 10, 80, 100, 40);
-    }
+//
+        this.healthBarSpritesheet = ASSET_MANAGER.getAsset("./sprites/health_bar.png");
+        
+        //full hp 3/3
+        if(this.health > 200  && this.health <= 300) {
+            ctx.drawImage(this.healthBarSpritesheet, 31, 23, 330, 89, 10, 80, 100, 40);
+        }
 
-    // 2/3 hp
-    if (this.health > 100 && this.health < 300) {
-        ctx.drawImage(this.healthBarSpritesheet, 31, 133, 330, 89, 10, 80, 100, 40);
-    }
+        // 2/3 hp
+        if (this.health > 100 && this.health < 300) {
+            ctx.drawImage(this.healthBarSpritesheet, 31, 133, 330, 89, 10, 80, 100, 40);
+        }
 
-    // 1/3 hp
-    if (this.health <= 100) {
-        ctx.drawImage(this.healthBarSpritesheet, 31, 244, 330, 89, 10, 80, 100, 40);
-    }
+        // 1/3 hp
+        if (this.health <= 100) {
+            ctx.drawImage(this.healthBarSpritesheet, 31, 244, 330, 89, 10, 80, 100, 40);
+        }
 
-    //no hp, loss message
-    if (this.health == 0) {
-        console.log("You died.");
-    }
+        //no hp, loss message
+        if (this.health == 0) {
+            console.log("You died.");
+        }        
 
-    this.batterySpritesheet = ASSET_MANAGER.getAsset("./sprites/battery_life.png");
+        this.batterySpritesheet = ASSET_MANAGER.getAsset("./sprites/battery_life.png");
 
-    if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 3)) {
-        // 4/5 battery
-        ctx.drawImage(this.batterySpritesheet, 296, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 2)) {
-        // 3/5 battery
-        ctx.drawImage(this.batterySpritesheet, 534, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5))) {
-        // 2/5 battery
-        ctx.drawImage(this.batterySpritesheet, 772, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer < (this.flashlightTimerMax / 5))) {
-        // 1/5 battery 
-        ctx.drawImage(this.batterySpritesheet, 1010, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if (this.game.Q == true && this.flashlightTimer < 0.5) {
-        // empty battery
-        ctx.drawImage(this.batterySpritesheet, 1248, 41, 238, 94, 10, 10, 100, 50);
-    }
+        if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 3)) {
+            // 4/5 battery
+            ctx.drawImage(this.batterySpritesheet, 296, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 2)) {
+            // 3/5 battery
+            ctx.drawImage(this.batterySpritesheet, 534, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5))) {
+            // 2/5 battery
+            ctx.drawImage(this.batterySpritesheet, 772, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer < (this.flashlightTimerMax / 5))) {
+            // 1/5 battery 
+            ctx.drawImage(this.batterySpritesheet, 1010, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if (this.game.Q == true && this.flashlightTimer < 0.5) {
+            // empty battery
+            ctx.drawImage(this.batterySpritesheet, 1248, 41, 238, 94, 10, 10, 100, 50);
+        }
 
-    //battery going back up 
+        //battery going back up 
 
-    if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer < (this.flashlightTimerMax / 5))) {
-        // 1/5 battery 
-        ctx.drawImage(this.batterySpritesheet, 1010, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5))) {
-        // 2/5 battery
-        ctx.drawImage(this.batterySpritesheet, 772, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 2)) {
-        // 3/5 battery
-        ctx.drawImage(this.batterySpritesheet, 534, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 3)) {
-        // 4/5 battery
-        ctx.drawImage(this.batterySpritesheet, 296, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if (this.flashlightTimer >= this.flashlightTimerMax) {
-        // full battery
-        ctx.drawImage(this.batterySpritesheet, 58, 41, 238, 94, 10, 10, 100, 50);
-    }
-
+        if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer < (this.flashlightTimerMax / 5))) {
+            // 1/5 battery 
+            ctx.drawImage(this.batterySpritesheet, 1010, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5))) {
+            // 2/5 battery
+            ctx.drawImage(this.batterySpritesheet, 772, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 2)) {
+            // 3/5 battery
+            ctx.drawImage(this.batterySpritesheet, 534, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 3)) {
+            // 4/5 battery
+            ctx.drawImage(this.batterySpritesheet, 296, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if (this.flashlightTimer >= this.flashlightTimerMax) {
+            // full battery
+            ctx.drawImage(this.batterySpritesheet, 58, 41, 238, 94, 10, 10, 100, 50);
+        }
+//
 
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
