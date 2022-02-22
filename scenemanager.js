@@ -35,16 +35,18 @@ class SceneManager {
         this.mainRoomCandlesEast = new Candles(this.game, 1200, 550, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
         this.westHallwayCandle = new Candles(this.game, 350, 575, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
 
-        this.centerDoorLeft = new LeftDoor(this.game, 1024, 544, ASSET_MANAGER.getAsset("./sprites/door1.png"));
-        this.centerDoorRight = new RightDoor(this.game, 1067, 544, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"));
+        this.centerDoorLeft = new LeftDoor(this.game, 1024, 544, ASSET_MANAGER.getAsset("./sprites/door1.png"), "center");
+        this.centerDoorRight = new RightDoor(this.game, 1067, 544, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "center");
 
-        this.frontDoorLeft = new LeftDoor(this.game, 1024, 896, ASSET_MANAGER.getAsset("./sprites/door1.png"));
-        this.frontDoorRight = new RightDoor(this.game, 1067, 896, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"));
+        this.frontDoorLeft = new LeftDoor(this.game, 1024, 896, ASSET_MANAGER.getAsset("./sprites/door1.png"), "front");
+        this.frontDoorRight = new RightDoor(this.game, 1067, 896, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "front");
 
-        this.kitchenDoorLeft = new LeftDoor(this.game, 96, 576, ASSET_MANAGER.getAsset("./sprites/door1.png"));
-        this.kitchenDoorRight = new RightDoor(this.game, 139, 576, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"));
+        this.kitchenDoorLeft = new LeftDoor(this.game, 96, 576, ASSET_MANAGER.getAsset("./sprites/door1.png"), "kitchen");
+        this.kitchenDoorRight = new RightDoor(this.game, 139, 576, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "kitchen");
 
         this.firstkey = new Key(this.game, 1580, 440, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        this.secondkey = new Key(this.game, 920, 570, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        this.thirdkey = new Key(this.game, 1220, 570, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
 
         this.game.addEntity(this.centerNorthFirePlace);
         this.game.addEntity(this.centerNorthFire);
@@ -58,6 +60,8 @@ class SceneManager {
         this.game.addEntity(this.kitchenDoorLeft);
         this.game.addEntity(this.kitchenDoorRight);
         this.game.addEntity(this.firstkey);
+        this.game.addEntity(this.secondkey);
+        this.game.addEntity(this.thirdkey);
     };
 
     update() {

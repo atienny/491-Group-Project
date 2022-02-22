@@ -182,13 +182,63 @@ class Lyra {
 
             if (entity instanceof Key) {
                 if (this.BB && this.BB.collide(entity.BB)) {
-                    
-                    //if first key = 0, then first key = 1
-                    //else if first key = 1, then second key = 1
-                    //else third key = 1
 
+                    if (this.firstKey == 0) {
+                        this.firstKey = 1;
+                    } else if (this.secondKey == 0) {
+                        this.secondKey = 1;
+                    } else {
+                        this.thirdKey = 1;
+                    }
+
+                    entity.removeFromWorld = true;
 
                     console.log("Collide");
+                    console.log(this.firstKey, this.secondKey, this.thirdKey);
+                }
+            }
+
+            if (entity instanceof LeftDoor) {
+                if (this.BB && this.BB.collide(entity.BB)) {
+
+                    if (entity.name == "kitchen" && this.firstKey == 1) {
+                        entity.removeFromWorld = true;
+                        console.log("removed kitchen left")
+                    }
+
+                    if (entity.name == "center" && this.secondKey == 1) {
+                        entity.removeFromWorld = true;
+                        console.log("removed center left")
+                    }
+
+                    if (entity.name == "front" && this.thirdKey == 1) {
+                        entity.removeFromWorld = true;
+                        console.log("removed front left")
+                    }
+
+                    //console.log("Collide");
+                }
+            }
+
+            if (entity instanceof RightDoor) {
+                if (this.BB && this.BB.collide(entity.BB)) {
+                    
+                    if (entity.name == "kitchen" && this.firstKey == 1) {
+                        entity.removeFromWorld = true;
+                        console.log("removed kitchen right")
+                    }
+
+                    if (entity.name == "center" && this.secondKey == 1) {
+                        entity.removeFromWorld = true;
+                        console.log("removed center right")
+                    }
+
+                    if (entity.name == "front" && this.thirdKey == 1) {
+                        entity.removeFromWorld = true;
+                        console.log("removed front right")
+                    }
+
+                    //console.log("Collide");
                 }
             }
 
