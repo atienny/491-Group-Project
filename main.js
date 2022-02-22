@@ -2,6 +2,8 @@ let gameEngine = new GameEngine();
 
 let ASSET_MANAGER = new AssetManager();
 
+let gameOver = false;
+
 // sprites
 ASSET_MANAGER.queueDownload("./sprites/battery_life.png");
 ASSET_MANAGER.queueDownload("./sprites/health_bar.png");
@@ -13,8 +15,8 @@ ASSET_MANAGER.queueDownload("./sprites/character.png");
 ASSET_MANAGER.queueDownload("./sprites/zombie1.png");
 ASSET_MANAGER.queueDownload("./sprites/witch.png");
 ASSET_MANAGER.queueDownload("./sprites/floor.png");
-ASSET_MANAGER.queueDownload("./sprites/wall_btm.png");
-ASSET_MANAGER.queueDownload("./sprites/wall_top.png");
+ASSET_MANAGER.queueDownload("./sprites/wall.png");
+ASSET_MANAGER.queueDownload("./sprites/dark-wood.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
@@ -25,7 +27,7 @@ ASSET_MANAGER.downloadAll(function () {
 	
     gameEngine.init(ctx);
 
-	new SceneManager(gameEngine);
+	new SceneManager(gameEngine, gameOver);
 
 	gameEngine.start();
 });
