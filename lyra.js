@@ -6,9 +6,12 @@ class Lyra {
         this.speed = 1;
         this.velocity = { x : 0, y : 0 };
 
+
+        this.firstKey = 0;
+        this.secondKey = 0;
+        this.thirdKey = 0;
         this.health = 300;
-        this.smallKey = 0;
-        this.bigKey = 0;
+        this.win = false;
 
         this.flashlightTimer = 5;
         this.flashlightTimerMax = 5;
@@ -200,11 +203,69 @@ class Lyra {
                 
             }
 
-        //     if (entity instanceof Key) {
-        //         if (this.BB && this.BB.collide(entity.BB)) {
-        //             console.log("Collide");
-        //         }
-        //     }
+            if (entity instanceof Key) {
+                if (this.BB && this.BB.collide(entity.BB)) {
+
+                    if (this.firstKey == 0) {
+                        this.firstKey = 1;
+                    } else if (this.secondKey == 0) {
+                        this.secondKey = 1;
+                    } else {
+                        this.thirdKey = 1;
+                    }
+
+                    entity.removeFromWorld = true;
+
+                    console.log("Collide");
+                    console.log(this.firstKey, this.secondKey, this.thirdKey);
+                }
+            }
+
+            if (entity instanceof LeftDoor) {
+                if (this.BB && this.BB.collide(entity.BB)) {
+
+                    if (entity.name == "kitchen" && this.firstKey == 1) {
+                        entity.removeFromWorld = true;
+                        console.log("removed kitchen left")
+                    }
+
+                    if (entity.name == "center" && this.secondKey == 1) {
+                        entity.removeFromWorld = true;
+                        console.log("removed center left")
+                    }
+
+                    if (entity.name == "front" && this.thirdKey == 1) {
+                        entity.removeFromWorld = true;
+                        console.log("removed front left")
+                        this.win = true;
+                    }
+
+                    //console.log("Collide");
+                }
+            }
+
+            if (entity instanceof RightDoor) {
+                if (this.BB && this.BB.collide(entity.BB)) {
+                    
+                    if (entity.name == "kitchen" && this.firstKey == 1) {
+                        entity.removeFromWorld = true;
+                        console.log("removed kitchen right")
+                    }
+
+                    if (entity.name == "center" && this.secondKey == 1) {
+                        entity.removeFromWorld = true;
+                        console.log("removed center right")
+                    }
+
+                    if (entity.name == "front" && this.thirdKey == 1) {
+                        entity.removeFromWorld = true;
+                        console.log("removed front right")
+                        this.win = true;
+                    }
+
+                    //console.log("Collide");
+                }
+            }
 
 
         });

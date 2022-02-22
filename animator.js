@@ -20,8 +20,28 @@ class Animator {
 
         let frame = this.currentFrame();
         if (this.reverse) frame = this.frameCount - frame - 1;
+        
         ctx.drawImage(this.spritesheet, this.xStart + frame * this.width, 
                       this.yStart, this.width, this.height, x, y, this.width * scale, this.height * scale);
+    };
+
+    // Allows for scaling of height and width separately
+    drawFrame2(tick, ctx, x, y, xscale, yscale) {
+        this.elapsedTime += tick;
+
+        if (this.isDone()) {
+            if (this.loop) {
+                this.elapsedTime -= this.totalTime;
+            } else {
+                return;
+            }
+        }
+
+        let frame = this.currentFrame();
+        if (this.reverse) frame = this.frameCount - frame - 1;
+        
+        ctx.drawImage(this.spritesheet, this.xStart + frame * this.width, 
+                      this.yStart, this.width, this.height, x, y, this.width * xscale, this.height * yscale);
     };
 
     currentFrame() {

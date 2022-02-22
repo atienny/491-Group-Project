@@ -172,7 +172,6 @@ class Witch {
                 }
             }
         }
-
         this.getFacing();
         this.updateBB();
     };
