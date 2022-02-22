@@ -29,14 +29,6 @@ function distance(pt1, pt2) {
     return Math.sqrt(Math.pow(pt2.x - pt1.x, 2) + Math.pow(pt2.y - pt1.y, 2));
 };
 
-function canSee(A, B) { // if A can see B
-    return (distance(A, B) < A.visualRadius);
-};
-
-function collide(A, B) {
-    return (distance(A, B) < A.radius + B.radius);
-};
-
 function magnitude(vector) {
     return Math.sqrt(Math.pow(vector.x, 2) + Math.pow(vector.y, 2));
 };

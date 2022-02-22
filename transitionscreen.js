@@ -1,7 +1,6 @@
 class TransitionScreen {
-    constructor(game, gameOver) {
-        Object.assign(this, {game, gameOver});
-
+    constructor(game, gameOver, num) {
+        Object.assign(this, {game, gameOver, num});
         this.elapsed = 0;
 
 };
@@ -22,7 +21,12 @@ draw(ctx) {
 
     if (this.gameOver) {
         
-        ctx.fillText("You died.", 5 * PARAMS.BLOCKWIDTH, 5 * PARAMS.BLOCKWIDTH);
+        if (this.num == 0) {
+            ctx.fillText("You died.", 5 * PARAMS.BLOCKWIDTH, 5 * PARAMS.BLOCKWIDTH);
+        }
+        else {
+            ctx.fillText("You Won!.", 5 * PARAMS.BLOCKWIDTH, 5 * PARAMS.BLOCKWIDTH);
+        }
     }
     else {
         SceneManager.loadLevel(false, false);

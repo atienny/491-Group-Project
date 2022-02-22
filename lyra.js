@@ -11,6 +11,7 @@ class Lyra {
         this.secondKey = 0;
         this.thirdKey = 0;
         this.health = 300;
+        this.win = false;
 
         this.flashlightTimer = 5;
         this.flashlightTimerMax = 5;
@@ -236,6 +237,7 @@ class Lyra {
                     if (entity.name == "front" && this.thirdKey == 1) {
                         entity.removeFromWorld = true;
                         console.log("removed front left")
+                        this.win = true;
                     }
 
                     //console.log("Collide");
@@ -258,6 +260,7 @@ class Lyra {
                     if (entity.name == "front" && this.thirdKey == 1) {
                         entity.removeFromWorld = true;
                         console.log("removed front right")
+                        this.win = true;
                     }
 
                     //console.log("Collide");

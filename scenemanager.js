@@ -19,7 +19,7 @@ class SceneManager {
 
 
         if (transition) {
-            this.game.addEntity(new transitionscreen(this.game, this.gameOver));
+            this.game.addEntity(new transitionscreen(this.game, this.gameOver, 0));
         }
 
         this.loadLayer(level.floor);
@@ -98,14 +98,9 @@ class SceneManager {
         this.kitchenDoorRight = new RightDoor(this.game, 139, 576, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "kitchen");
 
         this.firstkey = new Key(this.game, 1580, 440, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
-        this.secondkey = new Key(this.game, 920, 570, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
-        this.thirdkey = new Key(this.game, 1220, 570, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        this.secondkey = new Key(this.game, 370, 217, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        this.thirdkey = new Key(this.game, 660, 70, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
 
-        this.game.addEntity(this.centerNorthFirePlace);
-        this.game.addEntity(this.centerNorthFire);
-        this.game.addEntity(this.mainRoomCandlesWest);
-        this.game.addEntity(this.mainRoomCandlesEast);
-        this.game.addEntity(this.westHallwayCandle);
         this.game.addEntity(this.centerDoorLeft);
         this.game.addEntity(this.centerDoorRight);
         this.game.addEntity(this.frontDoorLeft);
@@ -115,6 +110,7 @@ class SceneManager {
         this.game.addEntity(this.firstkey);
         this.game.addEntity(this.secondkey);
         this.game.addEntity(this.thirdkey);
+
     };
 
     update() {
@@ -149,9 +145,15 @@ class SceneManager {
         this.gameOver = true;
         this.transition = true;
     
-        this.game.addEntity(new TransitionScreen(this.game, this.gameOver));
+        this.game.addEntity(new TransitionScreen(this.game, this.gameOver, 0));
         console.log("You died.");
     }        
+
+    if (this.lyra.win == true){
+        this.gameOver = true;
+        this.transition = true;
+        this.game.addEntity(new TransitionScreen(this.game, this.gameOver, 1));
+    }
 
     this.batterySpritesheet = ASSET_MANAGER.getAsset("./sprites/battery_life.png");
 
