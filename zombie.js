@@ -65,11 +65,17 @@ class Zombie {
         this.animations[1][2] = new Animator(this.spritesheet, 0, 709, 64, 59, 9, 0.1, false, true);
         this.animations[1][3] = new Animator(this.spritesheet, 0, 581, 64, 59, 9, 0.1, false, true);
 
-        // attacking animation
-        this.animations[2][0] = new Animator(this.spritesheet, 0, 133, 64, 59, 7, 0.20, false, true);
-        this.animations[2][1] = new Animator(this.spritesheet, 0, 4, 64, 60, 7, 0.20, false, true);
-        this.animations[2][2] = new Animator(this.spritesheet, 0, 197, 64, 60, 7, 0.20, false, true);
-        this.animations[2][3] = new Animator(this.spritesheet, 0, 64, 64, 64, 7, 0.20, false, true);
+        // distance attacking animation
+        // this.animations[2][0] = new Animator(this.spritesheet, 0, 133, 64, 59, 7, 0.20, false, true);
+        // this.animations[2][1] = new Animator(this.spritesheet, 0, 4, 64, 60, 7, 0.20, false, true);
+        // this.animations[2][2] = new Animator(this.spritesheet, 0, 197, 64, 60, 7, 0.20, false, true);
+        // this.animations[2][3] = new Animator(this.spritesheet, 0, 64, 64, 64, 7, 0.20, false, true);
+
+        // melee attack
+        this.animations[2][0] = new Animator(this.spritesheet, 0, 901, 64, 59, 6, 0.20, false, true);
+        this.animations[2][1] = new Animator(this.spritesheet, 0, 773, 64, 60, 6, 0.20, false, true);
+        this.animations[2][2] = new Animator(this.spritesheet, 0, 965, 64, 60, 6, 0.20, false, true);
+        this.animations[2][3] = new Animator(this.spritesheet, 0, 837, 64, 64, 6, 0.20, false, true);
 
         // death animation
         this.animations[3][0] = new Animator(this.spritesheet, 0, 1286, 64, 59, 6, 0.2, false, false);
@@ -174,7 +180,13 @@ class Zombie {
     };
 
     collide(ent) {
-        return (distance(this, ent) < (this.visualRadius / 2));
+        if (this.facing[0] == 3) {
+            return (distance(this, ent) < (this.visualRadius / 4));
+        } else if (this.facing[0] == 1) {
+            return (distance(this, ent) < (this.visualRadius / 4));
+        } else {
+            return (distance(this, ent) < (this.visualRadius / 10));
+        }
     };
 
     getFacing() {
