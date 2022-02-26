@@ -16,6 +16,7 @@ class Zombie {
         this.state = 1;
         this.hP = 250;
         this.waitingToRespawn = false;
+        this.isStunned = false;
         this.respawnTime = 15;
         this.respawnTimer = 0;
 
@@ -39,6 +40,7 @@ class Zombie {
         this.visualRadius = 200;
         this.hP = 250;
         this.animations = [];
+        this.isStunned = false;
         this.state = 1;
         this.updateBB();
         this.loadAnimations();
@@ -94,7 +96,7 @@ class Zombie {
 
         var dist = distance(this, this.target);
         this.getFacing();
-        if (dist < 5) {
+        if (dist < 5 && this.isStunned == false) {
             if (this.targetID < this.path.length - 1 && this.target === this.path[this.targetID]) {
                 this.targetID++;
             }
@@ -115,11 +117,11 @@ class Zombie {
 
         for (var i = 0; i < this.game.entities.length; i++) {
             var ent = this.game.entities[i];
-            if (ent instanceof Lyra && canSee(this, ent)) {
+            if (ent instanceof Lyra && canSee(this, ent) && this.isStunned == false) {
                 this.target = ent;
                 this.getFacing();
             }
-            if (ent instanceof Lyra && this.collide(ent)) {
+            if (ent instanceof Lyra && this.collide(ent) && this.isStunned == false) {
                 if (this.state !== 2) {
                     this.state = 2;
                     this.elapsedTime = 0;
@@ -131,7 +133,7 @@ class Zombie {
                 this.getFacing();
                 
             }
-            if (ent instanceof Lyra && this.state == 2 && !this.collide(ent)) {
+            if (ent instanceof Lyra && this.state == 2 && !this.collide(ent) && this.isStunned == false) {
                 this.getFacing();
                 this.state = 1;
                 this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
@@ -140,7 +142,7 @@ class Zombie {
             }
         }
 
-        if (this.state !== 2 && this.state !== 3) {
+        if (this.state !== 2 && this.state !== 3 && this.isStunned == false) {
             dist = distance(this, this.target);
             this.getFacing();
             this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};

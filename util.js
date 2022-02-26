@@ -6,7 +6,8 @@ const PARAMS = {
     DEBUG_COLOR: "Red",
     CANVAS_WIDTH : 700,
     CANVAS_HEIGHT : 700,
-    SCALE : 1
+    SCALE : 1,
+    MUTE: false
 };
 
 

@@ -1,5 +1,8 @@
 var level =
 {
+    music: "./sounds/Come-Play-with-Me.mp3",
+    music2: "./sounds/mixkit-rain-and-thunder-storm-2390.wav",
+    music3: "./sounds/Fire-crackling-sounds.mp3",
     width : 52,
     height : 30,
 

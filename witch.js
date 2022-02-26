@@ -14,6 +14,7 @@ class Witch {
         this.respawnTimer = 0;
         this.respawnTime = 15;
         this.waitingToRespawn = false;
+        this.isStunned = false;
         this.visualRadius = 200;
         this.hP = 500;
         this.animations = [];
@@ -38,6 +39,7 @@ class Witch {
         this.visualRadius = 200;
         this.hP = 500;
         this.animations = [];
+        this.isStunned = false;
         this.state = 1;
         this.updateBB();
         this.loadAnimations();
@@ -83,6 +85,7 @@ class Witch {
 
     update() {
         this.elapsedTime += this.game.clockTick;
+
         if (this.waitingToRespawn) {
             this.respawnTimer += this.game.clockTick;
             if (this.respawnTimer >= this.respawnTime) {
@@ -93,7 +96,7 @@ class Witch {
 
         var dist = distance(this, this.target);
         this.getFacing();
-        if (dist < 5) {
+        if (dist < 5 && !(this.isStunned)) {
             if (this.targetID < this.path.length - 1 && this.target === this.path[this.targetID]) {
                 this.targetID++;
             }
@@ -114,11 +117,11 @@ class Witch {
 
         for (var i = 0; i < this.game.entities.length; i++) {
             var ent = this.game.entities[i];
-            if (ent instanceof Lyra && canSee(this, ent)) {
+            if (ent instanceof Lyra && canSee(this, ent) && !(this.isStunned)) {
                 this.target = ent;
                 this.getFacing();
             }
-            if (ent instanceof Lyra && this.collide(ent)) {
+            if (ent instanceof Lyra && this.collide(ent) && !(this.isStunned)) {
                 if (this.state !== 2) {
                     this.state = 2;
                     this.elapsedTime = 0;
@@ -131,7 +134,7 @@ class Witch {
                 this.getFacing();
                 
             }
-            if (ent instanceof Lyra && this.state == 2 && !this.collide(ent)) {
+            if (ent instanceof Lyra && this.state == 2 && !this.collide(ent) && !(this.isStunned)) {
                 this.getFacing();
                 this.state = 1;
                 this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
@@ -139,9 +142,8 @@ class Witch {
                 this.y += this.velocity.y * this.game.clockTick;
             }
         }
-
         
-        if (this.state !== 2 && this.state !== 3) {
+        if (this.state !== 2 && this.state !== 3 && !(this.isStunned)) {
             dist = distance(this, this.target);
             this.getFacing();
             this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};

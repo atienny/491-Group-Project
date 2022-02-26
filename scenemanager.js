@@ -17,7 +17,6 @@ class SceneManager {
     loadLevel(transition, title) {
         this.title = title;
 
-
         if (transition) {
             this.game.addEntity(new transitionscreen(this.game, this.gameOver, 0));
         }
@@ -111,9 +110,25 @@ class SceneManager {
         this.game.addEntity(this.secondkey);
         this.game.addEntity(this.thirdkey);
 
+        if (!this.title) {  // level.music was taken out as all levels have music
+            ASSET_MANAGER.pauseBackgroundMusic();
+            ASSET_MANAGER.playAsset(level.music);
+            ASSET_MANAGER.playAsset(level.music2);
+            ASSET_MANAGER.playAsset(level.music3);
+        }
+    };
+
+    updateAudio() {
+        var mute = document.getElementById("mute").checked;
+        var volume = document.getElementById("volume").value;
+
+        ASSET_MANAGER.muteAudio(mute);
+        ASSET_MANAGER.adjustVolume(volume);
     };
 
     update() {
+        this.updateAudio() ;
+
         PARAMS.DEBUG = document.getElementById("debug").checked;
         let midpoint = { x : PARAMS.CANVAS_WIDTH / 2 - PARAMS.BLOCKWIDTH / 2, y : PARAMS.CANVAS_HEIGHT / 2 - PARAMS.BLOCKWIDTH / 2 };
         this.x = this.lyra.x - midpoint.x;
@@ -132,11 +147,13 @@ class SceneManager {
 
     // 2/3 hp
     if (this.lyra.health > 100 && this.lyra.health <= 200) {
+        ASSET_MANAGER.playAsset("./sounds/heartbeat.mp3");
         ctx.drawImage(this.healthBarSpritesheet, 31, 133, 330, 89, 10, 80, 100, 40);
     }
 
     // 1/3 hp
     if (this.lyra.health <= 100) {
+        ASSET_MANAGER.playAsset("./sounds/heartbeat.mp3");
         ctx.drawImage(this.healthBarSpritesheet, 31, 244, 330, 89, 10, 80, 100, 40);
     }
 
@@ -144,7 +161,7 @@ class SceneManager {
     if (this.lyra.health == 0) {
         this.gameOver = true;
         this.transition = true;
-    
+        ASSET_MANAGER.playAsset("./sounds/scream18.mp3");
         this.game.addEntity(new TransitionScreen(this.game, this.gameOver, 0));
         console.log("You died.");
     }        
@@ -200,7 +217,7 @@ class SceneManager {
         // full battery
         ctx.drawImage(this.batterySpritesheet, 58, 41, 238, 94, 10, 10, 100, 50);
     }
-    }
+    } 
     };
 
     loadLayer(property) {

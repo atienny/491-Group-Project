@@ -43,7 +43,54 @@ class AssetManager {
                     this.cache[path] = img;
                     break;
                 case "wav":
+                    var aud = new Audio();
+                    aud.addEventListener("loadeddata", function () {
+                        console.log("Loaded " + this.src);
+                        that.successCount++;
+                        if (that.isDone()) callback();
+                    });
+
+                    aud.addEventListener("error", function() {
+                        console.log("Error loading " + this.src);
+                        that.errorCount++;
+                        if (that.isDone()) callback();
+                    });
+                    
+                    aud.addEventListener("ended", function() {
+                        aud.pause();
+                        aud.currentTime = 0;
+                    });
+
+                    aud.src = path;
+                    aud.load();
+
+                    this.cache[path] = aud;
+                    break;
                 case "mp3":
+                    var aud = new Audio();
+                    aud.addEventListener("loadeddata", function () {
+                        console.log("Loaded " + this.src);
+                        that.successCount++;
+                        if (that.isDone()) callback();
+                    });
+
+                    aud.addEventListener("error", function() {
+                        console.log("Error loading " + this.src);
+                        that.errorCount++;
+                        if (that.isDone()) callback();
+                    });
+                    
+                    aud.addEventListener("ended", function() {
+                        aud.pause();
+                        aud.currentTime = 0;
+                    });
+
+                    aud.src = path;
+                    aud.load();
+
+                    this.cache[path] = aud;
+                    break;
+
                 case "mp4":
                     var aud = new Audio();
                     aud.addEventListener("loadeddata", function() {
@@ -79,6 +126,11 @@ class AssetManager {
         let audio = this.cache[path];
         if (audio instanceof Audio) {
             audio.currentTime = 0;
+            try {
+                audio.play();
+            } catch {
+                throw new DOMException();
+            }
             audio.play();
         }
     };

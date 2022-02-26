@@ -56,7 +56,16 @@ class Lyra {
         };
     
     update() {
-
+        this.muted = false;
+        if (PARAMS.MUTE) {
+            this.muted = true;
+            ASSET_MANAGER.muteAudio(PARAMS.MUTED)
+        } 
+        if (this.muted && !PARAMS.MUTED) {
+            ASSET_MANAGER.playAsset(level.music);
+            ASSET_MANAGER.playAsset(level.music2);
+            ASSET_MANAGER.playAsset(level.music3);
+        }
         let velocity_x = 0;
         let velocity_y = 0;
 
@@ -98,8 +107,6 @@ class Lyra {
             this.facing[0] = 3;
         }
 
-// 
-
         if (this.game.Q == true) {
 
             this.flashlightTimer = Math.max(0, this.flashlightTimer - this.game.clockTick);
@@ -113,7 +120,7 @@ class Lyra {
                 console.log("timer at 0");
             }
 
-        // }
+        
 
         if (this.game.down & this.game.Q == true) {
             this.state[0] = 3;
@@ -168,15 +175,25 @@ class Lyra {
 
         this.game.entities.forEach((entity) => {
             if (entity instanceof Witch) {
+                if (!entity.isStunned) {
+                    this.stunTimer = Math.max(0, this.stunTimer + (this.game.clockTick/2));
+                }
                 if (this.flashlightBB && this.flashlightBB.collide(entity.BB)) {
-                    this.isStunned = true;
+                    ASSET_MANAGER.playAsset("./sounds/demonic-woman-scream.mp3");
+                    //entity.isStunned = true;
                     // entity.state = 0;
                     entity.hP -= 1;
                     console.log(entity.hp);
-                    if (this.isStunned == true) {
-                            entity.state = 0;
-                            console.log("Stunned witch");
-                        
+                    if (entity.isStunned) {
+                        entity.state = 0;
+                        this.stunTimer = Math.max(0, this.stunTimer - this.game.clockTick);
+                        console.log("Stunned witch");
+                        if (this.stunTimer == 0) {
+                            entity.isStunned = false;
+                            entity.state = 1;
+                            console.log("Unstunned");
+                        }
+                       
                     }
                 }
 
@@ -184,19 +201,26 @@ class Lyra {
                     this.health--;
                     console.log("Lost hp");
                 }
+
+
+                if (entity.isStunned && this.stunTimer == 0) {
+                    entity.isStunned = false;
+                    console.log("Unstunned");
+                } 
             }
 
             if (entity instanceof Zombie) {
                 if (this.flashlightBB && this.flashlightBB.collide(entity.BB)) {
-                    this.isStunned = true;
+                    //entity.isStunned = true;
                     entity.hP -= 1;
-                    if (this.isStunned == true) {
+                    if (entity.isStunned) {
                         entity.state = 0;
                         console.log("Stunned zombie");
                     }
 
                 }
                 if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
+                    ASSET_MANAGER.playAsset("./sounds/Zombie-sound.mp3");
                     this.health--;
                     console.log("Lost hp");
                 }
@@ -205,6 +229,7 @@ class Lyra {
 
             if (entity instanceof Key) {
                 if (this.BB && this.BB.collide(entity.BB)) {
+                    ASSET_MANAGER.playAsset("./sounds/four-voices-whispering-6.mp3");
 
                     if (this.firstKey == 0) {
                         this.firstKey = 1;
@@ -225,16 +250,19 @@ class Lyra {
                 if (this.BB && this.BB.collide(entity.BB)) {
 
                     if (entity.name == "kitchen" && this.firstKey == 1) {
+                        ASSET_MANAGER.playAsset("./sounds/Wooden-door-opening-sound-effect.mp3");
                         entity.removeFromWorld = true;
                         console.log("removed kitchen left")
                     }
 
                     if (entity.name == "center" && this.secondKey == 1) {
+                        ASSET_MANAGER.playAsset("./sounds/Wooden-door-opening-sound-effect.mp3");
                         entity.removeFromWorld = true;
                         console.log("removed center left")
                     }
 
                     if (entity.name == "front" && this.thirdKey == 1) {
+                        ASSET_MANAGER.playAsset("./sounds/Wooden-door-opening-sound-effect.mp3");
                         entity.removeFromWorld = true;
                         console.log("removed front left")
                         this.win = true;
@@ -248,16 +276,19 @@ class Lyra {
                 if (this.BB && this.BB.collide(entity.BB)) {
                     
                     if (entity.name == "kitchen" && this.firstKey == 1) {
+                        ASSET_MANAGER.playAsset("./sounds/Wooden-door-opening-sound-effect.mp3");
                         entity.removeFromWorld = true;
                         console.log("removed kitchen right")
                     }
 
                     if (entity.name == "center" && this.secondKey == 1) {
+                        ASSET_MANAGER.playAsset("./sounds/Wooden-door-opening-sound-effect.mp3");
                         entity.removeFromWorld = true;
                         console.log("removed center right")
                     }
 
                     if (entity.name == "front" && this.thirdKey == 1) {
+                        ASSET_MANAGER.playAsset("./sounds/Wooden-door-opening-sound-effect.mp3");
                         entity.removeFromWorld = true;
                         console.log("removed front right")
                         this.win = true;

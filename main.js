@@ -18,8 +18,27 @@ ASSET_MANAGER.queueDownload("./sprites/floor.png");
 ASSET_MANAGER.queueDownload("./sprites/wall.png");
 ASSET_MANAGER.queueDownload("./sprites/dark-wood.png");
 
+// background music
+ASSET_MANAGER.queueDownload("./sounds/Come-Play-with-Me.mp3");
+ASSET_MANAGER.queueDownload("./sounds/sb_marchofmidnight.mp3");
+
+// sound effects
+ASSET_MANAGER.queueDownload("./sounds/demonic-woman-scream.mp3");
+ASSET_MANAGER.queueDownload("./sounds/four-voices-whispering-6.mp3");
+ASSET_MANAGER.queueDownload("./sounds/mixkit-rain-and-thunder-storm-2390.wav");
+ASSET_MANAGER.queueDownload("./sounds/Zombie-sound.mp3");
+ASSET_MANAGER.queueDownload("./sounds/Fire-crackling-sound.mp3");
+ASSET_MANAGER.queueDownload("./sounds/heartbeat.mp3");
+ASSET_MANAGER.queueDownload("./sounds/scream18.mp3");
+ASSET_MANAGER.queueDownload("./sounds/Wooden-door-opening-sound-effect.mp3");
 
 ASSET_MANAGER.downloadAll(function () {
+
+	ASSET_MANAGER.autoRepeat("./sounds/Come-Play-with-Me.mp3");
+	ASSET_MANAGER.autoRepeat("./sounds/sb_marchofmidnight.mp3");
+	ASSET_MANAGER.autoRepeat("./sounds/mixkit-rain-and-thunder-storm-2390.wav");
+	ASSET_MANAGER.autoRepeat("./sounds/Fire-crackling-sound.mp3");
+
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
 
