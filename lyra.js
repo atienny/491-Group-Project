@@ -197,6 +197,10 @@ class Lyra {
                     }
                 }
 
+                if (canSee(entity, this)) {
+                    ASSET_MANAGER.playAsset("./sounds/demonic-woman-scream.mp3");
+                }
+
                 if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
                     this.health--;
                     console.log("Lost hp");
