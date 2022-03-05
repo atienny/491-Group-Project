@@ -1,16 +1,12 @@
-class LeftDoor {
-    constructor(game, x, y, spritesheet, name, collideable) {
-        Object.assign(this, { game, x, y, spritesheet, name, collideable });
+class StairsTwotoOne {
+    constructor(game, x, y, spritesheet, type, collideable) {
+        Object.assign(this, { game, x, y, spritesheet, type, collideable });
         this.facing = [0]; // idle
         this.state = [0]; // idle
         this.animations = [];
+
         this.updateBB();
         this.loadAnimations();
-        this.name = name;
-
-        if (this.collideable) this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH * PARAMS.SCALE,
-            PARAMS.BLOCKWIDTH * PARAMS.SCALE);
-
     };
 
     loadAnimations() {
@@ -20,24 +16,26 @@ class LeftDoor {
                 this.animations[i].push([]);
             }  
         }
-        // door opening animation
-        this.animations[0][0] = new Animator(this.spritesheet, 32.03, 278, 48, 48, 1, 1, false, true);
-        };
+
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 0, 64, 32, 1, 1, false, true);
+       
+    };
     
     update() { 
         this.facing = [0];
         this.state = [0];
+
         this.updateBB();
     };
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y + 4, 48, 60);
+        this.BB = new BoundingBox(this.x, this.y, 20, 48);
     };
     
     draw(ctx) {
         this.animations[this.facing][this.state]
-        .drawFrame2(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, 1.52 * PARAMS.SCALE, 1.35 * PARAMS.SCALE);
+        .drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, 2);
     
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';

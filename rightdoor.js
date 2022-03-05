@@ -1,6 +1,6 @@
 class RightDoor {
-    constructor(game, x, y, spritesheet, name) {
-        Object.assign(this, { game, x, y, spritesheet });
+    constructor(game, x, y, spritesheet, name, collideable) {
+        Object.assign(this, { game, x, y, spritesheet, collideable });
         this.facing = [0]; // idle
         this.state = [0]; // idle
         this.animations = [];
@@ -28,7 +28,7 @@ class RightDoor {
 
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x + 7, this.y + 2, 43 * PARAMS.SCALE, 60 * PARAMS.SCALE);
+        this.BB = new BoundingBox(this.x + 5, this.y + 4, 48, 60);
     };
     
     draw(ctx) {
