@@ -1,21 +1,24 @@
 class Witch {
-
     constructor(game, x, y, path, spritesheet) {
+
         Object.assign(this, {game, x, y, path, spritesheet});
         this.facing = [0]; // down = 0, up = 1, right = 2, left = 3
-        this.state = [0]; // idle = 0, walking = 1, attacking = 2
+        this.state = [0]; // idle = 0, walking = 1, attacking = 2, death = 3
         this.speed = 25;
         this.targetID = 0;
         if (this.path && this.path[this.targetID]) this.target = this.path[this.targetID];
 
         var dist = distance(this, this.target);
         this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
+        
         this.elapsedTime = 0;
-        this.respawnTimer = 0;
-        this.respawnTime = 15;
-        this.waitingToRespawn = false;
+
+        this.stunTimer = 0;
+        this.stunTimerMax = 5;
+        this.isStunned = false;
+        this.waitingToUnstun = false;
+
         this.visualRadius = 200;
-        this.hP = 500;
         this.animations = [];
         this.state = 1;
         this.updateBB();
@@ -24,25 +27,28 @@ class Witch {
 
     reset() {
         this.facing = [0]; // down = 0, up = 1, right = 2, left = 3
-        this.state = [0]; // idle = 0, walking = 1, attacking = 2
+        this.state = [0]; // idle = 0, walking = 1, attacking = 2, death = 3
         this.speed = 25;
         this.targetID = 0;
         if (this.path && this.path[this.targetID]) this.target = this.path[this.targetID];
 
         var dist = distance(this, this.target);
         this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
+        
         this.elapsedTime = 0;
-        this.respawnTimer = 0;
-        this.respawnTime = 15;
-        this.waitingToRespawn = false;
+
+        this.stunTimer = 0;
+        this.stunTimerMax = 5;
+        this.isStunned = false;
+        this.waitingToUnstun = false;
+
         this.visualRadius = 200;
-        this.hP = 500;
         this.animations = [];
         this.state = 1;
         this.updateBB();
         this.loadAnimations();
         this.update();
-    }
+    };
 
     loadAnimations() {
         for (let i = 0; i < 4; i++) { // 4 states
@@ -77,13 +83,23 @@ class Witch {
 
     update() {
         this.elapsedTime += this.game.clockTick;
-        if (this.waitingToRespawn) {
-            this.respawnTimer += this.game.clockTick;
-            if (this.respawnTimer >= this.respawnTime) {
-                console.log("Respawn Witch");
+        // if (this.waitingToRespawn) {
+        //     this.respawnTimer += this.game.clockTick;
+        //     if (this.respawnTimer >= this.respawnTime) {
+        //         console.log("Respawn Witch");
+        //         this.reset();
+        //     }
+        // }
+
+        //
+        if (this.waitingToUnstun) {
+            this.stunTimer += this.game.clockTick;
+            if (this.stunTimer >= this.stunTimerMax) {
+                console.log("Enemy unstunned");
                 this.reset();
             }
         }
+        //
 
         var dist = distance(this, this.target);
         this.getFacing();
@@ -135,7 +151,7 @@ class Witch {
         }
 
         
-        if (this.state !== 2 && this.state !== 3) {
+        if (this.state !== 0 && this.state !== 2 && this.state !== 3) {
             dist = distance(this, this.target);
             this.getFacing();
             this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
@@ -143,10 +159,23 @@ class Witch {
             this.y += this.velocity.y * this.game.clockTick;
         }
 
-        if (this.hP <= 0) {
-            this.state = 3;
-            this.waitingToRespawn = true;
+        //
+        if (this.isStunned == true) {
+            this.state = 0;
+            this.velocity = {x:0, y:0};
+            this.waitingToUnstun = true;
         }
+
+        if (this.state == 0) {
+            this.velocity = {x:0, y:0};
+        }
+        //
+
+        
+        // if (this.isStunned && this.hP <= 0) {
+        //     this.state = 3;
+        //     this.waitingToRespawn = true;
+        // }
         
         this.getFacing();
 
@@ -172,7 +201,6 @@ class Witch {
                 }
             }
         }
-
         this.getFacing();
         this.updateBB();
     };

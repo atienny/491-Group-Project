@@ -3,19 +3,26 @@ class Lyra {
         Object.assign(this, { game, x, y, spritesheet });
         this.facing = [0]; // down = 0, up = 1, right = 2, left = 3
         this.state = [0]; // idle = 0, walking = 1
-        this.speed = 1;
+        this.speed = 300;
         this.velocity = { x : 0, y : 0 };
 
-        this.health = 300;
+        this.game.changeLevel = false;
 
-        this.smallKey = 0;
-        this.bigKey = 0;
+        this.firstKey = 0;
+        this.secondKey = 0;
+        this.thirdKey = 0;
+        this.fourthKey = 0;
+        this.fifthKey = 0;
+        this.sixthKey = 0;
+
+        this.health = 300;
+        this.win = false;
 
         this.flashlightTimer = 5;
         this.flashlightTimerMax = 5;
 
         this.stunTimer = 0;
-        this.stunTime = 5;
+        this.stunTimeMax = 5;
         this.isStunned = false;
 
         this.animations = [];
@@ -26,121 +33,152 @@ class Lyra {
     };
 
     loadAnimations() {
-        for (let i = 0; i < 4; i++) { // 2 states
-            this.animations.push([]);
-            for (let j = 0; j < 4; j++) { // 4 facings
-                this.animations[i].push([]);
-            }  
-        }
+        // for (let i = 0; i < 4; i++) { // 2 states
+        //     this.animations.push([]);
+        //     for (let j = 0; j < 4; j++) { // 4 facings
+        //         this.animations[i].push([]);
+        //     }  
+        // }
 
-        // idle animation w/o torch
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 0, 32, 32, 4, 0.75, false, true);
+        // // idle animation w/o torch
+        // this.animations[0][0] = new Animator(this.spritesheet, 0, 0, 32, 32, 4, 0.75, false, true);
+        // this.animations[0][1] = new Animator(this.spritesheet, 0, 94, 32, 32, 1, 0.75, false, true);
 
-        // idle animation w/ torch
-        this.animations[2][0] = new Animator(this.spritesheet, 0, 156, 32, 32, 4, 0.75, false, true);
+        // // idle animation w/ torch
+        // this.animations[2][0] = new Animator(this.spritesheet, 0, 156, 32, 32, 4, 0.75, false, true);
 
-        // walking animation w/o torch
-        this.animations[1][0] = new Animator(this.spritesheet, 0, 32, 32, 32, 4, 0.25, false, true);
-        this.animations[1][1] = new Animator(this.spritesheet, 0, 94, 32, 32, 4, 0.25, false, true);
-        this.animations[1][2] = new Animator(this.spritesheet, 0, 63, 32, 32, 4, 0.25, false, true);
-        this.animations[1][3] = new Animator(this.spritesheet, 0, 125, 32, 32, 4, 0.25, false, true);
+        // // walking animation w/o torch
+        // this.animations[1][0] = new Animator(this.spritesheet, 0, 32, 32, 32, 4, 0.25, false, true);
+        // this.animations[1][1] = new Animator(this.spritesheet, 0, 94, 32, 32, 4, 0.25, false, true);
+        // this.animations[1][2] = new Animator(this.spritesheet, 0, 63, 32, 32, 4, 0.25, false, true);
+        // this.animations[1][3] = new Animator(this.spritesheet, 0, 125, 32, 32, 4, 0.25, false, true);
 
-        // walking animation w/ torch
-        this.animations[3][0] = new Animator(this.spritesheet, 0, 187, 32, 32, 4, 0.25, false, true);
-        this.animations[3][1] = new Animator(this.spritesheet, 0, 249, 32, 32, 4, 0.25, false, true);
-        this.animations[3][2] = new Animator(this.spritesheet, 0, 280, 32, 32, 4, 0.25, false, true);
-        this.animations[3][3] = new Animator(this.spritesheet, 0, 218, 32, 32, 4, 0.25, false, true);
+        // // walking animation w/ torch
+        // this.animations[3][0] = new Animator(this.spritesheet, 0, 187, 32, 32, 4, 0.25, false, true);
+        // this.animations[3][1] = new Animator(this.spritesheet, 0, 249, 32, 32, 4, 0.25, false, true);
+        // this.animations[3][2] = new Animator(this.spritesheet, 0, 280, 32, 32, 4, 0.25, false, true);
+        // this.animations[3][3] = new Animator(this.spritesheet, 0, 218, 32, 32, 4, 0.25, false, true);
+
+        this.animations.push([], [], [], []);
+
+        // idle w/o torch
+        this.animations[0].push(new Animator(this.spritesheet, 0, 0, 32, 32, 4, 0.75, false, true));
+        this.animations[0].push(new Animator(this.spritesheet, 0, 94, 32, 32, 1, 0.75, false, true));
+        this.animations[0].push(new Animator(this.spritesheet, 0, 63, 32, 32, 1, 0.75, false, true));
+        this.animations[0].push(new Animator(this.spritesheet, 0, 125, 32, 32, 1, 0.75, false, true));
+
+        // walking w/o torch
+        this.animations[1].push(new Animator(this.spritesheet, 0, 32, 32, 32, 4, 0.25, false, true));
+        this.animations[1].push(new Animator(this.spritesheet, 0, 94, 32, 32, 4, 0.25, false, true));
+        this.animations[1].push(new Animator(this.spritesheet, 0, 63, 32, 32, 4, 0.25, false, true));
+        this.animations[1].push(new Animator(this.spritesheet, 0, 125, 32, 32, 4, 0.25, false, true));
+
+        // idle w/ torch
+        this.animations[2].push(new Animator(this.spritesheet, 0, 156, 32, 32, 4, 0.25, false, true));
+        this.animations[2].push(new Animator(this.spritesheet, 0, 249, 32, 32, 1, 0.25, false, true));
+        this.animations[2].push(new Animator(this.spritesheet, 0, 218, 32, 32, 1, 0.25, false, true));
+        this.animations[2].push(new Animator(this.spritesheet, 0, 280, 32, 32, 1, 0.25, false, true));
+
+        // walking w/ torch
+        this.animations[3].push(new Animator(this.spritesheet, 0, 156, 32, 32, 4, 0.25, false, true));
+        this.animations[3].push(new Animator(this.spritesheet, 0, 249, 32, 32, 4, 0.25, false, true));
+        this.animations[3].push(new Animator(this.spritesheet, 0, 218, 32, 32, 4, 0.25, false, true));
+        this.animations[3].push(new Animator(this.spritesheet, 0, 280, 32, 32, 4, 0.25, false, true));
 
         };
     
     update() {
 
-        let velocity_x = 0;
-        let velocity_y = 0;
+        var down = this.game.down;
+        var up = this.game.up;
+        var right = this.game.right;
+        var left = this.game.left;
 
-        this.state[0] = 0;
-        this.facing[0] = 0;
-        
-        if (this.game.Q == false) {
+        if (down) this.facing = 0;
+        else if (up) this.facing = 1;
+        else if (right) this.facing = 2;
+        else if (left) this.facing = 3;
 
-            if (this.flashlightTimer <= this.flashlightTimerMax) {
-                this.flashlightTimer = Math.max(0, this.flashlightTimer + (this.game.clockTick/2));
-                console.log(this.flashlightTimer);
+        if (this.flashlightTimer <= this.flashlightTimerMax) {
+            this.flashlightTimer = Math.max(0, this.flashlightTimer + (this.game.clockTick/2));
+            console.log(this.flashlightTimer);
+        }
+
+        if (left || right || up || down) {
+            this.state = 1;
+      
+            if (left && !right) {
+                this.velocity.x = -this.speed;
+            }   else if (!left && right) {
+                this.velocity.x = this.speed;
+            } else if (!(left || right)) {
+                this.velocity.x = 0;
             }
 
-            this.state[0] = 0;
-            this.facing[0] = 0;
-        }
+            if (up && !down) {
+                this.velocity.y = -this.speed;
+            } else if (!up && down) {
+                this.velocity.y = this.speed;
+            } else if (!(up || down)) {
+                this.velocity.y = 0;
+            }
 
-        if (this.game.down) {
-            velocity_y += this.speed;
-            this.state[0] = 1;
-            this.facing[0] = 0;
-        }
+            if (left && right) this.velocity.x = 0;
+            if (up && down) this.velocity.y = 0;
 
-        if (this.game.up) {
-            velocity_y -= this.speed;
-            this.state[0] = 1;
-            this.facing[0] = 1;
+        } else {
+            this.state = 0;
+            this.velocity.x = this.velocity.y = 0;
         }
-
-        if (this.game.right) {
-            velocity_x += this.speed;
-            this.state[0] = 1;
-            this.facing[0] = 2;
-        }
-
-        if (this.game.left) {
-            velocity_x -= this.speed;
-            this.state[0] = 1;
-            this.facing[0] = 3;
-        }
-
-// 
 
         if (this.game.Q == true) {
 
             this.flashlightTimer = Math.max(0, this.flashlightTimer - this.game.clockTick);
             console.log(this.flashlightTimer);
-            
-            this.state[0] = 2;
-            this.facing[0] = 0;
 
-            if (this.flashlightTimer == 0) {
-                this.game.Q = false;
-                console.log("timer at 0");
+            this.state = 2;
+
+            if (down) this.facing = 0;
+            else if (up) this.facing = 1;
+            else if (right) this.facing = 2;
+            else if (left) this.facing = 3
+
+        if (left || right || up || down) {
+            this.state = 3;
+      
+            if (left && !right) {
+                this.velocity.x = -this.speed;
+            }   else if (!left && right) {
+                this.velocity.x = this.speed;
+            } else if (!(left || right)) {
+                this.velocity.x = 0;
             }
 
-        // }
+            if (up && !down) {
+                this.velocity.y = -this.speed;
+            } else if (!up && down) {
+                this.velocity.y = this.speed;
+            } else if (!(up || down)) {
+                this.velocity.y = 0;
+            }
 
-        if (this.game.down & this.game.Q == true) {
-            this.state[0] = 3;
-            this.facing[0] = 0;
+            if (left && right) this.velocity.x = 0;
+            if (up && down) this.velocity.y = 0;
+
+        } else {
+            this.state = 2;
+            this.velocity.x = this.velocity.y = 0;
         }
 
-        if (this.game.up & this.game.Q == true) {
-            this.state[0] = 3;
-            this.facing[0] = 1;
+        if (this.flashlightTimer == 0) {
+            this.game.Q = false;
+            console.log("timer at 0");
         }
 
-        if (this.game.left & this.game.Q == true) {
-            this.state[0] = 3;
-            this.facing[0] = 2;
         }
 
-        if (this.game.right & this.game.Q == true) {
-            this.state[0] = 3;
-            this.facing[0] = 3;
-        }
-
-    }
-
-        this.velocity.x = velocity_x;
-        this.velocity.y = velocity_y;
-        this.x += this.velocity.x;
-        this.y += this.velocity.y;
-         
-        // this.updateBB();
+        this.x += this.velocity.x * this.game.clockTick;
+        this.y += this.velocity.y * this.game.clockTick;
 
         this.originalCollisionBB = this.collisionBB;
         this.updateBB();
@@ -167,35 +205,21 @@ class Lyra {
         this.game.entities.forEach((entity) => {
             if (entity instanceof Witch) {
                 if (this.flashlightBB && this.flashlightBB.collide(entity.BB)) {
-                    this.isStunned = true;
-                    // entity.state = 0;
-                    entity.hP -= 1;
-                    console.log(entity.hp);
-                    if (this.isStunned == true) {
-                            entity.state = 0;
-                            console.log("Stunned witch");
-                        
-                    }
+                    entity.isStunned = true;
+                    console.log("is stunned");
                 }
 
                 if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
                     this.health--;
                     console.log("Lost hp");
                 }
-
             }
 
             if (entity instanceof Zombie) {
                 if (this.flashlightBB && this.flashlightBB.collide(entity.BB)) {
-                    this.isStunned = true;
-                    entity.hP -= 1;
-                    if (this.isStunned == true) {
-                        entity.state = 0;
-                        console.log("Stunned zombie");
-                    }
-
+                    entity.isStunned = true;
+                    console.log("is stunned");
                 }
-
                 if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
                     this.health--;
                     console.log("Lost hp");
@@ -203,12 +227,114 @@ class Lyra {
                 
             }
 
-        //     if (entity instanceof Key) {
-        //         if (this.BB && this.BB.collide(entity.BB)) {
-        //             console.log("Collide");
-        //         }
-        //     }
+            if (entity instanceof Key) {
+                if (this.hitBB && this.hitBB.collide(entity.BB)) {
 
+                    if (this.firstKey == 0) {
+                        this.firstKey = 1;
+                    } else if (this.secondKey == 0) {
+                        this.secondKey = 1;
+                    } else if (this.thirdKey == 0) {
+                        this.thirdKey = 1;
+                    } 
+
+                    entity.removeFromWorld = true;
+
+                    console.log("Collide");
+                    console.log(this.firstKey, this.secondKey, this.thirdKey);
+                }
+            }
+
+            if (entity instanceof LeftDoor) {
+                if (this.BB && this.BB.collide(entity.BB)) {
+
+                    if ((entity.name == "kitchen" && this.firstKey == 1) || (entity.name == "bedroomLeft" && this.firstKey == 1)) {
+                        entity.removeFromWorld = true;
+                        console.log("removed door")
+                    }
+
+                    if ((entity.name == "center" && this.firstKey == 1) || (entity.name == "bedroomRight" && this.secondKey == 1)) {
+                        entity.removeFromWorld = true;
+                        console.log("removed door")
+                    }
+
+                    if ((entity.name == "front" && this.thirdKey == 1) || (entity.name == "secondStairwell" && this.thirdKey == 1)) {
+                        entity.removeFromWorld = true;
+                        console.log("removed door")
+                    }
+
+                    // if (entity.name == "bedroomLeft" && this.fourthKey == 1) {
+                    //     entity.removeFromWorld = true;
+                    //     console.log("removed center left")
+                    // }
+
+                    // if (entity.name == "bedroomRight" && this.fifthKey == 1) {
+                    //     entity.removeFromWorld = true;
+                    //     console.log("removed center left")
+                    // }
+
+                    // if (entity.name == "front" && this.sixthKey == 1) {
+                    //     entity.removeFromWorld = true;
+                    //     console.log("removed front left")
+                    //     this.win = true;
+                    // }
+
+                }
+            }
+
+            if (entity instanceof RightDoor) {
+                if (this.BB && this.BB.collide(entity.BB)) {
+                    
+                    if ((entity.name == "kitchen" && this.firstKey == 1) || (entity.name == "bedroomLeft" && this.firstKey == 1)) {
+                        entity.removeFromWorld = true;
+                        console.log("removed door")
+                    }
+
+                    if ((entity.name == "center" && this.firstKey == 1) || (entity.name == "bedroomRight" && this.secondKey == 1)) {
+                        entity.removeFromWorld = true;
+                        console.log("removed door")
+                    }
+
+                    if ((entity.name == "front" && this.thirdKey == 1) || (entity.name == "secondStairwell" && this.thirdKey == 1)) {
+                        entity.removeFromWorld = true;
+                        console.log("removed door")
+                    }
+
+                    // if (entity.name == "bedroomCenter" && this.thirdKey == 1) {
+                    //     entity.removeFromWorld = true;
+                    //     console.log("removed center left")
+                    // }
+
+                    // if (entity.name == "bedroomLeft" && this.fourthKey == 1) {
+                    //     entity.removeFromWorld = true;
+                    //     console.log("removed center left")
+                    // }
+
+                    // if (entity.name == "bedroomRight" && this.fifthKey == 1) {
+                    //     entity.removeFromWorld = true;
+                    //     console.log("removed center left")
+                    // }
+
+                    // if (entity.name == "front" && this.sixthKey == 1) {
+                    //     entity.removeFromWorld = true;
+                    //     console.log("removed front left")
+                    //     this.win = true;
+                    // }
+
+                }
+            }
+
+            if ((entity instanceof StairsTwotoOne)) {
+
+                if (this.hitBB && this.hitBB.collide(entity.BB)) {
+                    that.game.changeLevel = true;
+                    console.log("stairs");
+                }
+
+                //     console.log("Collide");
+
+                // }
+            }
 
         });
 
@@ -216,6 +342,7 @@ class Lyra {
     };
 
     updateBB() {
+
         this.BB = new BoundingBox(this.x, this.y, 96, 96)
         this.hitBB = new BoundingBox(this.x + 30, this.y + 30, 36, 46);
         this.collisionBB = new BoundingBox(this.hitBB.x, this.hitBB.y + 26, 36, 20);
@@ -237,80 +364,10 @@ class Lyra {
         }
 
     };
-    
+ 
     draw(ctx) {
         this.animations[this.state][this.facing]
             .drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, 3);
-    
-//
-        this.healthBarSpritesheet = ASSET_MANAGER.getAsset("./sprites/health_bar.png");
-        
-        //full hp 3/3
-        if(this.health > 200  && this.health <= 300) {
-            ctx.drawImage(this.healthBarSpritesheet, 31, 23, 330, 89, 10, 80, 100, 40);
-        }
-
-        // 2/3 hp
-        if (this.health > 100 && this.health < 300) {
-            ctx.drawImage(this.healthBarSpritesheet, 31, 133, 330, 89, 10, 80, 100, 40);
-        }
-
-        // 1/3 hp
-        if (this.health <= 100) {
-            ctx.drawImage(this.healthBarSpritesheet, 31, 244, 330, 89, 10, 80, 100, 40);
-        }
-
-        //no hp, loss message
-        if (this.health == 0) {
-            console.log("You died.");
-        }        
-
-        this.batterySpritesheet = ASSET_MANAGER.getAsset("./sprites/battery_life.png");
-
-        if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 3)) {
-            // 4/5 battery
-            ctx.drawImage(this.batterySpritesheet, 296, 41, 238, 94, 10, 10, 100, 50);
-        }
-        if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 2)) {
-            // 3/5 battery
-            ctx.drawImage(this.batterySpritesheet, 534, 41, 238, 94, 10, 10, 100, 50);
-        }
-        if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5))) {
-            // 2/5 battery
-            ctx.drawImage(this.batterySpritesheet, 772, 41, 238, 94, 10, 10, 100, 50);
-        }
-        if ((this.game.Q == true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer < (this.flashlightTimerMax / 5))) {
-            // 1/5 battery 
-            ctx.drawImage(this.batterySpritesheet, 1010, 41, 238, 94, 10, 10, 100, 50);
-        }
-        if (this.game.Q == true && this.flashlightTimer < 0.5) {
-            // empty battery
-            ctx.drawImage(this.batterySpritesheet, 1248, 41, 238, 94, 10, 10, 100, 50);
-        }
-
-        //battery going back up 
-
-        if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer < (this.flashlightTimerMax / 5))) {
-            // 1/5 battery 
-            ctx.drawImage(this.batterySpritesheet, 1010, 41, 238, 94, 10, 10, 100, 50);
-        }
-        if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5))) {
-            // 2/5 battery
-            ctx.drawImage(this.batterySpritesheet, 772, 41, 238, 94, 10, 10, 100, 50);
-        }
-        if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 2)) {
-            // 3/5 battery
-            ctx.drawImage(this.batterySpritesheet, 534, 41, 238, 94, 10, 10, 100, 50);
-        }
-        if ((this.game.Q != true) && (this.flashlightTimer < this.flashlightTimerMax) && (this.flashlightTimer > (this.flashlightTimerMax / 5) * 3)) {
-            // 4/5 battery
-            ctx.drawImage(this.batterySpritesheet, 296, 41, 238, 94, 10, 10, 100, 50);
-        }
-        if (this.flashlightTimer >= this.flashlightTimerMax) {
-            // full battery
-            ctx.drawImage(this.batterySpritesheet, 58, 41, 238, 94, 10, 10, 100, 50);
-        }
-//
 
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
@@ -318,19 +375,19 @@ class Lyra {
             ctx.strokeRect(this.hitBB.x - this.game.camera.x, this.hitBB.y - this.game.camera.y, this.hitBB.width, this.hitBB.height);
             ctx.strokeRect(this.collisionBB.x - this.game.camera.x, this.collisionBB.y - this.game.camera.y, this.collisionBB.width, this.collisionBB.height);
 
-        if (this.game.down && this.game.Q == true) {
+        if (this.facing == 0 && this.game.Q == true) {
             ctx.strokeRect(this.flashlightBB.x - this.game.camera.x, this.flashlightBB.y - this.game.camera.y, this.flashlightBB.width, this.flashlightBB.height);
         }
 
-        if (this.game.up && this.game.Q == true) {
+        if (this.facing == 1 && this.game.Q == true) {
             ctx.strokeRect(this.flashlightBB.x - this.game.camera.x, this.flashlightBB.y - this.game.camera.y, this.flashlightBB.width, this.flashlightBB.height);
         }
         
-        if (this.game.left && this.game.Q == true) {
+        if (this.facing == 2 && this.game.Q == true) {
             ctx.strokeRect(this.flashlightBB.x - this.game.camera.x, this.flashlightBB.y - this.game.camera.y, this.flashlightBB.width, this.flashlightBB.height);
         }
 
-        if (this.game.right && this.game.Q == true) {
+        if (this.facing == 3 && this.game.Q == true) {
             ctx.strokeRect(this.flashlightBB.x - this.game.camera.x, this.flashlightBB.y - this.game.camera.y, this.flashlightBB.width, this.flashlightBB.height);
         }
 
