@@ -197,7 +197,7 @@ class Lyra {
                     }
                 }
 
-                if (canSee(entity, this)) {
+                if (distance(this, entity) < entity.visualRadius) {
                     ASSET_MANAGER.playAsset("./sounds/demonic-woman-scream.mp3");
                 }
 

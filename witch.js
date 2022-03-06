@@ -67,17 +67,16 @@ class Witch {
         this.animations[1][3] = new Animator(this.spritesheet, 0, 581, 64, 59, 9, 0.1, false, true);
 
         //  distance attacking animation
-        this.animations[2][0] = new Animator(this.spritesheet, 0, 133, 64, 59, 7, 0.20, false, true);
-        this.animations[2][1] = new Animator(this.spritesheet, 0, 4, 64, 59, 7, 0.20, false, true);
-        this.animations[2][2] = new Animator(this.spritesheet, 0, 197, 64, 60, 7, 0.20, false, true);
-        this.animations[2][3] = new Animator(this.spritesheet, 0, 64, 64, 64, 7, 0.20, false, true);
-        
+        // this.animations[2][0] = new Animator(this.spritesheet, 0, 133, 64, 59, 7, 0.20, false, true);
+        // this.animations[2][1] = new Animator(this.spritesheet, 0, 4, 64, 59, 7, 0.20, false, true);
+        // this.animations[2][2] = new Animator(this.spritesheet, 0, 197, 64, 60, 7, 0.20, false, true);
+        // this.animations[2][3] = new Animator(this.spritesheet, 0, 64, 64, 64, 7, 0.20, false, true);
 
-        // // melee attack animation
-        // this.animations[2][0] = new Animator(this.spritesheet, 0, 389, 64, 59, 8, 0.20, false, true);
-        // this.animations[2][1] = new Animator(this.spritesheet, 0, 262, 64, 59, 8, 0.20, false, true);
-        // this.animations[2][2] = new Animator(this.spritesheet, 0, 453, 64, 60, 8, 0.20, false, true);
-        // this.animations[2][3] = new Animator(this.spritesheet, 0, 325, 64, 64, 8, 0.20, false, true);
+        // melee attack animation
+        this.animations[2][0] = new Animator(this.spritesheet, 0, 389, 64, 59, 8, 0.20, false, true);
+        this.animations[2][1] = new Animator(this.spritesheet, 0, 262, 64, 59, 8, 0.20, false, true);
+        this.animations[2][2] = new Animator(this.spritesheet, 0, 453, 64, 60, 8, 0.20, false, true);
+        this.animations[2][3] = new Animator(this.spritesheet, 0, 325, 64, 64, 8, 0.20, false, true);
 
         // death animation
         this.animations[3][0] = new Animator(this.spritesheet, 0, 1286, 64, 59, 13, 0.2, false, false);
@@ -125,8 +124,6 @@ class Witch {
             if (ent instanceof Lyra && this.collide(ent) && !(this.isStunned)) {
                 if (this.state !== 2) {
                     this.state = 2;
-                    this.spell = new Spell(this.game, this.x, this.y, this.target, ASSET_MANAGER.getAsset("./sprites/spells.png"), true);
-                    this.game.addEntity(this.spell);
                     this.elapsedTime = 0;
                 } else if (this.elapsedTime > .8) {
         
@@ -190,8 +187,13 @@ class Witch {
 
 
     collide(ent) {
-        return (distance(this, ent) < (this.visualRadius / 2));
-        
+        if (this.facing[0] == 3) {
+            return (distance(this, ent) < (this.visualRadius / 4));
+        } else if (this.facing[0] == 1) {
+            return (distance(this, ent) < (this.visualRadius / 4));
+        } else {
+            return (distance(this, ent) < (this.visualRadius / 10));
+        }
     };
 
     getFacing() {
