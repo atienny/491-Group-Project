@@ -241,6 +241,7 @@ class Lyra {
                     (entity.name == "secondStairwell" && this.thirdKey == 1) ||
                     (entity.name == "outer" && this.thirdKey == 1)) {
                         entity.removeFromWorld = true;
+                        this.win = true;
                         console.log("removed door")
                     }
 
@@ -268,6 +269,7 @@ class Lyra {
                     (entity.name == "secondStairwell" && this.thirdKey == 1) ||
                     (entity.name == "outer" && this.thirdKey == 1)) {
                         entity.removeFromWorld = true;
+                        this.win = true;
                         console.log("removed door")
                     }
 
