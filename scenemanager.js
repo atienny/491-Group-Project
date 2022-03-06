@@ -160,9 +160,9 @@ class SceneManager {
 
         if (!this.title) {  // level.music was taken out as all levels have music
             ASSET_MANAGER.pauseBackgroundMusic();
-            ASSET_MANAGER.playAsset(level.music);
-            ASSET_MANAGER.playAsset(level.music2);
-            ASSET_MANAGER.playAsset(level.music3);
+            ASSET_MANAGER.playAsset(levelOne.music);
+            ASSET_MANAGER.playAsset(levelOne.music2);
+            ASSET_MANAGER.playAsset(levelOne.music3);
         }
     };
 
@@ -172,10 +172,6 @@ class SceneManager {
 
         ASSET_MANAGER.muteAudio(mute);
         ASSET_MANAGER.adjustVolume(volume);
-    };
-
-    update() {
-        this.updateAudio() ;
     };
 
     loadLevelTwo() {
@@ -324,6 +320,13 @@ class SceneManager {
         this.game.addEntity(this.firstKey);
         this.game.addEntity(this.secondKey);
         this.game.addEntity(this.thirdKey);
+
+        if (!this.title) {  
+            ASSET_MANAGER.pauseBackgroundMusic();
+            ASSET_MANAGER.playAsset(levelTwo.music);
+            ASSET_MANAGER.playAsset(levelTwo.music2);
+            ASSET_MANAGER.playAsset(levelTwo.music3);
+        }
     
     };
 
@@ -376,11 +379,16 @@ class SceneManager {
         this.game.addEntity(this.midDoorLeft);
         this.game.addEntity(this.midDoorRight);
  
-
+        if (!this.title) { 
+            ASSET_MANAGER.pauseBackgroundMusic();
+            ASSET_MANAGER.playAsset(levelThree.music);
+            ASSET_MANAGER.playAsset(levelThree.music2);
+            ASSET_MANAGER.playAsset(levelThree.music3);
+        }
     };
 
     update() {
-
+        this.updateAudio();
         if (this.title && this.game.click) {
             if (this.game.mouse && this.game.mouse.y > 490 && this.game.mouse.y < 500) {
                 this.title = false;

@@ -63,21 +63,12 @@ class Lyra {
         };
     
     update() {
-        this.muted = false;
-        if (PARAMS.MUTE) {
-            this.muted = true;
-            ASSET_MANAGER.muteAudio(PARAMS.MUTED)
-        } 
-        if (this.muted && !PARAMS.MUTED) {
-            ASSET_MANAGER.playAsset(level.music);
-            ASSET_MANAGER.playAsset(level.music2);
-            ASSET_MANAGER.playAsset(level.music3);
-        }
+        
         let velocity_x = 0;
         let velocity_y = 0;
 
-        this.state[0] = 0;
-        this.facing[0] = 0;
+        // this.state[0] = 0;
+        // this.facing[0] = 0;
         
         if (this.game.Q == false) {
 
@@ -220,12 +211,13 @@ class Lyra {
                     console.log("is stunned");
                 }
 
-                if (distance(this, entity) < entity.visualRadius) {
+                if (distance(this, entity) <= entity.visualRadius) {
                     ASSET_MANAGER.playAsset("./sounds/demonic-woman-scream.mp3");
                 }
 
                 if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
                     this.health--;
+                    ASSET_MANAGER.playAsset("./sounds/heartbeat.mp3");
                     console.log("Lost hp");
                 }
 
@@ -237,6 +229,10 @@ class Lyra {
             }
 
             if (entity instanceof Zombie) {
+
+                if (distance(entity, this) <= entity.visualRadius) {
+                    ASSET_MANAGER.playAsset("./sounds/Zombie-sound.mp3");
+                }
                 if (this.flashlightBB && this.flashlightBB.collide(entity.BB)) {
                     //entity.isStunned = true;
                     entity.hP -= 1;
@@ -249,8 +245,9 @@ class Lyra {
                     console.log("is stunned");
                 }
                 if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
-                    ASSET_MANAGER.playAsset("./sounds/Zombie-sound.mp3");
+                    ASSET_MANAGER.playAsset("./sounds/zombie-attack.mp3");
                     this.health--;
+                    ASSET_MANAGER.playAsset("./sounds/heartbeat.mp3");
                     console.log("Lost hp");
                 }
                 
@@ -277,11 +274,11 @@ class Lyra {
 
             if (entity instanceof LeftDoor) {
                 if (this.BB && this.BB.collide(entity.BB)) {
-                    ASSET_MANAGER.playAsset("./sounds/Wooden-door-opening-sound-effect.mp3");
                     if ((entity.name == "kitchen" && this.firstKey == 1) || 
                                     (entity.name == "bedroomLeft" && this.firstKey == 1) || 
                                     (entity.name == "inner" && this.firstKey == 1)) 
                     {
+                        ASSET_MANAGER.playAsset("./sounds/Wooden-door-opening-sound-effect.mp3");
                         entity.removeFromWorld = true;
                         console.log("removed door")
                     }
@@ -290,6 +287,7 @@ class Lyra {
                                     (entity.name == "bedroomRight" && this.secondKey == 1) ||
                                     (entity.name == "mid" && this.secondKey == 1)) 
                     {                
+                        ASSET_MANAGER.playAsset("./sounds/Wooden-door-opening-sound-effect.mp3");
                         entity.removeFromWorld = true;
                         console.log("removed door")
                     }
@@ -298,6 +296,7 @@ class Lyra {
                                     (entity.name == "secondStairwell" && this.thirdKey == 1) ||
                                     (entity.name == "outer" && this.thirdKey == 1)) 
                     {
+                        ASSET_MANAGER.playAsset("./sounds/Wooden-door-opening-sound-effect.mp3");
                         entity.removeFromWorld = true;
                         this.win = true;
                         console.log("removed door")
@@ -307,12 +306,12 @@ class Lyra {
             }
 
             if (entity instanceof RightDoor) {
-                if (this.BB && this.BB.collide(entity.BB)) {
-                    ASSET_MANAGER.playAsset("./sounds/Wooden-door-opening-sound-effect.mp3");    
+                if (this.BB && this.BB.collide(entity.BB)) {    
                     if ((entity.name == "kitchen" && this.firstKey == 1) || 
                                     (entity.name == "bedroomLeft" && this.firstKey == 1) || 
                                     (entity.name == "inner" && this.firstKey == 1)) 
                     {
+                        ASSET_MANAGER.playAsset("./sounds/Wooden-door-opening-sound-effect.mp3");
                         entity.removeFromWorld = true;
                         console.log("removed door")
                     }
@@ -321,6 +320,7 @@ class Lyra {
                                     (entity.name == "bedroomRight" && this.secondKey == 1) ||
                                     (entity.name == "mid" && this.secondKey == 1)) 
                     {
+                        ASSET_MANAGER.playAsset("./sounds/Wooden-door-opening-sound-effect.mp3");
                         entity.removeFromWorld = true;
                         console.log("removed door")
                     }
@@ -329,6 +329,7 @@ class Lyra {
                                     (entity.name == "secondStairwell" && this.thirdKey == 1) ||
                                     (entity.name == "outer" && this.thirdKey == 1)) 
                     {
+                        ASSET_MANAGER.playAsset("./sounds/Wooden-door-opening-sound-effect.mp3");
                         entity.removeFromWorld = true;
                         this.win = true;
                         console.log("removed door")
