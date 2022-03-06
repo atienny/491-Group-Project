@@ -101,6 +101,9 @@ class SceneManager {
         this.witch = new Witch(this.game, 900, 225, [{x: 700, y: 225}, {x: 900, y: 225}], ASSET_MANAGER.getAsset("./sprites/witch.png"))
         this.game.addEntity(this.witch);
 
+        this.ghost = new Ghost(this.game, 1190, 650, [{x: 1190, y: 650}, {x: 1200, y: 650}], ASSET_MANAGER.getAsset("./sprites/ghost.png"))
+        this.game.addEntity(this.ghost);
+
         this.centerNorthFirePlace = new FirePlace(this.game, 1023, 10, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
         this.centerNorthFire = new Fire(this.game, 1055, 14, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
         this.game.addEntity(this.centerNorthFirePlace);

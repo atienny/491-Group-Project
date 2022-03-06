@@ -202,6 +202,18 @@ class Lyra {
                 
             }
 
+            if (entity instanceof Ghost) {
+                if (this.flashlightBB && this.flashlightBB.collide(entity.BB)) {
+                    entity.isStunned = true;
+                    console.log("is stunned");
+                }
+                if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
+                    this.health--;
+                    console.log("Lost hp");
+                }
+                
+            }
+
             if (entity instanceof Key) {
                 if (this.hitBB && this.hitBB.collide(entity.BB)) {
 
@@ -237,11 +249,6 @@ class Lyra {
                         console.log("removed door")
                     }
 
-<<<<<<< Atien's-Branch
-                    if ((entity.name == "front" && this.thirdKey == 1) || 
-                    (entity.name == "secondStairwell" && this.thirdKey == 1) ||
-                    (entity.name == "outer" && this.thirdKey == 1)) {
-=======
                     if ((entity.name == "front" && this.thirdKey == 1)) {
                         entity.removeFromWorld = true;
                         console.log("removed door")
@@ -249,7 +256,6 @@ class Lyra {
                     }
 
                     if ((entity.name == "secondStairwell" && this.thirdKey == 1)) {
->>>>>>> main
                         entity.removeFromWorld = true;
                         console.log("removed door")
                     }
@@ -274,19 +280,11 @@ class Lyra {
                         console.log("removed door")
                     }
 
-<<<<<<< Atien's-Branch
-                    if ((entity.name == "front" && this.thirdKey == 1) || 
-                    (entity.name == "secondStairwell" && this.thirdKey == 1) ||
-                    (entity.name == "outer" && this.thirdKey == 1)) {
-=======
                     if ((entity.name == "secondStairwell" && this.thirdKey == 1)) {
->>>>>>> main
                         entity.removeFromWorld = true;
                         console.log("removed door")
                     }
 
-<<<<<<< Atien's-Branch
-=======
                     if ((entity.name == "secondStairwell" && this.thirdKey == 1)) {
                         entity.removeFromWorld = true;
                         console.log("removed door")
@@ -314,7 +312,6 @@ class Lyra {
                     //     this.win = true;
                     // }
 
->>>>>>> main
                 }
             }
 
