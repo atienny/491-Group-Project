@@ -13,6 +13,7 @@ class GameEngine {
         this.action = false;
 
         this.gamepad = null;
+        this.mouse = null;
 
     };
 
