@@ -237,19 +237,9 @@ class Lyra {
                         console.log("removed door")
                     }
 
-<<<<<<< Atien's-Branch
                     if ((entity.name == "front" && this.thirdKey == 1) || 
                     (entity.name == "secondStairwell" && this.thirdKey == 1) ||
                     (entity.name == "outer" && this.thirdKey == 1)) {
-=======
-                    if ((entity.name == "front" && this.thirdKey == 1)) {
-                        entity.removeFromWorld = true;
-                        console.log("removed door")
-                        this.win = true;
-                    }
-
-                    if ((entity.name == "secondStairwell" && this.thirdKey == 1)) {
->>>>>>> main
                         entity.removeFromWorld = true;
                         this.win = true;
                         console.log("removed door")
@@ -275,48 +265,14 @@ class Lyra {
                         console.log("removed door")
                     }
 
-<<<<<<< Atien's-Branch
                     if ((entity.name == "front" && this.thirdKey == 1) || 
                     (entity.name == "secondStairwell" && this.thirdKey == 1) ||
                     (entity.name == "outer" && this.thirdKey == 1)) {
-=======
-                    if ((entity.name == "secondStairwell" && this.thirdKey == 1)) {
->>>>>>> main
                         entity.removeFromWorld = true;
                         this.win = true;
                         console.log("removed door")
                     }
 
-<<<<<<< Atien's-Branch
-=======
-                    if ((entity.name == "secondStairwell" && this.thirdKey == 1)) {
-                        entity.removeFromWorld = true;
-                        console.log("removed door")
-                    }
-
-
-                    // if (entity.name == "bedroomCenter" && this.thirdKey == 1) {
-                    //     entity.removeFromWorld = true;
-                    //     console.log("removed center left")
-                    // }
-
-                    // if (entity.name == "bedroomLeft" && this.fourthKey == 1) {
-                    //     entity.removeFromWorld = true;
-                    //     console.log("removed center left")
-                    // }
-
-                    // if (entity.name == "bedroomRight" && this.fifthKey == 1) {
-                    //     entity.removeFromWorld = true;
-                    //     console.log("removed center left")
-                    // }
-
-                    // if (entity.name == "front" && this.sixthKey == 1) {
-                    //     entity.removeFromWorld = true;
-                    //     console.log("removed front left")
-                    //     this.win = true;
-                    // }
-
->>>>>>> main
                 }
             }
 
