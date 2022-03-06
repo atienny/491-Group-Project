@@ -14,6 +14,7 @@ class SceneManager {
         this.transition = false;
 
         this.level = 1;
+
         this.loadLevel(this.level, this.transition, this.title);
     };
 
@@ -165,9 +166,9 @@ class SceneManager {
         this.loadLayer(levelTwo.extra);
         this.loadLayer(levelTwo.misc);
 
-        this.bedroomLeftTwo = new RightDoor(this.game, 139, 416, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "bedroomLeft");
-        this.bedroomRightTwo = new RightDoor(this.game, 1547, 416, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "bedroomRight");
-        this.stairTwo = new RightDoor(this.game, 1259, 640, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "secondStairwell");
+        this.bedroomLeftTwo = new RightDoor(this.game, 139, 416, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "bedroomLeft", true);
+        this.bedroomRightTwo = new RightDoor(this.game, 1547, 416, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "bedroomRight", true);
+        this.stairTwo = new RightDoor(this.game, 1259, 640, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "secondStairwell", true);
         
         this.game.addEntity(this.bedroomLeftTwo);
         this.game.addEntity(this.bedroomRightTwo);
@@ -311,21 +312,69 @@ class SceneManager {
     loadLevelThree() {
 
         this.loadLayer(levelThree.floor);
+        this.loadLayer(levelThree.wall_btm);
 
-        this.lyra = new Lyra(this.game, 560, 150, ASSET_MANAGER.getAsset("./sprites/character.png"));
+        this.stairDown = new StairsTwotoOne(this.game, 384, 64, ASSET_MANAGER.getAsset("./sprites/stairs.png"), true);
+        this.game.addEntity(this.stairDown);
+
+        this.loadLayer(levelThree.furniture_btm);
+
+        this.outerDoorLeft = new LeftDoor(this.game, 256, 96, ASSET_MANAGER.getAsset("./sprites/door1.png"), "outer", true);
+        this.outerDoorRight = new RightDoor(this.game, 299, 96, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "outer", true);
+
+        this.game.addEntity(this.outerDoorLeft);
+        this.game.addEntity(this.outerDoorRight);
+
+        this.zombieOne = new Zombie(this.game, 300, 276, [{x: 300, y: 276}, {x: 700, y: 276}], ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
+        this.zombieTwo = new Zombie(this.game, 96, 192, [{x: 96, y: 192}, {x: 96, y: 796}], ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
+        this.zombieThree = new Zombie(this.game, 860, 192, [{x: 860, y: 192}, {x: 860, y: 796}], ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
+
+        this.game.addEntity(this.zombieOne);
+        this.game.addEntity(this.zombieTwo);
+        this.game.addEntity(this.zombieThree);
+
+        this.lyra = new Lyra(this.game, 464, 500, ASSET_MANAGER.getAsset("./sprites/character.png"));
+        // this.lyra = new Lyra(this.game, 464, 100, ASSET_MANAGER.getAsset("./sprites/character.png"));
         this.game.addEntity(this.lyra);
+
+        this.loadLayer(levelThree.wall_top);
+
+        this.firstKey = new Key(this.game, 502, 450, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        this.secondKey = new Key(this.game, 246, 275, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        this.thirdKey = new Key(this.game, 320, 840, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+
+        this.game.addEntity(this.firstKey);
+        this.game.addEntity(this.secondKey);
+        this.game.addEntity(this.thirdKey);
+
+        this.innerDoorLeft = new LeftDoor(this.game, 513, 640, ASSET_MANAGER.getAsset("./sprites/door1.png"), "inner", true);
+        this.innerDoorRight = new RightDoor(this.game, 556, 640, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "inner", true);
+        this.midDoorLeft = new LeftDoor(this.game, 385, 768, ASSET_MANAGER.getAsset("./sprites/door1.png"), "mid", true);
+        this.midDoorRight = new RightDoor(this.game, 428, 768, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "mid", true);
+
+
+        this.game.addEntity(this.innerDoorLeft);
+        this.game.addEntity(this.innerDoorRight);
+        this.game.addEntity(this.midDoorLeft);
+        this.game.addEntity(this.midDoorRight);
+ 
 
     }
 
     update() {
 
-        // if (this.game.changeLevel && this.level == 1) {
-        //     this.clearEntities();
-        //     this.level += 1;
-        //     this.loadLevelTwo();
-
-        //     console.log(this.level);
-        // } else 
+        if (this.game.changeLevel && this.level == 3) {
+            this.clearEntities();
+            this.level -= 1;
+            this.loadLevelTwo();
+            console.log(this.level);
+        } else if (this.game.changeLevel && this.level == 2) {
+            this.clearEntities();
+            this.level -= 1;
+            this.loadLevelOne();
+            console.log(this.level);
+        } 
+      
         if (this.title && this.game.click) {
             if (this.game.mouse && this.game.mouse.y > 490 && this.game.mouse.y < 500) {
                 this.title = false;
@@ -337,12 +386,6 @@ class SceneManager {
                 ctx.fillText("Created by: \n Atien Ny \n Bryce Meadors \n  Ryan Trepanier \n Drew White");
             }
         }
-        if (this.game.changeLevel && this.level == 2) {
-            this.clearEntities();
-            this.level -= 1;
-            this.loadLevelOne();
-            console.log(this.level);
-        } 
 
         PARAMS.DEBUG = document.getElementById("debug").checked;
         let midpoint = { x : PARAMS.CANVAS_WIDTH / 2 - PARAMS.BLOCKWIDTH / 2, y : PARAMS.CANVAS_HEIGHT / 2 - PARAMS.BLOCKWIDTH / 2 };
@@ -408,9 +451,11 @@ class SceneManager {
     //no hp, loss message
     if (this.lyra.health == 0) {
         this.gameOver = true;
+
         this.lyra.win = false;
         this.clearEntities();
         this.game.addEntity(new TransitionScreen(this.game, this.level, this.gameOver, this.lyra.win));
+
     }        
 
     if (this.lyra.win == true) {

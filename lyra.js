@@ -33,31 +33,6 @@ class Lyra {
     };
 
     loadAnimations() {
-        // for (let i = 0; i < 4; i++) { // 2 states
-        //     this.animations.push([]);
-        //     for (let j = 0; j < 4; j++) { // 4 facings
-        //         this.animations[i].push([]);
-        //     }  
-        // }
-
-        // // idle animation w/o torch
-        // this.animations[0][0] = new Animator(this.spritesheet, 0, 0, 32, 32, 4, 0.75, false, true);
-        // this.animations[0][1] = new Animator(this.spritesheet, 0, 94, 32, 32, 1, 0.75, false, true);
-
-        // // idle animation w/ torch
-        // this.animations[2][0] = new Animator(this.spritesheet, 0, 156, 32, 32, 4, 0.75, false, true);
-
-        // // walking animation w/o torch
-        // this.animations[1][0] = new Animator(this.spritesheet, 0, 32, 32, 32, 4, 0.25, false, true);
-        // this.animations[1][1] = new Animator(this.spritesheet, 0, 94, 32, 32, 4, 0.25, false, true);
-        // this.animations[1][2] = new Animator(this.spritesheet, 0, 63, 32, 32, 4, 0.25, false, true);
-        // this.animations[1][3] = new Animator(this.spritesheet, 0, 125, 32, 32, 4, 0.25, false, true);
-
-        // // walking animation w/ torch
-        // this.animations[3][0] = new Animator(this.spritesheet, 0, 187, 32, 32, 4, 0.25, false, true);
-        // this.animations[3][1] = new Animator(this.spritesheet, 0, 249, 32, 32, 4, 0.25, false, true);
-        // this.animations[3][2] = new Animator(this.spritesheet, 0, 280, 32, 32, 4, 0.25, false, true);
-        // this.animations[3][3] = new Animator(this.spritesheet, 0, 218, 32, 32, 4, 0.25, false, true);
 
         this.animations.push([], [], [], []);
 
@@ -248,16 +223,25 @@ class Lyra {
             if (entity instanceof LeftDoor) {
                 if (this.BB && this.BB.collide(entity.BB)) {
 
-                    if ((entity.name == "kitchen" && this.firstKey == 1) || (entity.name == "bedroomLeft" && this.firstKey == 1)) {
+                    if ((entity.name == "kitchen" && this.firstKey == 1) || 
+                    (entity.name == "bedroomLeft" && this.firstKey == 1) || 
+                    (entity.name == "inner" && this.firstKey == 1)) {
                         entity.removeFromWorld = true;
                         console.log("removed door")
                     }
 
-                    if ((entity.name == "center" && this.firstKey == 1) || (entity.name == "bedroomRight" && this.secondKey == 1)) {
+                    if ((entity.name == "center" && this.secondKey == 1) || 
+                    (entity.name == "bedroomRight" && this.secondKey == 1) ||
+                    (entity.name == "mid" && this.secondKey == 1)) {
                         entity.removeFromWorld = true;
                         console.log("removed door")
                     }
 
+<<<<<<< Atien's-Branch
+                    if ((entity.name == "front" && this.thirdKey == 1) || 
+                    (entity.name == "secondStairwell" && this.thirdKey == 1) ||
+                    (entity.name == "outer" && this.thirdKey == 1)) {
+=======
                     if ((entity.name == "front" && this.thirdKey == 1)) {
                         entity.removeFromWorld = true;
                         console.log("removed door")
@@ -265,25 +249,10 @@ class Lyra {
                     }
 
                     if ((entity.name == "secondStairwell" && this.thirdKey == 1)) {
+>>>>>>> main
                         entity.removeFromWorld = true;
                         console.log("removed door")
                     }
-
-                    // if (entity.name == "bedroomLeft" && this.fourthKey == 1) {
-                    //     entity.removeFromWorld = true;
-                    //     console.log("removed center left")
-                    // }
-
-                    // if (entity.name == "bedroomRight" && this.fifthKey == 1) {
-                    //     entity.removeFromWorld = true;
-                    //     console.log("removed center left")
-                    // }
-
-                    // if (entity.name == "front" && this.sixthKey == 1) {
-                    //     entity.removeFromWorld = true;
-                    //     console.log("removed front left")
-                    //     this.win = true;
-                    // }
 
                 }
             }
@@ -291,21 +260,33 @@ class Lyra {
             if (entity instanceof RightDoor) {
                 if (this.BB && this.BB.collide(entity.BB)) {
                     
-                    if ((entity.name == "kitchen" && this.firstKey == 1) || (entity.name == "bedroomLeft" && this.firstKey == 1)) {
+                    if ((entity.name == "kitchen" && this.firstKey == 1) || 
+                    (entity.name == "bedroomLeft" && this.firstKey == 1) || 
+                    (entity.name == "inner" && this.firstKey == 1)) {
                         entity.removeFromWorld = true;
                         console.log("removed door")
                     }
 
-                    if ((entity.name == "center" && this.firstKey == 1) || (entity.name == "bedroomRight" && this.secondKey == 1)) {
+                    if ((entity.name == "center" && this.secondKey == 1) || 
+                    (entity.name == "bedroomRight" && this.secondKey == 1) ||
+                    (entity.name == "mid" && this.secondKey == 1)) {
                         entity.removeFromWorld = true;
                         console.log("removed door")
                     }
 
+<<<<<<< Atien's-Branch
+                    if ((entity.name == "front" && this.thirdKey == 1) || 
+                    (entity.name == "secondStairwell" && this.thirdKey == 1) ||
+                    (entity.name == "outer" && this.thirdKey == 1)) {
+=======
                     if ((entity.name == "secondStairwell" && this.thirdKey == 1)) {
+>>>>>>> main
                         entity.removeFromWorld = true;
                         console.log("removed door")
                     }
 
+<<<<<<< Atien's-Branch
+=======
                     if ((entity.name == "secondStairwell" && this.thirdKey == 1)) {
                         entity.removeFromWorld = true;
                         console.log("removed door")
@@ -333,6 +314,7 @@ class Lyra {
                     //     this.win = true;
                     // }
 
+>>>>>>> main
                 }
             }
 
@@ -343,9 +325,6 @@ class Lyra {
                     console.log("stairs");
                 }
 
-                //     console.log("Collide");
-
-                // }
             }
 
         });
