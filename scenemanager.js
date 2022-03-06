@@ -1,5 +1,5 @@
 class SceneManager {
-    constructor(game) {
+    constructor(game, gameOver) {
         this.game = game;
         this.game.camera = this;
         this.x = 0;
@@ -9,12 +9,11 @@ class SceneManager {
         this.zombie = {x: 0, y: 0};
         this.witch = {x: 0, y: 0};
 
-        this.gameOver = false;
-        this.title = true;
-        // this.transition = false;
+        this.gameOver = gameOver;
+        this.title = false;
+        this.transition = false;
 
         this.level = 1;
-
         this.loadLevel(this.level, this.transition, this.title);
     };
 
@@ -32,19 +31,19 @@ class SceneManager {
 
         switch(this.level) {
             case 1: 
-                if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
+                if (transition) this.game.addEntity(new TransitionScreen(this.game, level, this.gameOver, this.lyra.win));
                 else {
                     this.loadLevelOne(); 
                 };
                 break;
             case 2: 
-                if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
+                if (transition) this.game.addEntity(new TransitionScreen(this.game, level, this.gameOver, this.lyra.win));
                 else {
                     this.loadLevelTwo();
                 };
                 break;
             case 3: 
-                if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
+                if (transition) this.game.addEntity(new TransitionScreen(this.game, level, this.gameOver, this.lyra.win));
                 else {
                     this.loadLevelThree();
                 };
@@ -327,7 +326,17 @@ class SceneManager {
 
         //     console.log(this.level);
         // } else 
-
+        if (this.title && this.game.click) {
+            if (this.game.mouse && this.game.mouse.y > 490 && this.game.mouse.y < 500) {
+                this.title = false;
+                this.loadLevel(this.level, this.transition, this.title);
+            }
+            if (this.game.mouse && this.game.mouse.y > 540 && this.game.mouse.y < 550) {
+                this.title = false;
+                ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/title.png"), 0, 0, 700, 700);
+                ctx.fillText("Created by: \n Atien Ny \n Bryce Meadors \n  Ryan Trepanier \n Drew White");
+            }
+        }
         if (this.game.changeLevel && this.level == 2) {
             this.clearEntities();
             this.level -= 1;
@@ -342,6 +351,33 @@ class SceneManager {
     };
 
     draw(ctx) {
+    ctx.font = PARAMS.BLOCKWIDTH * 1.5 + 'px "Press Start 2p"';
+    if (this.title) {
+        ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/title.png"), 0, 0, 700, 700);
+
+        
+        ctx.fillText("LUMIN", 275, 400);
+
+        ctx.font = PARAMS.BLOCKWIDTH * 0.75 + 'px "Press Start 2p"';
+        if (this.game.mouse && this.game.mouse.y > 490 && this.game.mouse.y < 500) {
+            ctx.fillStyle = "Red";
+            ctx.fillText("Start", 325, 500);
+        } else {
+            ctx.fillStyle = "White";
+            ctx.fillText("Start", 325, 500);
+        }
+        if (this.game.mouse && this.game.mouse.y > 540 && this.game.mouse.y < 550) {
+            ctx.fillStyle = "Red";
+            ctx.fillText("Credits", 325, 550);
+        } else {
+            ctx.fillStyle = "White";
+            ctx.fillText("Credits", 325, 550);
+        }
+
+        ctx.font = PARAMS.BLOCKWIDTH * 0.75 + 'px "Press Start 2p"';
+        ctx.fillStyle = this.game.mouse && this.game.mouse.y > 17.5 * PARAMS.BLOCKWIDTH && this.game.mouse.y < 18.5 * PARAMS.BLOCKWIDTH ? "Grey" : "White";
+        ctx.fillText("Credits", 325, 550);
+    } else {
 
     //hud
     if (this.gameOver == false) {
@@ -372,18 +408,15 @@ class SceneManager {
     //no hp, loss message
     if (this.lyra.health == 0) {
         this.gameOver = true;
-        this.transition = true;
-    
-        // if(this.gameOver == true){
-        //     ctx.font = PARAMS.BLOCKWIDTH + 'px "Press Start 2P"';
-        //     ctx.fillText("YOU DIED!", 16 * PARAMS.BLOCKWIDTH, 10*PARAMS.BLOCKWIDTH);
-        // }
+        this.lyra.win = false;
+        this.clearEntities();
+        this.game.addEntity(new TransitionScreen(this.game, this.level, this.gameOver, this.lyra.win));
     }        
 
-    if (this.lyra.win == true){
+    if (this.lyra.win == true) {
         this.gameOver = true;
-        this.transition = true;
-        this.game.addEntity(new TransitionScreen(this.game, this.gameOver, 1));
+        this.clearEntities();
+        this.game.addEntity(new TransitionScreen(this.game, this.level, this.gameOver, this.lyra.win));
     }
 
     this.batterySpritesheet = ASSET_MANAGER.getAsset("./sprites/battery_life.png");
@@ -432,7 +465,7 @@ class SceneManager {
         ctx.drawImage(this.batterySpritesheet, 58, 41, 238, 94, 10, 10, 100, 50);
     }
     }
-
+    }
     };
 
     loadLayer(property) {
