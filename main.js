@@ -9,7 +9,7 @@ ASSET_MANAGER.queueDownload("./sprites/battery_life.png");
 ASSET_MANAGER.queueDownload("./sprites/health_bar.png");
 ASSET_MANAGER.queueDownload("./sprites/frame_light.png");
 ASSET_MANAGER.queueDownload("./sprites/frame_no_light.png");
-
+ASSET_MANAGER.queueDownload("./sprites/title.png");
 ASSET_MANAGER.queueDownload("./sprites/fireplace.png");
 ASSET_MANAGER.queueDownload("./sprites/door1.png");
 ASSET_MANAGER.queueDownload("./sprites/masterKey.png");
