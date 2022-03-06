@@ -12,8 +12,8 @@ class GameEngine {
         this.down = false;
         this.action = false;
 
-        this.gamepad = null;
         this.mouse = null;
+        this.click = null;
 
     };
 
@@ -92,12 +92,18 @@ class GameEngine {
             }
         }, false);
 
-        // let getXandY = function (e) {
-        //     let x = e.clientX - that.ctx.canvas.getBoundingClientRect().left;
-        //     let y = e.clientY - that.ctx.canvas.getBoundingClientRect().top;
+        const getXandY = e => ({
+            x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
+            y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
+        });
 
-        //     return { x: x, y: y };
-        // }
+        this.ctx.canvas.addEventListener("click", e => {
+            this.click = getXandY(e);
+        });
+
+        this.ctx.canvas.addEventListener("mousemove", e => {
+            this.mouse = getXandY(e);
+        });
 
     };
 
