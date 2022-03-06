@@ -13,7 +13,7 @@ class SceneManager {
         this.title = false;
         this.transition = false;
 
-        this.level = 1;
+        this.level = 3;
 
         this.loadLevel(this.level, this.transition, this.title);
     };
@@ -141,13 +141,15 @@ class SceneManager {
         this.game.addEntity(this.diningCandleThree);
         this.game.addEntity(this.diningCandleFour);
 
-        // this.firstkey = new Key(this.game, 1580, 440, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
-        // this.secondkey = new Key(this.game, 370, 217, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
-        // this.thirdkey = new Key(this.game, 660, 70, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        // Normal Key locations
+        this.firstkey = new Key(this.game, 1580, 440, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        this.secondkey = new Key(this.game, 370, 217, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        this.thirdkey = new Key(this.game, 660, 70, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
 
-        this.firstkey = new Key(this.game, 1170, 650, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
-        this.secondkey = new Key(this.game, 1170, 650, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
-        this.thirdkey = new Key(this.game, 1170, 650, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        // Testing Key locations
+        // this.firstkey = new Key(this.game, 1170, 650, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        // this.secondkey = new Key(this.game, 1170, 650, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        // this.thirdkey = new Key(this.game, 1170, 650, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
 
         this.game.addEntity(this.firstkey);
         this.game.addEntity(this.secondkey);
