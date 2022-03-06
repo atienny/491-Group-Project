@@ -13,7 +13,7 @@ class SceneManager {
         this.title = false;
         this.transition = false;
 
-        this.level = 2;
+        this.level = 3;
 
         this.loadLevel(this.level, this.transition, this.title);
     };
