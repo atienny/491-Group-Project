@@ -1,22 +1,28 @@
 class Witch {
-
     constructor(game, x, y, path, spritesheet) {
+
         Object.assign(this, {game, x, y, path, spritesheet});
         this.facing = [0]; // down = 0, up = 1, right = 2, left = 3
-        this.state = [0]; // idle = 0, walking = 1, attacking = 2
+        this.state = [0]; // idle = 0, walking = 1, attacking = 2, death = 3
         this.speed = 25;
         this.targetID = 0;
         if (this.path && this.path[this.targetID]) this.target = this.path[this.targetID];
 
         var dist = distance(this, this.target);
         this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
+        
         this.elapsedTime = 0;
         this.respawnTimer = 0;
         this.respawnTime = 15;
         this.waitingToRespawn = false;
         this.isStunned = false;
+
+        this.stunTimer = 0;
+        this.stunTimerMax = 5;
+        this.isStunned = false;
+        this.waitingToUnstun = false;
+
         this.visualRadius = 200;
-        this.hP = 500;
         this.animations = [];
         this.state = 1;
         this.updateBB();
@@ -25,26 +31,29 @@ class Witch {
 
     reset() {
         this.facing = [0]; // down = 0, up = 1, right = 2, left = 3
-        this.state = [0]; // idle = 0, walking = 1, attacking = 2
+        this.state = [0]; // idle = 0, walking = 1, attacking = 2, death = 3
         this.speed = 25;
         this.targetID = 0;
         if (this.path && this.path[this.targetID]) this.target = this.path[this.targetID];
 
         var dist = distance(this, this.target);
         this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
+        
         this.elapsedTime = 0;
-        this.respawnTimer = 0;
-        this.respawnTime = 15;
-        this.waitingToRespawn = false;
+
+        this.stunTimer = 0;
+        this.stunTimerMax = 5;
+        this.isStunned = false;
+        this.waitingToUnstun = false;
+
         this.visualRadius = 200;
-        this.hP = 500;
         this.animations = [];
         this.isStunned = false;
         this.state = 1;
         this.updateBB();
         this.loadAnimations();
         this.update();
-    }
+    };
 
     loadAnimations() {
         for (let i = 0; i < 4; i++) { // 4 states
@@ -66,17 +75,11 @@ class Witch {
         this.animations[1][2] = new Animator(this.spritesheet, 0, 709, 64, 59, 9, 0.1, false, true);
         this.animations[1][3] = new Animator(this.spritesheet, 0, 581, 64, 59, 9, 0.1, false, true);
 
-        //  distance attacking animation
-        // this.animations[2][0] = new Animator(this.spritesheet, 0, 133, 64, 59, 7, 0.20, false, true);
-        // this.animations[2][1] = new Animator(this.spritesheet, 0, 4, 64, 59, 7, 0.20, false, true);
-        // this.animations[2][2] = new Animator(this.spritesheet, 0, 197, 64, 60, 7, 0.20, false, true);
-        // this.animations[2][3] = new Animator(this.spritesheet, 0, 64, 64, 64, 7, 0.20, false, true);
-
-        // melee attack animation
-        this.animations[2][0] = new Animator(this.spritesheet, 0, 389, 64, 59, 8, 0.20, false, true);
-        this.animations[2][1] = new Animator(this.spritesheet, 0, 262, 64, 59, 8, 0.20, false, true);
-        this.animations[2][2] = new Animator(this.spritesheet, 0, 453, 64, 60, 8, 0.20, false, true);
-        this.animations[2][3] = new Animator(this.spritesheet, 0, 325, 64, 64, 8, 0.20, false, true);
+        // attacking animation
+        this.animations[2][0] = new Animator(this.spritesheet, 0, 133, 64, 59, 7, 0.20, false, true);
+        this.animations[2][1] = new Animator(this.spritesheet, 0, 4, 64, 59, 7, 0.20, false, true);
+        this.animations[2][2] = new Animator(this.spritesheet, 0, 197, 64, 60, 7, 0.20, false, true);
+        this.animations[2][3] = new Animator(this.spritesheet, 0, 64, 64, 64, 7, 0.20, false, true);
 
         // death animation
         this.animations[3][0] = new Animator(this.spritesheet, 0, 1286, 64, 59, 13, 0.2, false, false);
@@ -85,14 +88,23 @@ class Witch {
 
     update() {
         this.elapsedTime += this.game.clockTick;
+        // if (this.waitingToRespawn) {
+        //     this.respawnTimer += this.game.clockTick;
+        //     if (this.respawnTimer >= this.respawnTime) {
+        //         console.log("Respawn Witch");
+        //         this.reset();
+        //     }
+        // }
 
-        if (this.waitingToRespawn) {
-            this.respawnTimer += this.game.clockTick;
-            if (this.respawnTimer >= this.respawnTime) {
-                console.log("Respawn Witch");
+        //
+        if (this.waitingToUnstun) {
+            this.stunTimer += this.game.clockTick;
+            if (this.stunTimer >= this.stunTimerMax) {
+                console.log("Enemy unstunned");
                 this.reset();
             }
         }
+        //
 
         var dist = distance(this, this.target);
         this.getFacing();
@@ -143,7 +155,7 @@ class Witch {
             }
         }
         
-        if (this.state !== 2 && this.state !== 3 && !(this.isStunned)) {
+        if (this.state !== 0 && this.state !== 2 && this.state !== 3) {
             dist = distance(this, this.target);
             this.getFacing();
             this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
@@ -151,10 +163,23 @@ class Witch {
             this.y += this.velocity.y * this.game.clockTick;
         }
 
-        if (this.hP <= 0) {
-            this.state = 3;
-            this.waitingToRespawn = true;
+        //
+        if (this.isStunned == true) {
+            this.state = 0;
+            this.velocity = {x:0, y:0};
+            this.waitingToUnstun = true;
         }
+
+        if (this.state == 0) {
+            this.velocity = {x:0, y:0};
+        }
+        //
+
+        
+        // if (this.isStunned && this.hP <= 0) {
+        //     this.state = 3;
+        //     this.waitingToRespawn = true;
+        // }
         
         this.getFacing();
 
@@ -187,13 +212,7 @@ class Witch {
 
 
     collide(ent) {
-        if (this.facing[0] == 3) {
-            return (distance(this, ent) < (this.visualRadius / 4));
-        } else if (this.facing[0] == 1) {
-            return (distance(this, ent) < (this.visualRadius / 4));
-        } else {
-            return (distance(this, ent) < (this.visualRadius / 10));
-        }
+        return (distance(this, ent) < (this.visualRadius / 2));
     };
 
     getFacing() {

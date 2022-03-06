@@ -10,16 +10,17 @@ class Zombie {
 
         var dist = distance(this, this.target);
         this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
+        
         this.elapsedTime = 0;
+
+        this.stunTimer = 0;
+        this.stunTimerMax = 5;
+        this.isStunned = false;
+        this.waitingToUnstun = false;
+
         this.visualRadius = 75;
         this.animations = [];
         this.state = 1;
-        this.hP = 250;
-        this.waitingToRespawn = false;
-        this.isStunned = false;
-        this.respawnTime = 15;
-        this.respawnTimer = 0;
-
         this.updateBB();
         this.loadAnimations();
     };
@@ -33,12 +34,15 @@ class Zombie {
 
         var dist = distance(this, this.target);
         this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
+        
         this.elapsedTime = 0;
-        this.respawnTimer = 0;
-        this.respawnTime = 15;
-        this.waitingToRespawn = false;
-        this.visualRadius = 200;
-        this.hP = 250;
+
+        this.stunTimer = 0;
+        this.stunTimerMax = 5;
+        this.isStunned = false;
+        this.waitingToUnstun = false;
+
+        this.visualRadius = 75;
         this.animations = [];
         this.isStunned = false;
         this.state = 1;
@@ -67,17 +71,11 @@ class Zombie {
         this.animations[1][2] = new Animator(this.spritesheet, 0, 709, 64, 59, 9, 0.1, false, true);
         this.animations[1][3] = new Animator(this.spritesheet, 0, 581, 64, 59, 9, 0.1, false, true);
 
-        // distance attacking animation
-        // this.animations[2][0] = new Animator(this.spritesheet, 0, 133, 64, 59, 7, 0.20, false, true);
-        // this.animations[2][1] = new Animator(this.spritesheet, 0, 4, 64, 60, 7, 0.20, false, true);
-        // this.animations[2][2] = new Animator(this.spritesheet, 0, 197, 64, 60, 7, 0.20, false, true);
-        // this.animations[2][3] = new Animator(this.spritesheet, 0, 64, 64, 64, 7, 0.20, false, true);
-
-        // melee attack
-        this.animations[2][0] = new Animator(this.spritesheet, 0, 901, 64, 59, 6, 0.20, false, true);
-        this.animations[2][1] = new Animator(this.spritesheet, 0, 773, 64, 60, 6, 0.20, false, true);
-        this.animations[2][2] = new Animator(this.spritesheet, 0, 965, 64, 60, 6, 0.20, false, true);
-        this.animations[2][3] = new Animator(this.spritesheet, 0, 837, 64, 64, 6, 0.20, false, true);
+        // attacking animation
+        this.animations[2][0] = new Animator(this.spritesheet, 0, 133, 64, 59, 7, 0.20, false, true);
+        this.animations[2][1] = new Animator(this.spritesheet, 0, 4, 64, 60, 7, 0.20, false, true);
+        this.animations[2][2] = new Animator(this.spritesheet, 0, 197, 64, 60, 7, 0.20, false, true);
+        this.animations[2][3] = new Animator(this.spritesheet, 0, 64, 64, 64, 7, 0.20, false, true);
 
         // death animation
         this.animations[3][0] = new Animator(this.spritesheet, 0, 1286, 64, 59, 6, 0.2, false, false);
@@ -86,10 +84,18 @@ class Zombie {
 
     update() {
         this.elapsedTime += this.game.clockTick;
-        if (this.waitingToRespawn) {
-            this.respawnTimer += this.game.clockTick;
-            if (this.respawnTimer >= this.respawnTime) {
-                console.log("Respawn Zombie");
+        // if (this.waitingToRespawn) {
+        //     this.respawnTimer += this.game.clockTick;
+        //     if (this.respawnTimer >= this.respawnTime) {
+        //         console.log("Respawn Zombie");
+        //         this.reset();
+        //     }
+        // }
+
+        if (this.waitingToUnstun) {
+            this.stunTimer += this.game.clockTick;
+            if (this.stunTimer >= this.stunTimerMax) {
+                console.log("Enemy unstunned");
                 this.reset();
             }
         }
@@ -129,7 +135,7 @@ class Zombie {
                     //ent.hitpoints -= 8;   
                     //this.elapsedTime = 0;
                 }
-                this.target = ent;
+                // this.target = ent;
                 this.getFacing();
                 
             }
@@ -142,7 +148,7 @@ class Zombie {
             }
         }
 
-        if (this.state !== 2 && this.state !== 3 && this.isStunned == false) {
+        if (this.state !== 0 && this.state !== 2 && this.state !== 3) {
             dist = distance(this, this.target);
             this.getFacing();
             this.velocity = {x: (this.target.x - this.x) / dist * this.speed, y: (this.target.y - this.y) / dist * this.speed};
@@ -150,11 +156,19 @@ class Zombie {
             this.y += this.velocity.y * this.game.clockTick;
         }
 
-        if (this.hP <= 0) {
-            this.state = 3;
-            this.waitingToRespawn = true;
-        }
         
+//
+        if (this.isStunned == true) {
+            this.state = 0;
+            this.velocity = {x:0, y:0};
+            this.waitingToUnstun = true;
+        }
+
+        if (this.state == 0) {
+            this.velocity = {x:0, y:0};
+        }  
+//
+
         this.getFacing();
         // this.updateBB();
 
@@ -179,16 +193,13 @@ class Zombie {
                 }
             }
         }
+
+        this.getFacing();
+        this.updateBB();
     };
 
     collide(ent) {
-        if (this.facing[0] == 3) {
-            return (distance(this, ent) < (this.visualRadius / 4));
-        } else if (this.facing[0] == 1) {
-            return (distance(this, ent) < (this.visualRadius / 4));
-        } else {
-            return (distance(this, ent) < (this.visualRadius / 10));
-        }
+        return (distance(this, ent) < (this.visualRadius / 2));
     };
 
     getFacing() {
