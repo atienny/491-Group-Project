@@ -15,7 +15,7 @@ class Lyra {
         this.fifthKey = 0;
         this.sixthKey = 0;
 
-        this.health = 300;
+        this.health = 600;
         this.win = false;
 
         this.flashlightTimer = 5;
