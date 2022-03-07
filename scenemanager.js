@@ -154,7 +154,14 @@ class SceneManager {
         this.game.addEntity(this.secondkey);
         this.game.addEntity(this.thirdkey);
 
-    }
+        if (!this.title) {  // level.music was taken out as all levels have music
+            ASSET_MANAGER.pauseBackgroundMusic();
+            ASSET_MANAGER.playAsset(levelOne.music);
+            ASSET_MANAGER.playAsset(levelOne.music2);
+            ASSET_MANAGER.playAsset(levelOne.music3);
+        }
+
+    };
 
     loadLevelTwo() {
 
@@ -191,7 +198,7 @@ class SceneManager {
         
         
         this.bedroomLeftOne = new LeftDoor(this.game, 96, 416, ASSET_MANAGER.getAsset("./sprites/door1.png"), "bedroomLeft", true);
-        this.bedroomRightOne = new LeftDoor(this.game, 1504, 416, ASSET_MANAGER.getAsset("./sprites/door1.png"), "bedroomRight", true);
+        this.bedroomRightOne = new LeftDoor(this.game, 1504, 416, ASSET_MANAGER.getAsset("./sprites/door1.png"), "bedroomRight", false);
         this.stairOne = new LeftDoor(this.game, 1216, 640, ASSET_MANAGER.getAsset("./sprites/door1.png"), "secondStairwell", true);
         
         this.game.addEntity(this.bedroomLeftOne);
@@ -303,6 +310,13 @@ class SceneManager {
         this.game.addEntity(this.secondKey);
         this.game.addEntity(this.thirdKey);
     
+        if (!this.title) {  
+            ASSET_MANAGER.pauseBackgroundMusic();
+            ASSET_MANAGER.playAsset(levelTwo.music);
+            ASSET_MANAGER.playAsset(levelTwo.music2);
+            ASSET_MANAGER.playAsset(levelTwo.music3);
+        }
+
     }
 
     loadLevelThree() {
@@ -354,10 +368,26 @@ class SceneManager {
         this.game.addEntity(this.midDoorLeft);
         this.game.addEntity(this.midDoorRight);
  
+        if (!this.title) { 
+            ASSET_MANAGER.pauseBackgroundMusic();
+            ASSET_MANAGER.playAsset(levelThree.music);
+            ASSET_MANAGER.playAsset(levelThree.music2);
+            ASSET_MANAGER.playAsset(levelThree.music3);
+        }
 
-    }
+    };
+
+    updateAudio() {
+        var mute = document.getElementById("mute").checked;
+        var volume = document.getElementById("volume").value;
+
+        ASSET_MANAGER.muteAudio(mute);
+        ASSET_MANAGER.adjustVolume(volume);
+    };
 
     update() {
+
+        this.updateAudio();
 
         if (this.title && this.game.click) {
             if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 375) && (this.game.mouse.y > 485 && this.game.mouse.y < 505)) {
