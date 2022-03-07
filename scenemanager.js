@@ -430,8 +430,8 @@ class SceneManager {
         if (this.title) {
             ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/title.png"), 0, 0, 700, 700);
             
-            ctx.fillText("LUMIN", 275, 400);
             ctx.fillStyle = "White";
+            ctx.fillText("LUMIN", 275, 400);
     
             ctx.font = PARAMS.BLOCKWIDTH * 0.75 + 'px "Press Start 2p"';
             if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 375) && (this.game.mouse.y > 485 && this.game.mouse.y < 505)) {
