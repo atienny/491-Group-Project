@@ -241,6 +241,11 @@ class Lyra {
                     (entity.name == "secondStairwell" && this.thirdKey == 1) ||
                     (entity.name == "outer" && this.thirdKey == 1)) {
                         entity.removeFromWorld = true;
+                        console.log("removed door")
+                    }
+                    
+                    if ((entity.name == "front" && this.thirdKey == 1)) {
+                        entity.removeFromWorld = true;
                         this.win = true;
                         console.log("removed door")
                     }
@@ -268,6 +273,11 @@ class Lyra {
                     if ((entity.name == "front" && this.thirdKey == 1) || 
                     (entity.name == "secondStairwell" && this.thirdKey == 1) ||
                     (entity.name == "outer" && this.thirdKey == 1)) {
+                        entity.removeFromWorld = true;
+                        console.log("removed door")
+                    }
+                    
+                    if ((entity.name == "front" && this.thirdKey == 1)) {
                         entity.removeFromWorld = true;
                         this.win = true;
                         console.log("removed door")
