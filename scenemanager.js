@@ -297,7 +297,7 @@ class SceneManager {
 
         this.firstKey = new Key(this.game, 1031, 605, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
         this.secondKey = new Key(this.game, 317, 50, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
-        this.thirdKey = new Key(this.game, 1048, 154, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        this.thirdKey = new Key(this.game, 1048, 170, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
 
         this.game.addEntity(this.firstKey);
         this.game.addEntity(this.secondKey);
