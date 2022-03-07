@@ -9,8 +9,9 @@ class SceneManager {
         this.zombie = {x: 0, y: 0};
         this.witch = {x: 0, y: 0};
 
-        this.gameOver = false;
-        this.title = false;
+        this.gameOver = gameOver;
+        this.title = true;
+        this.credits = false;
         this.transition = false;
 
         this.level = 3;
@@ -141,12 +142,10 @@ class SceneManager {
         this.game.addEntity(this.diningCandleThree);
         this.game.addEntity(this.diningCandleFour);
 
-        // Normal Key locations
         this.firstkey = new Key(this.game, 1580, 440, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
         this.secondkey = new Key(this.game, 370, 217, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
         this.thirdkey = new Key(this.game, 660, 70, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
 
-        // Testing Key locations
         // this.firstkey = new Key(this.game, 1170, 650, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
         // this.secondkey = new Key(this.game, 1170, 650, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
         // this.thirdkey = new Key(this.game, 1170, 650, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
@@ -323,11 +322,11 @@ class SceneManager {
         this.game.addEntity(this.outerDoorRight);
 
         this.zombieOne = new Zombie(this.game, 300, 276, [{x: 300, y: 276}, {x: 700, y: 276}], ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
-        this.zombieTwo = new Zombie(this.game, 96, 192, [{x: 96, y: 192}, {x: 96, y: 796}], ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
+        // this.zombieTwo = new Zombie(this.game, 96, 192, [{x: 96, y: 192}, {x: 96, y: 796}], ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
         this.zombieThree = new Zombie(this.game, 860, 192, [{x: 860, y: 192}, {x: 860, y: 796}], ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
 
         this.game.addEntity(this.zombieOne);
-        this.game.addEntity(this.zombieTwo);
+        // this.game.addEntity(this.zombieTwo);
         this.game.addEntity(this.zombieThree);
 
         this.lyra = new Lyra(this.game, 464, 500, ASSET_MANAGER.getAsset("./sprites/character.png"));
@@ -361,15 +360,21 @@ class SceneManager {
     update() {
 
         if (this.title && this.game.click) {
-            if (this.game.mouse && this.game.mouse.y > 490 && this.game.mouse.y < 500) {
+            if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 375) && (this.game.mouse.y > 485 && this.game.mouse.y < 505)) {
                 this.title = false;
                 this.loadLevel(this.level, this.transition, this.title);
             }
-            if (this.game.mouse && this.game.mouse.y > 540 && this.game.mouse.y < 550) {
-                this.title = false;
-                ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/title.png"), 0, 0, 700, 700);
-                ctx.fillText("Created by: \n Atien Ny \n Bryce Meadors \n  Ryan Trepanier \n Drew White");
+            if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 400) && (this.game.mouse.y > 535 && this.game.mouse.y < 550)) {
+                this.credits = true;
+                if (this.game.mouse && (this.game.mouse.x > 300 && this.game.mouse.x < 350) && (this.game.mouse.y > 635 && this.game.mouse.y < 650)) {
+                    this.credits = false;
+                    this.game.click = null;
+                } else {
+                    this.game.click = null;
+                }
             }
+        } else {
+            this.game.click = null;
         }
 
         if (this.game.changeLevel && this.level == 3) {
@@ -394,29 +399,45 @@ class SceneManager {
         ctx.font = PARAMS.BLOCKWIDTH * 1.5 + 'px "Press Start 2p"';
         if (this.title) {
             ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/title.png"), 0, 0, 700, 700);
-    
             
             ctx.fillText("LUMIN", 275, 400);
+            ctx.fillStyle = "White";
     
             ctx.font = PARAMS.BLOCKWIDTH * 0.75 + 'px "Press Start 2p"';
-            if (this.game.mouse && this.game.mouse.y > 490 && this.game.mouse.y < 500) {
+            if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 375) && (this.game.mouse.y > 485 && this.game.mouse.y < 505)) {
                 ctx.fillStyle = "Red";
                 ctx.fillText("Start", 325, 500);
             } else {
                 ctx.fillStyle = "White";
                 ctx.fillText("Start", 325, 500);
             }
-            if (this.game.mouse && this.game.mouse.y > 540 && this.game.mouse.y < 550) {
+            if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 400) && (this.game.mouse.y > 535 && this.game.mouse.y < 550)) {
                 ctx.fillStyle = "Red";
                 ctx.fillText("Credits", 325, 550);
             } else {
                 ctx.fillStyle = "White";
                 ctx.fillText("Credits", 325, 550);
             }
-    
-            ctx.font = PARAMS.BLOCKWIDTH * 0.75 + 'px "Press Start 2p"';
-            ctx.fillStyle = this.game.mouse && this.game.mouse.y > 17.5 * PARAMS.BLOCKWIDTH && this.game.mouse.y < 18.5 * PARAMS.BLOCKWIDTH ? "Grey" : "White";
-            ctx.fillText("Credits", 325, 550);
+            if (this.credits) {
+                ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/title.png"), 0, 0, 700, 700);
+                ctx.fillStyle = "White";
+                ctx.fillText("Created by: ", 300, 250);
+                ctx.fillText("Atien Ny", 300, 300);
+                ctx.fillText("Drew White", 300, 350);
+                ctx.fillText("Ryan Trepanier", 300, 400);
+                ctx.fillText("Bryce Meadors", 300, 450);
+                if (this.game.mouse && (this.game.mouse.x > 300 && this.game.mouse.x < 350) && (this.game.mouse.y > 635 && this.game.mouse.y < 650)) {
+                    ctx.fillStyle = "Red";
+                    ctx.fillText("Back", 300, 650);
+                    if(this.game.click) {
+                        this.credits = false;
+                        this.game.click = null;
+                    }
+                } else {
+                    ctx.fillStyle = "White";
+                    ctx.fillText("Back", 300, 650);
+                }
+            }
         } else {
     
         //hud
