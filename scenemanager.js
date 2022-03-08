@@ -14,7 +14,7 @@ class SceneManager {
         this.credits = false;
         this.transition = false;
 
-        this.level = 3;
+        this.level = 1;
 
         this.loadLevel(this.level, this.transition, this.title);
     };
@@ -94,8 +94,17 @@ class SceneManager {
         this.game.addEntity(this.zombieThree);
         
 
-        this.witch = new Witch(this.game, 900, 225, [{x: 700, y: 225}, {x: 900, y: 225}], ASSET_MANAGER.getAsset("./sprites/witch.png"))
-        this.game.addEntity(this.witch);
+        this.witchOne = new Witch(this.game, 800, 225, [{x: 800, y: 225}, {x: 1200, y: 225}], ASSET_MANAGER.getAsset("./sprites/witch.png"))
+        this.witchTwo = new Witch(this.game, 1050, 225, [{x: 1050, y: 100}, {x: 1050, y: 350}], ASSET_MANAGER.getAsset("./sprites/witch.png"))
+
+        this.game.addEntity(this.witchOne);
+        this.game.addEntity(this.witchTwo);
+
+        this.ghostOne = new Ghost(this.game, 0, 0, [{x: 0, y: 0}, {x: 1000, y: 1000}], ASSET_MANAGER.getAsset("./sprites/ghost.png"));
+        this.ghostTwo = new Ghost(this.game, 1000, 0, [{x: 1000, y: 0}, {x: 0, y: 1000}], ASSET_MANAGER.getAsset("./sprites/ghost.png"));
+        
+        this.game.addEntity(this.ghostOne);
+        this.game.addEntity(this.ghostTwo);
 
         this.centerNorthFirePlace = new FirePlace(this.game, 1023, 10, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
         this.centerNorthFire = new Fire(this.game, 1055, 14, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
@@ -336,12 +345,15 @@ class SceneManager {
         this.game.addEntity(this.outerDoorRight);
 
         this.zombieOne = new Zombie(this.game, 300, 276, [{x: 300, y: 276}, {x: 700, y: 276}], ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
-        // this.zombieTwo = new Zombie(this.game, 96, 192, [{x: 96, y: 192}, {x: 96, y: 796}], ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
+        this.zombieTwo = new Zombie(this.game, 96, 796, [{x: 96, y: 192}, {x: 96, y: 796}], ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
         this.zombieThree = new Zombie(this.game, 860, 192, [{x: 860, y: 192}, {x: 860, y: 796}], ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
 
         this.game.addEntity(this.zombieOne);
-        // this.game.addEntity(this.zombieTwo);
+        this.game.addEntity(this.zombieTwo);
         this.game.addEntity(this.zombieThree);
+
+        // this.ghostOne = new Ghost(this.game, 300, 276, [{x: 300, y: 276}, {x: 700, y: 276}], ASSET_MANAGER.getAsset("./sprites/ghost.png"));
+        // this.game.addEntity(this.ghostOne);
 
         this.lyra = new Lyra(this.game, 464, 500, ASSET_MANAGER.getAsset("./sprites/character.png"));
         // this.lyra = new Lyra(this.game, 464, 100, ASSET_MANAGER.getAsset("./sprites/character.png"));
