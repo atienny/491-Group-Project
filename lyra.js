@@ -204,6 +204,19 @@ class Lyra {
                 
             }
 
+            if (entity instanceof Ghost) {
+                if (this.flashlightBB && this.flashlightBB.collide(entity.BB)) {
+                    ASSET_MANAGER.playAsset("./sounds/ghost-whispers.mp3");
+                    entity.isStunned = true;
+                    console.log("is stunned");
+                }
+                if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
+                    this.health--;
+                    console.log("Lost hp");
+                }
+                
+            }
+
             if (entity instanceof Key) {
                 if (this.hitBB && this.hitBB.collide(entity.BB)) {
                     ASSET_MANAGER.playAsset("./sounds/four-voices-whispering-6.mp3");
@@ -317,6 +330,10 @@ class Lyra {
         this.hitBB = new BoundingBox(this.x + 30, this.y + 30, 36, 46);
         this.collisionBB = new BoundingBox(this.hitBB.x, this.hitBB.y + 26, 36, 20);
 
+        if (this.game.Q == false) {
+            this.flashlightBB = new BoundingBox(this.x, this.y, 0, 0);
+        }
+
         if (this.game.down && this.game.Q == true) {
             this.flashlightBB = new BoundingBox(this.x + 44, this.y + 70, 25, 25);
         }
@@ -344,6 +361,7 @@ class Lyra {
             ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
             ctx.strokeRect(this.hitBB.x - this.game.camera.x, this.hitBB.y - this.game.camera.y, this.hitBB.width, this.hitBB.height);
             ctx.strokeRect(this.collisionBB.x - this.game.camera.x, this.collisionBB.y - this.game.camera.y, this.collisionBB.width, this.collisionBB.height);
+
 
         if (this.facing == 0 && this.game.Q == true) {
             ctx.strokeRect(this.flashlightBB.x - this.game.camera.x, this.flashlightBB.y - this.game.camera.y, this.flashlightBB.width, this.flashlightBB.height);

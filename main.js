@@ -17,6 +17,7 @@ ASSET_MANAGER.queueDownload("./sprites/doorsmirror.png");
 ASSET_MANAGER.queueDownload("./sprites/character.png");
 ASSET_MANAGER.queueDownload("./sprites/zombie1.png");
 ASSET_MANAGER.queueDownload("./sprites/witch.png");
+ASSET_MANAGER.queueDownload("./sprites/ghost.png");
 ASSET_MANAGER.queueDownload("./sprites/floor.png");
 ASSET_MANAGER.queueDownload("./sprites/wall.png");
 ASSET_MANAGER.queueDownload("./sprites/dark-wood.png");
@@ -37,6 +38,7 @@ ASSET_MANAGER.queueDownload("./sounds/Fire-crackling-sound.mp3");
 ASSET_MANAGER.queueDownload("./sounds/heartbeat.mp3");
 ASSET_MANAGER.queueDownload("./sounds/scream18.mp3");
 ASSET_MANAGER.queueDownload("./sounds/Wooden-door-opening-sound-effect.mp3");
+ASSET_MANAGER.queueDownload("./sounds/ghost-whispers.mp3");
 
 ASSET_MANAGER.downloadAll(function () {
 

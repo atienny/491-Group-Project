@@ -1,9 +1,9 @@
-class Witch {
+class Ghost {
     constructor(game, x, y, path, spritesheet) {
 
         Object.assign(this, {game, x, y, path, spritesheet});
         this.facing = [0]; // down = 0, up = 1, right = 2, left = 3
-        this.state = [0]; // idle = 0, walking = 1, attacking = 2, death = 3
+        this.state = [0]; // idle = 0, walking = 1, attacking = 2
         this.speed = 25;
         this.targetID = 0;
         if (this.path && this.path[this.targetID]) this.target = this.path[this.targetID];
@@ -18,7 +18,7 @@ class Witch {
         this.isStunned = false;
         this.waitingToUnstun = false;
 
-        this.visualRadius = 200;
+        this.visualRadius = 800;
         this.animations = [];
         this.state = 1;
         this.updateBB();
@@ -27,7 +27,7 @@ class Witch {
 
     reset() {
         this.facing = [0]; // down = 0, up = 1, right = 2, left = 3
-        this.state = [0]; // idle = 0, walking = 1, attacking = 2, death = 3
+        this.state = [0]; // idle = 0, walking = 1, attacking = 2
         this.speed = 25;
         this.targetID = 0;
         if (this.path && this.path[this.targetID]) this.target = this.path[this.targetID];
@@ -42,7 +42,7 @@ class Witch {
         this.isStunned = false;
         this.waitingToUnstun = false;
 
-        this.visualRadius = 200;
+        this.visualRadius = 800;
         this.animations = [];
         this.state = 1;
         this.updateBB();
@@ -72,12 +72,12 @@ class Witch {
 
         // attacking animation
         this.animations[2][0] = new Animator(this.spritesheet, 0, 133, 64, 59, 7, 0.20, false, true);
-        this.animations[2][1] = new Animator(this.spritesheet, 0, 4, 64, 59, 7, 0.20, false, true);
+        this.animations[2][1] = new Animator(this.spritesheet, 0, 4, 64, 60, 7, 0.20, false, true);
         this.animations[2][2] = new Animator(this.spritesheet, 0, 197, 64, 60, 7, 0.20, false, true);
         this.animations[2][3] = new Animator(this.spritesheet, 0, 64, 64, 64, 7, 0.20, false, true);
 
         // death animation
-        this.animations[3][0] = new Animator(this.spritesheet, 0, 1286, 64, 59, 13, 0.2, false, false);
+        this.animations[3][0] = new Animator(this.spritesheet, 0, 1286, 64, 59, 6, 0.2, false, false);
 
     };
 
@@ -86,12 +86,11 @@ class Witch {
         // if (this.waitingToRespawn) {
         //     this.respawnTimer += this.game.clockTick;
         //     if (this.respawnTimer >= this.respawnTime) {
-        //         console.log("Respawn Witch");
+        //         console.log("Respawn Zombie");
         //         this.reset();
         //     }
         // }
 
-        //
         if (this.waitingToUnstun) {
             this.stunTimer += this.game.clockTick;
             if (this.stunTimer >= this.stunTimerMax) {
@@ -99,7 +98,6 @@ class Witch {
                 this.reset();
             }
         }
-        //
 
         var dist = distance(this, this.target);
         this.getFacing();
@@ -132,12 +130,11 @@ class Witch {
                 if (this.state !== 2) {
                     this.state = 2;
                     this.elapsedTime = 0;
-                } else if (this.elapsedTime > .8) {
-        
-                    ent.hitpoints -= 1;   
-                    this.elapsedTime = 0;
+                } else if (this.elapsedTime> .8) {
+                    //ent.hitpoints -= 8;   
+                    //this.elapsedTime = 0;
                 }
-                //this.target = ent;
+                // this.target = ent;
                 this.getFacing();
                 
             }
@@ -150,7 +147,6 @@ class Witch {
             }
         }
 
-        
         if (this.state !== 0 && this.state !== 2 && this.state !== 3) {
             dist = distance(this, this.target);
             this.getFacing();
@@ -159,7 +155,8 @@ class Witch {
             this.y += this.velocity.y * this.game.clockTick;
         }
 
-        //
+        
+//
         if (this.isStunned == true) {
             this.state = 0;
             this.velocity = {x:0, y:0};
@@ -168,17 +165,11 @@ class Witch {
 
         if (this.state == 0) {
             this.velocity = {x:0, y:0};
-        }
-        //
+        }  
+//
 
-        
-        // if (this.isStunned && this.hP <= 0) {
-        //     this.state = 3;
-        //     this.waitingToRespawn = true;
-        // }
-        
         this.getFacing();
-
+        // this.updateBB();
 
         this.originalCollisionBB = this.collisionBB;
         this.updateBB();
@@ -201,14 +192,13 @@ class Witch {
                 }
             }
         }
+
         this.getFacing();
         this.updateBB();
     };
 
-
-
     collide(ent) {
-        return (distance(this, ent) < (this.visualRadius / 25));
+        return (distance(this, ent) < (this.visualRadius / 50));
     };
 
     getFacing() {
@@ -227,21 +217,25 @@ class Witch {
             } else if (135 < angle || angle < -135) {
                 this.facing[0] = 3;
             }
-        }   
+        } 
     };
 
     updateBB() {
         this.lastBB = this.BB;
+        // this.BB = new BoundingBox(this.x + 15, this.y + 9, 34 * 1, 49 * 1);
+
         this.BB = new BoundingBox(this.x, this.y, 68, 59)
         this.hitBB = new BoundingBox(this.x + 17, this.y, 34, 59);
-        this.collisionBB = new BoundingBox(this.hitBB.x, this.hitBB.y + 34, 34, 25);
+        this.collisionBB = new BoundingBox(this.hitBB.x, this.hitBB.y);
 
         this.lastBC = this.BC;
         this.BC = new BoundingCircle(this.x, this.y, this.visualRadius);
     };
 
     draw(ctx) {
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE);
+        //ctx.Alpha = 0.5;
+        //ctx.globalCompositeOperation = "lighter"
+        this.animations[this.state][this.facing].drawFrame3(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE);
     
         if (PARAMS.DEBUG) {
             ctx.strokeStyle = 'Red';
