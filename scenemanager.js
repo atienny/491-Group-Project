@@ -14,7 +14,7 @@ class SceneManager {
         this.credits = false;
         this.transition = false;
 
-        this.level = 1;
+        this.level = 3;
 
         this.loadLevel(this.level, this.transition, this.title);
     };
