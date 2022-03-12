@@ -14,7 +14,8 @@ class SceneManager {
         this.credits = false;
         this.transition = false;
 
-        this.level = 1;
+        this.level = 3;
+
         this.loadLevel(this.level, this.transition, this.title);
     };
 
@@ -49,11 +50,6 @@ class SceneManager {
                     this.loadLevelThree();
                 };
                 break;
-            // default: 
-            //     if (transition) this.game.addEntity(new TransitionScreen(this.game, level, title));
-            //     else {
-            //     this.loadLevelTwo();
-            //     }
         }
 
     }
@@ -98,8 +94,17 @@ class SceneManager {
         this.game.addEntity(this.zombieThree);
         
 
-        this.witch = new Witch(this.game, 900, 225, [{x: 700, y: 225}, {x: 900, y: 225}], ASSET_MANAGER.getAsset("./sprites/witch.png"))
-        this.game.addEntity(this.witch);
+        this.witchOne = new Witch(this.game, 800, 225, [{x: 800, y: 225}, {x: 1200, y: 225}], ASSET_MANAGER.getAsset("./sprites/witch.png"))
+        this.witchTwo = new Witch(this.game, 1050, 225, [{x: 1050, y: 100}, {x: 1050, y: 350}], ASSET_MANAGER.getAsset("./sprites/witch.png"))
+
+        this.game.addEntity(this.witchOne);
+        this.game.addEntity(this.witchTwo);
+
+        this.ghostOne = new Ghost(this.game, 0, 0, [{x: 0, y: 0}, {x: 1000, y: 1000}], ASSET_MANAGER.getAsset("./sprites/ghost.png"));
+        this.ghostTwo = new Ghost(this.game, 1000, 0, [{x: 1000, y: 0}, {x: 0, y: 1000}], ASSET_MANAGER.getAsset("./sprites/ghost.png"));
+        
+        this.game.addEntity(this.ghostOne);
+        this.game.addEntity(this.ghostTwo);
 
         this.centerNorthFirePlace = new FirePlace(this.game, 1023, 10, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
         this.centerNorthFire = new Fire(this.game, 1055, 14, ASSET_MANAGER.getAsset("./sprites/fireplace.png"));
@@ -158,7 +163,14 @@ class SceneManager {
         this.game.addEntity(this.secondkey);
         this.game.addEntity(this.thirdkey);
 
-    }
+        if (!this.title) {  // level.music was taken out as all levels have music
+            ASSET_MANAGER.pauseBackgroundMusic();
+            ASSET_MANAGER.playAsset(levelOne.music);
+            ASSET_MANAGER.playAsset(levelOne.music2);
+            ASSET_MANAGER.playAsset(levelOne.music3);
+        }
+
+    };
 
     loadLevelTwo() {
 
@@ -166,9 +178,9 @@ class SceneManager {
         this.loadLayer(levelTwo.extra);
         this.loadLayer(levelTwo.misc);
 
-        this.bedroomLeftTwo = new RightDoor(this.game, 139, 416, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "bedroomLeft");
-        this.bedroomRightTwo = new RightDoor(this.game, 1547, 416, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "bedroomRight");
-        this.stairTwo = new RightDoor(this.game, 1259, 640, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "secondStairwell");
+        this.bedroomLeftTwo = new RightDoor(this.game, 139, 416, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "bedroomLeft", true);
+        this.bedroomRightTwo = new RightDoor(this.game, 1547, 416, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "bedroomRight", true);
+        this.stairTwo = new RightDoor(this.game, 1259, 640, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "secondStairwell", true);
         
         this.game.addEntity(this.bedroomLeftTwo);
         this.game.addEntity(this.bedroomRightTwo);
@@ -195,7 +207,7 @@ class SceneManager {
         
         
         this.bedroomLeftOne = new LeftDoor(this.game, 96, 416, ASSET_MANAGER.getAsset("./sprites/door1.png"), "bedroomLeft", true);
-        this.bedroomRightOne = new LeftDoor(this.game, 1504, 416, ASSET_MANAGER.getAsset("./sprites/door1.png"), "bedroomRight", true);
+        this.bedroomRightOne = new LeftDoor(this.game, 1504, 416, ASSET_MANAGER.getAsset("./sprites/door1.png"), "bedroomRight", false);
         this.stairOne = new LeftDoor(this.game, 1216, 640, ASSET_MANAGER.getAsset("./sprites/door1.png"), "secondStairwell", true);
         
         this.game.addEntity(this.bedroomLeftOne);
@@ -217,7 +229,7 @@ class SceneManager {
         this.game.addEntity(this.zombieThree);
         this.game.addEntity(this.zombieFour);
         this.game.addEntity(this.zombieFive);
-        this.game.addEntity(this.witchOne);
+        // this.game.addEntity(this.witchOne);
         this.game.addEntity(this.witchTwo);
         this.game.addEntity(this.witchThree);
 
@@ -301,32 +313,102 @@ class SceneManager {
 
         this.firstKey = new Key(this.game, 1031, 605, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
         this.secondKey = new Key(this.game, 317, 50, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
-        this.thirdKey = new Key(this.game, 1048, 154, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        this.thirdKey = new Key(this.game, 1048, 170, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
 
         this.game.addEntity(this.firstKey);
         this.game.addEntity(this.secondKey);
         this.game.addEntity(this.thirdKey);
     
+        if (!this.title) {  
+            ASSET_MANAGER.pauseBackgroundMusic();
+            ASSET_MANAGER.playAsset(levelTwo.music);
+            ASSET_MANAGER.playAsset(levelTwo.music2);
+            ASSET_MANAGER.playAsset(levelTwo.music3);
+        }
+
     }
 
     loadLevelThree() {
 
         this.loadLayer(levelThree.floor);
+        this.loadLayer(levelThree.wall_btm);
 
-        this.lyra = new Lyra(this.game, 560, 150, ASSET_MANAGER.getAsset("./sprites/character.png"));
+        this.stairDown = new StairsTwotoOne(this.game, 384, 64, ASSET_MANAGER.getAsset("./sprites/stairs.png"), true);
+        this.game.addEntity(this.stairDown);
+
+        this.loadLayer(levelThree.furniture_btm);
+
+        this.outerDoorLeft = new LeftDoor(this.game, 256, 96, ASSET_MANAGER.getAsset("./sprites/door1.png"), "outer", true);
+        this.outerDoorRight = new RightDoor(this.game, 299, 96, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "outer", true);
+
+        this.game.addEntity(this.outerDoorLeft);
+        this.game.addEntity(this.outerDoorRight);
+
+        this.zombieOne = new Zombie(this.game, 300, 276, [{x: 300, y: 276}, {x: 700, y: 276}], ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
+        this.zombieTwo = new Zombie(this.game, 96, 796, [{x: 96, y: 192}, {x: 96, y: 796}], ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
+        this.zombieThree = new Zombie(this.game, 860, 192, [{x: 860, y: 192}, {x: 860, y: 796}], ASSET_MANAGER.getAsset("./sprites/zombie1.png"));
+
+        this.game.addEntity(this.zombieOne);
+        this.game.addEntity(this.zombieTwo);
+        this.game.addEntity(this.zombieThree);
+
+        // this.ghostOne = new Ghost(this.game, 300, 276, [{x: 300, y: 276}, {x: 700, y: 276}], ASSET_MANAGER.getAsset("./sprites/ghost.png"));
+        // this.game.addEntity(this.ghostOne);
+
+        this.lyra = new Lyra(this.game, 464, 500, ASSET_MANAGER.getAsset("./sprites/character.png"));
+        // this.lyra = new Lyra(this.game, 464, 100, ASSET_MANAGER.getAsset("./sprites/character.png"));
         this.game.addEntity(this.lyra);
 
-    }
+        this.loadLayer(levelThree.wall_top);
+
+        this.firstKey = new Key(this.game, 502, 450, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        this.secondKey = new Key(this.game, 246, 275, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+        this.thirdKey = new Key(this.game, 320, 840, ASSET_MANAGER.getAsset("./sprites/masterKey.png"));
+
+        this.game.addEntity(this.firstKey);
+        this.game.addEntity(this.secondKey);
+        this.game.addEntity(this.thirdKey);
+
+        this.innerDoorLeft = new LeftDoor(this.game, 513, 640, ASSET_MANAGER.getAsset("./sprites/door1.png"), "inner", true);
+        this.innerDoorRight = new RightDoor(this.game, 556, 640, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "inner", true);
+        this.midDoorLeft = new LeftDoor(this.game, 385, 768, ASSET_MANAGER.getAsset("./sprites/door1.png"), "mid", true);
+        this.midDoorRight = new RightDoor(this.game, 428, 768, ASSET_MANAGER.getAsset("./sprites/doorsmirror.png"), "mid", true);
+
+
+        this.game.addEntity(this.innerDoorLeft);
+        this.game.addEntity(this.innerDoorRight);
+        this.game.addEntity(this.midDoorLeft);
+        this.game.addEntity(this.midDoorRight);
+ 
+        if (!this.title) { 
+            ASSET_MANAGER.pauseBackgroundMusic();
+            ASSET_MANAGER.playAsset(levelThree.music);
+            ASSET_MANAGER.playAsset(levelThree.music2);
+            ASSET_MANAGER.playAsset(levelThree.music3);
+        }
+
+    };
+
+    updateAudio() {
+        var mute = document.getElementById("mute").checked;
+        var volume = document.getElementById("volume").value;
+
+        ASSET_MANAGER.muteAudio(mute);
+        ASSET_MANAGER.adjustVolume(volume);
+    };
 
     update() {
+
+        this.updateAudio();
+
         if (this.title && this.game.click) {
-            if (this.game.mouse && this.game.mouse.y > 485 && this.game.mouse.y < 500) {
+            if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 375) && (this.game.mouse.y > 485 && this.game.mouse.y < 505)) {
                 this.title = false;
                 this.loadLevel(this.level, this.transition, this.title);
             }
-            if (this.game.mouse && this.game.mouse.y > 535 && this.game.mouse.y < 550) {
+            if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 400) && (this.game.mouse.y > 535 && this.game.mouse.y < 550)) {
                 this.credits = true;
-                if(this.game.mouse && this.game.mouse.y > 635 && this.game.mouse.y < 650) {
+                if (this.game.mouse && (this.game.mouse.x > 300 && this.game.mouse.x < 350) && (this.game.mouse.y > 635 && this.game.mouse.y < 650)) {
                     this.credits = false;
                     this.game.click = null;
                 } else {
@@ -336,7 +418,13 @@ class SceneManager {
         } else {
             this.game.click = null;
         }
-        if (this.game.changeLevel && this.level == 2) {
+
+        if (this.game.changeLevel && this.level == 3) {
+            this.clearEntities();
+            this.level -= 1;
+            this.loadLevelTwo();
+            console.log(this.level);
+        } else if (this.game.changeLevel && this.level == 2) {
             this.clearEntities();
             this.level -= 1;
             this.loadLevelOne();
@@ -350,139 +438,138 @@ class SceneManager {
     };
 
     draw(ctx) {
-    ctx.font = PARAMS.BLOCKWIDTH * 1.5 + 'px "Press Start 2p"';
-    if (this.title) {
-        ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/title.png"), 0, 0, 700, 700);
-
-        ctx.fillStyle = "White";
-        ctx.fillText("LUMIN", 275, 400);
-
-        ctx.font = PARAMS.BLOCKWIDTH * 0.75 + 'px "Press Start 2p"';
-        if (this.game.mouse && this.game.mouse.y > 485 && this.game.mouse.y < 500) {
-            ctx.fillStyle = "Red";
-            ctx.fillText("Start", 325, 500);
-        } else {
-            ctx.fillStyle = "White";
-            ctx.fillText("Start", 325, 500);
-        }
-        if (this.game.mouse && this.game.mouse.y > 535 && this.game.mouse.y < 550) {
-            ctx.fillStyle = "Red";
-            ctx.fillText("Credits", 325, 550);
-        } else {
-            ctx.fillStyle = "White";
-            ctx.fillText("Credits", 325, 550);
-        }
-        if (this.credits) {
+        ctx.font = PARAMS.BLOCKWIDTH * 1.5 + 'px "Press Start 2p"';
+        if (this.title) {
             ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/title.png"), 0, 0, 700, 700);
+            
             ctx.fillStyle = "White";
-            ctx.fillText("Created by: ", 300, 250);
-            ctx.fillText("Atien Ny", 300, 300);
-            ctx.fillText("Drew White", 300, 350);
-            ctx.fillText("Ryan Trepanier", 300, 400);
-            ctx.fillText("Bryce Meadors", 300, 450);
-            if (this.game.mouse && this.game.mouse.y > 635 && this.game.mouse.y < 650) {
+            ctx.fillText("LUMIN", 275, 400);
+    
+            ctx.font = PARAMS.BLOCKWIDTH * 0.75 + 'px "Press Start 2p"';
+            if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 375) && (this.game.mouse.y > 485 && this.game.mouse.y < 505)) {
                 ctx.fillStyle = "Red";
-                ctx.fillText("Back", 300, 650);
-                if(this.game.click) {
-                    this.credits = false;
-                    this.game.click = null;
-                }
+                ctx.fillText("Start", 325, 500);
             } else {
                 ctx.fillStyle = "White";
-                ctx.fillText("Back", 300, 650);
+                ctx.fillText("Start", 325, 500);
             }
-        }
-        
-    } else {
-
-    //hud
-    if (this.gameOver == false) {
-    this.healthBarSpritesheet = ASSET_MANAGER.getAsset("./sprites/health_bar.png");
+            if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 400) && (this.game.mouse.y > 535 && this.game.mouse.y < 550)) {
+                ctx.fillStyle = "Red";
+                ctx.fillText("Credits", 325, 550);
+            } else {
+                ctx.fillStyle = "White";
+                ctx.fillText("Credits", 325, 550);
+            }
+            if (this.credits) {
+                ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/title.png"), 0, 0, 700, 700);
+                ctx.fillStyle = "White";
+                ctx.fillText("Created by: ", 300, 250);
+                ctx.fillText("Atien Ny", 300, 300);
+                ctx.fillText("Drew White", 300, 350);
+                ctx.fillText("Ryan Trepanier", 300, 400);
+                ctx.fillText("Bryce Meadors", 300, 450);
+                if (this.game.mouse && (this.game.mouse.x > 300 && this.game.mouse.x < 350) && (this.game.mouse.y > 635 && this.game.mouse.y < 650)) {
+                    ctx.fillStyle = "Red";
+                    ctx.fillText("Back", 300, 650);
+                    if(this.game.click) {
+                        this.credits = false;
+                        this.game.click = null;
+                    }
+                } else {
+                    ctx.fillStyle = "White";
+                    ctx.fillText("Back", 300, 650);
+                }
+            }
+        } else {
     
-    // if (this.game.Q == true) {
-    // this.fogSheet = ASSET_MANAGER.getAsset("./sprites/frame_light.png");
-    // } else {
-    //     this.fogSheet = ASSET_MANAGER.getAsset("./sprites/frame_no_light.png");
-    // }
-    // ctx.drawImage(this.fogSheet, 0, 0, 700, 700);
+        //hud
+        if (this.gameOver == false) {
+        this.healthBarSpritesheet = ASSET_MANAGER.getAsset("./sprites/health_bar.png");
         
-    //full hp 3/3
-    if(this.lyra.health > 200) {
-        ctx.drawImage(this.healthBarSpritesheet, 31, 23, 330, 89, 10, 80, 100, 40);
-    }
-
-    // 2/3 hp
-    if (this.lyra.health > 100 && this.lyra.health <= 200) {
-        ctx.drawImage(this.healthBarSpritesheet, 31, 133, 330, 89, 10, 80, 100, 40);
-    }
-
-    // 1/3 hp
-    if (this.lyra.health <= 100) {
-        ctx.drawImage(this.healthBarSpritesheet, 31, 244, 330, 89, 10, 80, 100, 40);
-    }
-
-    //no hp, loss message
-    if (this.lyra.health == 0) {
-        this.gameOver = true;
-        this.lyra.win = false;
-        this.clearEntities();
-        this.game.addEntity(new TransitionScreen(this.game, this.level, this.gameOver, this.lyra.win));
-    }        
-
-    if (this.lyra.win == true) {
-        this.gameOver = true;
-        this.clearEntities();
-        this.game.addEntity(new TransitionScreen(this.game, this.level, this.gameOver, this.lyra.win));
-    }
-
-    this.batterySpritesheet = ASSET_MANAGER.getAsset("./sprites/battery_life.png");
-
-    if ((this.game.Q == true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5) * 3)) {
-        // 4/5 battery
-        ctx.drawImage(this.batterySpritesheet, 296, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if ((this.game.Q == true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5) * 2)) {
-        // 3/5 battery
-        ctx.drawImage(this.batterySpritesheet, 534, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if ((this.game.Q == true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5))) {
-        // 2/5 battery
-        ctx.drawImage(this.batterySpritesheet, 772, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if ((this.game.Q == true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer < (this.lyra.flashlightTimerMax / 5))) {
-        // 1/5 battery 
-        ctx.drawImage(this.batterySpritesheet, 1010, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if (this.game.Q == true && this.lyra.flashlightTimer < 0.5) {
-        // empty battery
-        ctx.drawImage(this.batterySpritesheet, 1248, 41, 238, 94, 10, 10, 100, 50);
-    }
-
-    //battery going back up 
-
-    if ((this.game.Q != true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer < (this.lyra.flashlightTimerMax / 5))) {
-        // 1/5 battery 
-        ctx.drawImage(this.batterySpritesheet, 1010, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if ((this.game.Q != true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5))) {
-        // 2/5 battery
-        ctx.drawImage(this.batterySpritesheet, 772, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if ((this.game.Q != true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5) * 2)) {
-        // 3/5 battery
-        ctx.drawImage(this.batterySpritesheet, 534, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if ((this.game.Q != true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5) * 3)) {
-        // 4/5 battery
-        ctx.drawImage(this.batterySpritesheet, 296, 41, 238, 94, 10, 10, 100, 50);
-    }
-    if (this.lyra.flashlightTimer >= this.lyra.flashlightTimerMax) {
-        // full battery
-        ctx.drawImage(this.batterySpritesheet, 58, 41, 238, 94, 10, 10, 100, 50);
-    }
-    }
-    }
-    };
+        if (this.game.Q == true) {
+        this.fogSheet = ASSET_MANAGER.getAsset("./sprites/frame_light.png");
+        } else {
+            this.fogSheet = ASSET_MANAGER.getAsset("./sprites/frame_no_light.png");
+        }
+        ctx.drawImage(this.fogSheet, 0, 0, 700, 700);
+            
+        //full hp 3/3
+        if(this.lyra.health > 400) {
+            ctx.drawImage(this.healthBarSpritesheet, 31, 23, 330, 89, 10, 80, 100, 40);
+        }
+    
+        // 2/3 hp
+        if (this.lyra.health > 200 && this.lyra.health <= 400) {
+            ctx.drawImage(this.healthBarSpritesheet, 31, 133, 330, 89, 10, 80, 100, 40);
+        }
+    
+        // 1/3 hp
+        if (this.lyra.health <= 200) {
+            ctx.drawImage(this.healthBarSpritesheet, 31, 244, 330, 89, 10, 80, 100, 40);
+        }
+    
+        //no hp, loss message
+        if (this.lyra.health == 0) {
+            this.gameOver = true;
+            this.lyra.win = false;
+            this.clearEntities();
+            this.game.addEntity(new TransitionScreen(this.game, this.level, this.gameOver, this.lyra.win));
+        }        
+    
+        if (this.lyra.win == true) {
+            this.gameOver = true;
+            this.clearEntities();
+            this.game.addEntity(new TransitionScreen(this.game, this.level, this.gameOver, this.lyra.win));
+        }
+    
+        this.batterySpritesheet = ASSET_MANAGER.getAsset("./sprites/battery_life.png");
+    
+        if ((this.game.Q == true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5) * 3)) {
+            // 4/5 battery
+            ctx.drawImage(this.batterySpritesheet, 296, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if ((this.game.Q == true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5) * 2)) {
+            // 3/5 battery
+            ctx.drawImage(this.batterySpritesheet, 534, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if ((this.game.Q == true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5))) {
+            // 2/5 battery
+            ctx.drawImage(this.batterySpritesheet, 772, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if ((this.game.Q == true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer < (this.lyra.flashlightTimerMax / 5))) {
+            // 1/5 battery 
+            ctx.drawImage(this.batterySpritesheet, 1010, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if (this.game.Q == true && this.lyra.flashlightTimer < 0.5) {
+            // empty battery
+            ctx.drawImage(this.batterySpritesheet, 1248, 41, 238, 94, 10, 10, 100, 50);
+        }
+    
+        //battery going back up 
+    
+        if ((this.game.Q != true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer < (this.lyra.flashlightTimerMax / 5))) {
+            // 1/5 battery 
+            ctx.drawImage(this.batterySpritesheet, 1010, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if ((this.game.Q != true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5))) {
+            // 2/5 battery
+            ctx.drawImage(this.batterySpritesheet, 772, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if ((this.game.Q != true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5) * 2)) {
+            // 3/5 battery
+            ctx.drawImage(this.batterySpritesheet, 534, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if ((this.game.Q != true) && (this.lyra.flashlightTimer < this.lyra.flashlightTimerMax) && (this.lyra.flashlightTimer > (this.lyra.flashlightTimerMax / 5) * 3)) {
+            // 4/5 battery
+            ctx.drawImage(this.batterySpritesheet, 296, 41, 238, 94, 10, 10, 100, 50);
+        }
+        if (this.lyra.flashlightTimer >= this.lyra.flashlightTimerMax) {
+            // full battery
+            ctx.drawImage(this.batterySpritesheet, 58, 41, 238, 94, 10, 10, 100, 50);
+        }
+        }
+        }
+        };
 
     loadLayer(property) {
         
