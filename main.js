@@ -7,6 +7,7 @@ let gameOver = false;
 // sprites
 ASSET_MANAGER.queueDownload("./sprites/battery_life.png");
 ASSET_MANAGER.queueDownload("./sprites/health_bar.png");
+ASSET_MANAGER.queueDownload("./sprites/controls.png");
 ASSET_MANAGER.queueDownload("./sprites/frame_light.png");
 ASSET_MANAGER.queueDownload("./sprites/frame_no_light.png");
 ASSET_MANAGER.queueDownload("./sprites/title.png");
