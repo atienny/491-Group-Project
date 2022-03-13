@@ -138,7 +138,7 @@ class Witch {
                     this.state = 2;
                     this.elapsedTime = 0;
                 } else if (this.elapsedTime > .8) {
-        
+                    this.game.addEntity(new Spell(this.game, ent.x, ent.y, ent, ASSET_MANAGER.getAsset("./sprites/spells.png")));
                     ent.hitpoints -= 1;   
                     this.elapsedTime = 0;
                 }

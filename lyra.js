@@ -59,7 +59,6 @@ class Lyra {
         this.animations[3].push(new Animator(this.spritesheet, 0, 249, 32, 32, 4, 0.25, false, true));
         this.animations[3].push(new Animator(this.spritesheet, 0, 218, 32, 32, 4, 0.25, false, true));
         this.animations[3].push(new Animator(this.spritesheet, 0, 280, 32, 32, 4, 0.25, false, true));
-
         };
     
     update() {
@@ -215,7 +214,7 @@ class Lyra {
                     ASSET_MANAGER.playAsset("./sounds/demonic-woman-scream.mp3");
                 }
 
-                if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
+                if (this.collisionBB && distance(this, entity) < (entity.visualRadius / 2)) {
                     this.health--;
                     ASSET_MANAGER.playAsset("./sounds/heartbeat.mp3");
                     console.log("Lost hp");
