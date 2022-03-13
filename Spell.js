@@ -11,7 +11,7 @@ class Spell {
         this.animations.push([]);
 
         this.animations[0].push([]);
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 1079, 128, 57, 4, 0.2);
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 1079, 132, 57, 4, 0.2);
 
         this.elapsedTime = 0;
     };
