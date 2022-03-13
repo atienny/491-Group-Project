@@ -419,7 +419,7 @@ class SceneManager {
             if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 400) && (this.game.mouse.y > 535 && this.game.mouse.y < 550)) {
                 this.controls = true;
                 this.game.click = null;
-                if (this.game.mouse && (this.game.mouse.x > 40 && this.game.mouse.x < 90) && (this.game.mouse.y > 25 && this.game.mouse.y < 40)) {
+                if (this.game.mouse && (this.game.mouse.x > 600 && this.game.mouse.x < 650) && (this.game.mouse.y > 25 && this.game.mouse.y < 40)) {
                     this.credits = false;
                     this.game.click = null;
                 } else {
@@ -480,16 +480,16 @@ class SceneManager {
             }
             if (this.controls) {
                 ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/controls.png"), 0, 0, 700, 700);
-                if (this.game.mouse && (this.game.mouse.x > 40 && this.game.mouse.x < 90) && (this.game.mouse.y > 25 && this.game.mouse.y < 40)) {
+                if (this.game.mouse && (this.game.mouse.x > 600 && this.game.mouse.x < 650) && (this.game.mouse.y > 25 && this.game.mouse.y < 40)) {
                     ctx.fillStyle = "Red";
-                    ctx.fillText("Back", 40, 40);
+                    ctx.fillText("Back", 600, 40);
                     if(this.game.click) {
                         this.controls = false;
                         this.game.click = null;
                     }
                 } else {
                     ctx.fillStyle = "Black";
-                    ctx.fillText("Back", 40, 40);
+                    ctx.fillText("Back", 600, 40);
                 }
             }
             if (this.credits) {
