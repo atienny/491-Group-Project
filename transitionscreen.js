@@ -62,7 +62,6 @@ class TransitionScreen {
         ctx.textAlign = "Center";
 
         ctx.font = PARAMS.BLOCKWIDTH + 'px "Press Start 2P"';
-
         if (this.gameOver) {
             if (this.win == false) {
                     ctx.fillStyle = "White";

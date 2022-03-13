@@ -12,6 +12,7 @@ class SceneManager {
         this.gameOver = gameOver;
         this.title = true;
         this.credits = false;
+        this.controls = false;
         this.transition = false;
 
         this.level = 3;
@@ -400,15 +401,25 @@ class SceneManager {
     update() {
 
         this.updateAudio();
-
         if (this.title && this.game.click) {
             if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 375) && (this.game.mouse.y > 485 && this.game.mouse.y < 505)) {
                 this.title = false;
                 this.loadLevel(this.level, this.transition, this.title);
             }
-            if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 400) && (this.game.mouse.y > 535 && this.game.mouse.y < 550)) {
+            if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 400) && (this.game.mouse.y > 585 && this.game.mouse.y < 600)) {
                 this.credits = true;
+                this.game.click = null;
                 if (this.game.mouse && (this.game.mouse.x > 300 && this.game.mouse.x < 350) && (this.game.mouse.y > 635 && this.game.mouse.y < 650)) {
+                    this.credits = false;
+                    this.game.click = null;
+                } else {
+                    this.game.click = null;
+                }
+            }
+            if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 400) && (this.game.mouse.y > 535 && this.game.mouse.y < 550)) {
+                this.controls = true;
+                this.game.click = null;
+                if (this.game.mouse && (this.game.mouse.x > 40 && this.game.mouse.x < 90) && (this.game.mouse.y > 25 && this.game.mouse.y < 40)) {
                     this.credits = false;
                     this.game.click = null;
                 } else {
@@ -455,10 +466,31 @@ class SceneManager {
             }
             if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 400) && (this.game.mouse.y > 535 && this.game.mouse.y < 550)) {
                 ctx.fillStyle = "Red";
-                ctx.fillText("Credits", 325, 550);
+                ctx.fillText("Controls", 325, 550);
             } else {
                 ctx.fillStyle = "White";
-                ctx.fillText("Credits", 325, 550);
+                ctx.fillText("Controls", 325, 550);
+            }
+            if (this.game.mouse && (this.game.mouse.x > 325 && this.game.mouse.x < 400) && (this.game.mouse.y > 585 && this.game.mouse.y < 600)) {
+                ctx.fillStyle = "Red";
+                ctx.fillText("Credits", 325, 600);
+            } else {
+                ctx.fillStyle = "White";
+                ctx.fillText("Credits", 325, 600);
+            }
+            if (this.controls) {
+                ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/controls.png"), 0, 0, 700, 700);
+                if (this.game.mouse && (this.game.mouse.x > 40 && this.game.mouse.x < 90) && (this.game.mouse.y > 25 && this.game.mouse.y < 40)) {
+                    ctx.fillStyle = "Red";
+                    ctx.fillText("Back", 40, 40);
+                    if(this.game.click) {
+                        this.controls = false;
+                        this.game.click = null;
+                    }
+                } else {
+                    ctx.fillStyle = "Black";
+                    ctx.fillText("Back", 40, 40);
+                }
             }
             if (this.credits) {
                 ctx.drawImage(ASSET_MANAGER.getAsset("./sprites/title.png"), 0, 0, 700, 700);
@@ -494,17 +526,17 @@ class SceneManager {
         ctx.drawImage(this.fogSheet, 0, 0, 700, 700);
             
         //full hp 3/3
-        if(this.lyra.health > 200) {
+        if(this.lyra.health > 400) {
             ctx.drawImage(this.healthBarSpritesheet, 31, 23, 330, 89, 10, 80, 100, 40);
         }
     
         // 2/3 hp
-        if (this.lyra.health > 100 && this.lyra.health <= 200) {
+        if (this.lyra.health > 200 && this.lyra.health <= 400) {
             ctx.drawImage(this.healthBarSpritesheet, 31, 133, 330, 89, 10, 80, 100, 40);
         }
     
         // 1/3 hp
-        if (this.lyra.health <= 100) {
+        if (this.lyra.health <= 200) {
             ctx.drawImage(this.healthBarSpritesheet, 31, 244, 330, 89, 10, 80, 100, 40);
         }
     
