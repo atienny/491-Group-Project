@@ -24,6 +24,7 @@ ASSET_MANAGER.queueDownload("./sprites/dark-wood.png");
 ASSET_MANAGER.queueDownload("./sprites/extra.png");
 ASSET_MANAGER.queueDownload("./sprites/stairs.png");
 ASSET_MANAGER.queueDownload("./sprites/upholstery.png");
+ASSET_MANAGER.queueDownload("./sprites/spells.png");
 
 // background music
 ASSET_MANAGER.queueDownload("./sounds/Come-Play-with-Me.mp3");

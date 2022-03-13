@@ -11,11 +11,8 @@ class Lyra {
         this.firstKey = 0;
         this.secondKey = 0;
         this.thirdKey = 0;
-        this.fourthKey = 0;
-        this.fifthKey = 0;
-        this.sixthKey = 0;
 
-        this.health = 300;
+        this.health = 600;
         this.win = false;
 
         this.flashlightTimer = 5;
@@ -187,6 +184,12 @@ class Lyra {
 
                 if (this.collisionBB && this.collisionBB.collide(entity.BB)) {
                     this.health--;
+                    console.log("Lost hp");
+                }
+
+                if (this.collisionBB && distance(this, entity) < (entity.visualRadius / 2)) {
+                    this.health--;
+                    ASSET_MANAGER.playAsset("./sounds/heartbeat.mp3");
                     console.log("Lost hp");
                 }
             }
